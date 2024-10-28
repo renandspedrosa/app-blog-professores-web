@@ -3,12 +3,13 @@ import axios from 'axios';
 const API_URL = 'http://localhost:3000'; // Defina sua URL base
 const token = localStorage.getItem('authToken');
 
-export const getPosts = async (page = 1, limit = 5) => {
+export const getPosts = async (page = 1, limit = 5, search = '') => {
   try {
     const response = await axios.get(`${API_URL}/posts`, {
       params: {
         page,
         limit,
+        term : search
       },
     });
     return { data: response.data};
