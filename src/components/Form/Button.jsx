@@ -1,4 +1,4 @@
-function FormButton(props) {
+function Button(props) {
     let color = 'bg-blue-600 hover:bg-blue-800';
 
     if(props.color == 'gray') {
@@ -14,5 +14,5 @@ function FormButton(props) {
     );
   }
   
-  export default FormButton;
+  export default Button;
   

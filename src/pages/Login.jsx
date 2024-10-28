@@ -3,9 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import api from '../axiosConfig';
 import { useAuth } from '../context/AuthContext';
 import Load from '../components/Load';
-import FormContent  from '../components/FormContent';
-import Input from '../components/FormInput';
-import Button from '../components/FormButton';
+import {Content, Input, Button}  from '../components/Form';
 
 const Login = () => {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
@@ -53,7 +51,7 @@ const Login = () => {
               </ul>
             </p>
         </div>
-          <FormContent title={'Login'} submit={handleSubmit}>
+          <Content title={'Login'} submit={handleSubmit}>
             <div className="relative mb-4">
               <Input label={'E-mail'} value={credentials.email}  onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}  type="email" required='true'/>
             </div>
@@ -67,7 +65,7 @@ const Login = () => {
                   {errorMessage}
                 </div>
               )} 
-          </FormContent>
+          </Content>
        </div>
     </section> 
   );
