@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { getPosts } from '../services/postService';
+import { getPosts } from '@/services/postService';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Eye, MessageCircle, Search } from 'lucide-react';
-import Load from '../components/Load';
+import Load from '@/components/Load';
 
 const PostList = () => {
   const [posts, setPosts] = useState([]);

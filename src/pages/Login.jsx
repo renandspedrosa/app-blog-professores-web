@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import api from '../axiosConfig';
-import { useAuth } from '../context/AuthContext';
-import Load from '../components/Load';
-import {Content, Input, Button}  from '../components/Form';
+import api from '@/axiosConfig';
+import { useAuth } from '@/context/AuthContext';
+import Load from '@/components/Load';
+import {Content, Input, Button}  from '@/components/Form';
 
 const Login = () => {
   const [credentials, setCredentials] = useState({ email: '', password: '' });

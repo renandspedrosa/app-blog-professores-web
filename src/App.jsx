@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import PostList from './pages/PostList';
-import Login from './pages/Login';
-import Navbar from './components/Navbar'
-import { AuthProvider } from './context/AuthContext';
+import PostList from '@/pages/PostList';
+import Login from '@/pages/Login';
+import Navbar from '@/components/Navbar'
+import { AuthProvider } from '@/context/AuthContext';
 
 const App = () => {
   return (

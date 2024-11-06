@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
 import { LogIn, LogOut } from 'lucide-react';
 import { useState } from 'react';
+import { useAuth } from '@/context/AuthContext';
 
 const Navbar = () => {
   const { isAuthenticated, logout } = useAuth();
