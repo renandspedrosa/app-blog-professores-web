@@ -1,7 +1,7 @@
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon, UserCircleIcon  } from '@heroicons/react/24/outline'
 import { LogIn } from 'lucide-react'
-import { useAuth } from '../context/AuthContext'
+import { useAuth } from '@/context/AuthContext'
 import { Link } from 'react-router-dom'
 
 const user = {
