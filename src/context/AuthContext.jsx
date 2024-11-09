@@ -11,18 +11,21 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const { availableNavigation } = useNavigation();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);  // Estado para armazenar o usuário
   const navigate = useNavigate();
 
-  const login = (token, user) => {
+  const login = (token, userData) => {
     localStorage.setItem('authToken', token);
-    localStorage.setItem('user', JSON.stringify(user)); 
+    localStorage.setItem('user', JSON.stringify(userData)); 
     setIsAuthenticated(true);
+    setUser(userData);
   };
 
   const logout = () => {
     localStorage.removeItem('authToken');
     localStorage.removeItem('user');
     setIsAuthenticated(false);
+    setUser(null);
     setTimeout(() => {
       navigate('/');
     }, 0); 
@@ -30,21 +33,23 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const token = localStorage.getItem('authToken');
-    if (token) {
+    const storedUser = localStorage.getItem('user');
+    
+    if (token && storedUser) {
       setIsAuthenticated(true);
+      setUser(JSON.parse(storedUser));
     }
   }, []);
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      if (!availableNavigation) {
-        navigate('/');
-      }
+    if (!isAuthenticated && !availableNavigation) {
+      navigate('/');
     }
   }, [isAuthenticated, navigate, availableNavigation]);
 
   const value = {
     isAuthenticated,
+    user,
     login,
     logout,
   };
