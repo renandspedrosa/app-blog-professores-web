@@ -12,7 +12,7 @@ const SearchBar = ({ searchTerm, setSearchTerm, onSearch }) => {
           onChange={(e) => setSearchTerm(e.target.value)} 
           onKeyDown={(e) => handleKeyPress(e, onSearch, searchTerm)}
         />
-        <Button handleClick={() => handleSearchClick(onSearch, searchTerm)} />
+        <Button onClick={() => handleSearchClick(onSearch, searchTerm)} />
     </div>
   )
 }
