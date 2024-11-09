@@ -1,37 +1,44 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigation } from '@/context/NavigationContext';
 
-// Cria o contexto de autenticação
 const AuthContext = createContext();
 
-// Função para acessar o contexto de autenticação
 export const useAuth = () => {
   return useContext(AuthContext);
 };
 
 export const AuthProvider = ({ children }) => {
+  const { availableNavigation } = useNavigation();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  // Função de login que simula a autenticação
   const login = (token) => {
-    localStorage.setItem('authToken', token); // Armazena o token no localStorage
+    localStorage.setItem('authToken', token);
     setIsAuthenticated(true);
   };
 
-  // Função de logout
   const logout = () => {
     localStorage.removeItem('authToken');
     setIsAuthenticated(false);
   };
 
-  // Verifica se o usuário está autenticado no carregamento do app
   useEffect(() => {
     const token = localStorage.getItem('authToken');
     if (token) {
       setIsAuthenticated(true);
     }
   }, []);
+  useEffect(() => {
+    if (!isAuthenticated) {
+      if (!availableNavigation.some((nav) => nav.href === location.pathname)) {
+        navigate('/');
+      }
+    }
+      
+  }, [isAuthenticated, navigate]);
 
-  // Valores e funções que estarão disponíveis para os componentes filhos
   const value = {
     isAuthenticated,
     login,

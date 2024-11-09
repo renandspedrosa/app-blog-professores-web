@@ -42,21 +42,21 @@ const Login = () => {
       <div className="container px-5 py-24 mx-auto flex flex-wrap items-center">
         <div className="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
           <h1 className="title-font font-medium text-3xl text-gray-900">Bem-vindo ao Blog dos Professores!</h1>
-          <p className="leading-relaxed mt-4">
-              Este espaço é exclusivo para os professores compartilharem suas ideias, artigos e conteúdos educacionais.<br /> 
-              Aqui você pode:
-              <ul className="list-disc ml-5 mt-2">
-                <li>Publicar conteúdos relevantes sobre educação e temas de interesse acadêmico.</li>
-                <li>Acompanhar as últimas atualizações da comunidade de professores.</li>
-              </ul>
-            </p>
+          <div className="leading-relaxed mt-4">
+            <p>Este espaço é exclusivo para os professores compartilharem suas ideias, artigos e conteúdos educacionais.</p>
+            <p>Aqui você pode:</p>
+            <ul className="list-disc ml-5 mt-2">
+              <li>Publicar conteúdos relevantes sobre educação e temas de interesse acadêmico.</li>
+              <li>Acompanhar as últimas atualizações da comunidade de professores.</li>
+            </ul>
+          </div>
         </div>
           <Content title={'Login'} submit={handleSubmit}>
             <div className="relative mb-4">
-              <Input label={'E-mail'} value={credentials.email}  onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}  type="email" required='true'/>
+              <Input label={'E-mail'} value={credentials.email}  onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}  type="email" required={true}/>
             </div>
             <div className="relative mb-4">
-                <Input label={'Senha'} value={credentials.password} onChange={(e) => setCredentials({ ...credentials, password: e.target.value })} required="true" type="password"  />
+              <Input label={'Senha'} value={credentials.password} onChange={(e) => setCredentials({ ...credentials, password: e.target.value })} required={true} type="password" />
             </div>
             <Button>Entrar</Button>
             <p className="text-gray-500 mt-3">cadastre - se</p>
