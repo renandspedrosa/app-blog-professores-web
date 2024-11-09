@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import api from '@/axiosConfig';
 import { useAuth } from '@/context/AuthContext';
 import Load from '@/components/Load';
@@ -9,11 +9,8 @@ const Login = () => {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth(); // Pega a função de login do contexto
+  const { login } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
-
-  const from = location.state?.from?.pathname || '/'; // Redireciona para a página anterior ou para o admin
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,8 +20,8 @@ const Login = () => {
     try {
       const response = await api.post('/user/signin', credentials);
       const token = response.data.token;
-      login(token); // Chama a função de login do contexto
-      navigate(from, { replace: true }); // Redireciona para a página de origem
+      login(token);
+      navigate('/', { replace: true });
     } catch (error) {
       console.error('Erro ao fazer login:', error);
       setErrorMessage('Falha no login. Verifique suas credenciais.');

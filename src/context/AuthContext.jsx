@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
   useEffect(() => {
     if (!isAuthenticated) {
-      if (!availableNavigation.some((nav) => nav.href === location.pathname)) {
+      if (!availableNavigation) {
         navigate('/');
       }
     }
