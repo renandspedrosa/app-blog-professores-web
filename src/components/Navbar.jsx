@@ -104,10 +104,10 @@ const Navbar = ({ children }) => {
           <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
             {navigation.map((item) => (
               item.show && (
-              <DisclosureButton
+              <Link
                 key={item.name}
                 as="a"
-                href={item.href}
+                to={item.href}
                 aria-current={location.pathname === item.href ? 'page' : undefined}
                 className={classNames(
                   location.pathname === item.href ? 'bg-black-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
@@ -115,7 +115,7 @@ const Navbar = ({ children }) => {
                 )}
               >
                 {item.name}
-              </DisclosureButton>
+              </Link>
               )
             ))}
           </div>
@@ -138,15 +138,15 @@ const Navbar = ({ children }) => {
                     <>
                       {navigation.map((item) => (
                         item.user && (
-                          <DisclosureButton
+                          <Link
                             key={item.name}
                             as="a"
-                            href={item.href}
+                            to={item.href}
                             onClick={item.name == 'Sair' && ( logout) }
                             className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
                           >
                             {item.name}
-                          </DisclosureButton>
+                          </Link>
                         )
                       ))}
                     </>
