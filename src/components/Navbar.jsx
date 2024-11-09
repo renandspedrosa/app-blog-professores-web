@@ -1,92 +1,178 @@
-import { Link, useLocation } from 'react-router-dom';
-import { LogIn, LogOut } from 'lucide-react';
-import { useState } from 'react';
+import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
+import { Bars3Icon, XMarkIcon, UserCircleIcon } from '@heroicons/react/24/outline';
+import { LogIn } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
+import { Link, useLocation } from 'react-router-dom';
+import { useNavigation } from '@/context/NavigationContext';
+import { useEffect, useState } from 'react';
 
-const Navbar = () => {
-  const { isAuthenticated, logout } = useAuth();
+
+const Navbar = ({ children }) => {
   const location = useLocation();
+  const { availableNavigation, authenticatedNavigation } = useNavigation();
 
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { isAuthenticated, logout } = useAuth();
 
-  // Função para alternar a visibilidade do menu
-  const toggleMenu = () => {
-    setIsMenuOpen((prev) => !prev);
-  };
+  const navigation = isAuthenticated ? [...availableNavigation, ...authenticatedNavigation] : availableNavigation;
 
-  const closeMenu = () => {
-    setIsMenuOpen(false);
-  };
+  const classNames = (...classes) => classes.filter(Boolean).join(' ');
 
-  const linkSelected = (path) => {
-    return location.pathname === path 
-      ? 'md:bg-transparent md:text-blue-700' 
-      : 'hover:bg-gray-100 md:hover:bg-transparent dark:text-white dark:hover:bg-gray-700';
-  };
+  let currentNavigationItem = navigation.find(item => item.href === location.pathname)
+
+  const [user, setUser] = useState(null);
+
+  // Recuperando os dados do usuário do localStorage
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));  // Recuperando os dados do usuário
+    }
+  }, []);
 
   return (
-    <nav className="bg-white border-gray-200 dark:bg-gray-900">
-      <div className="max-w-screen-xl flex items-center justify-between mx-auto p-4">
-        <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-          <img src="/assets/logo.png" className="h-8" alt="Blog Logo" />
-          <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Blog</span>
-        </Link>
-        <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-          {isAuthenticated ? (
-            <button onClick={logout} type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">
-              Logout <LogOut strokeWidth={1.9} className="inline h-4 w-4" />
-            </button>
-          ) : (
-            <Link to="/login" type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">
-              Login <LogIn strokeWidth={1.9} className="inline h-4 w-4" />
-            </Link>
-          )}
-          <button onClick={toggleMenu} type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700" aria-controls="navbar-cta" aria-expanded={isMenuOpen}>
-            <span className="sr-only">Open main menu</span>
-            <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15" />
-            </svg>
-          </button>
+    <div className="min-h-full">
+      <Disclosure as="nav" className="bg-gray-800">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex h-16 items-center justify-between">
+            <div className="flex items-center">
+              <div className="shrink-0">
+                <img alt="Your Company" src="/assets/logo.png" className="h-8 w-8" />
+              </div>
+              <div className="hidden md:block">
+                <div className="ml-10 flex items-baseline space-x-4">
+                  {navigation.map((item) => (
+                    item.show && (
+                      <Link
+                        key={item.name}
+                        to={item.href}
+                        aria-current={location.pathname === item.href ? 'page' : undefined}
+                        className={classNames(
+                          location.pathname === item.href ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                          'rounded-md px-3 py-2 text-sm font-medium'
+                        )}
+                      >
+                        {item.name}
+                      </Link>
+                    )
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="hidden md:block">
+              <div className="ml-4 flex items-center md:ml-6">
+                {isAuthenticated ? (
+                  <Menu as="div" className="relative ml-3">
+                    <div>
+                      <MenuButton className="hover:bg-gray-700 relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                        <span className="absolute -inset-1.5" />
+                        <span className="sr-only">Open user menu</span>
+                        <UserCircleIcon aria-hidden="true" className="h-8 w-8 rounded-full text-gray-300" />
+                      </MenuButton>
+                    </div>
+                    <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none">
+                      {navigation.map((item) => (
+                        item.user && (
+                          <MenuItem key={item.name}>
+                            <Link to={item.href} onClick={item.name == 'Sair' && ( logout) } className="block px-4 py-2 text-sm text-gray-700">
+                              {item.name}
+                            </Link>
+                          </MenuItem>
+                        )
+                      ))}
+                    </MenuItems>
+                  </Menu>
+                ) : (
+                  <Link
+                    to="/login"
+                    type="button"
+                    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
+                  >
+                    Login <LogIn strokeWidth={1.9} className="inline h-4 w-4" />
+                  </Link>
+                )}
+              </div>
+            </div>
+            {/* Mobile menu button */}
+            <div className="-mr-2 flex md:hidden">
+              <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                <span className="absolute -inset-0.5" />
+                <span className="sr-only">Open main menu</span>
+                <Bars3Icon aria-hidden="true" className="block h-6 w-6 group-data-[open]:hidden" />
+                <XMarkIcon aria-hidden="true" className="hidden h-6 w-6 group-data-[open]:block" />
+              </DisclosureButton>
+            </div>
+          </div>
         </div>
-        <div className={`hidden w-full md:flex md:w-auto md:order-1 ${isMenuOpen ? 'block' : 'hidden'}`} id="navbar-cta">
-          <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-            <li>
-              <Link to="/" className={`block py-2 px-3 md:p-0 text-gray-900 rounded ${linkSelected('/')}`} onClick={closeMenu}>Home</Link>
-            </li>
-            {/* Apenas se o usuário estiver logado */}
+
+        <DisclosurePanel className="md:hidden">
+          <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
+            {navigation.map((item) => (
+              item.show && (
+              <Link
+                key={item.name}
+                as="a"
+                to={item.href}
+                aria-current={location.pathname === item.href ? 'page' : undefined}
+                className={classNames(
+                  location.pathname === item.href ? 'bg-black-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                  'block rounded-md px-3 py-2 text-base font-medium'
+                )}
+              >
+                {item.name}
+              </Link>
+              )
+            ))}
+          </div>
+          <div className="border-t border-gray-700 pb-3 pt-4">
             {isAuthenticated && (
               <>
-                <li>
-                  <Link to="/admin" className={`block py-2 px-3 md:p-0 text-gray-900 rounded ${linkSelected('/admin')}`} onClick={closeMenu}>Admin</Link>
-                </li>
-                <li>
-                  <Link to="/create" className={`block py-2 px-3 md:p-0 text-gray-900 rounded ${linkSelected('/create')}`} onClick={closeMenu}>Criar Postagem</Link>
-                </li>
+              <div className="flex items-center px-5">
+                <div className="shrink-0">
+                  <img alt="" src={'/assets/user.png'} className="h-10 w-10 rounded-full" />
+                </div>
+                <div className="ml-3">
+                  <div className="text-base/5 font-medium text-white">{user.name}</div>
+                  <div className="text-sm font-medium text-gray-400">{user.email}</div>
+                </div>
+              </div>
               </>
             )}
-          </ul>
+              <div className="mt-3 space-y-1 px-2">
+              {isAuthenticated ? (
+                    <>
+                      {navigation.map((item) => (
+                        item.user && (
+                          <Link
+                            key={item.name}
+                            as="a"
+                            to={item.href}
+                            onClick={item.name == 'Sair' && ( logout) }
+                            className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                          >
+                            {item.name}
+                          </Link>
+                        )
+                      ))}
+                    </>
+                  ) : (
+                    <Link to="/login" type="button" className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">
+                      Login
+                    </Link>
+                  )}
+              </div>
+            </div>
+        </DisclosurePanel>
+      </Disclosure>
+
+      <header className="bg-white shadow">
+        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900">{currentNavigationItem ? currentNavigationItem.name : ''}</h1>
         </div>
-      </div>
-      {isMenuOpen && (
-        <div className="md:hidden">
-          <ul className="flex flex-col font-medium p-4 border border-gray-100 rounded-lg bg-gray-50">
-            <li>
-              <Link to="/" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100" onClick={closeMenu}>Home</Link>
-            </li>
-            {isAuthenticated && (
-              <>
-                <li>
-                  <Link to="/admin" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100" onClick={closeMenu}>Admin</Link>
-                </li>
-                <li>
-                  <Link to="/create" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100" onClick={closeMenu}>Criar Post</Link>
-                </li>
-              </>
-            )}
-          </ul>
-        </div>
-      )}
-    </nav>
+      </header>
+      <main>
+        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">{children}</div>
+      </main>
+    </div>
   );
 };
 
