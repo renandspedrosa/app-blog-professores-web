@@ -4,13 +4,8 @@ import { LogIn } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { Link, useLocation } from 'react-router-dom';
 import { useNavigation } from '@/context/NavigationContext';
+import { useEffect, useState } from 'react';
 
-const user = {
-  name: 'Tom Cook',
-  email: 'tom@example.com',
-  imageUrl:
-    'https://e7.pngegg.com/pngimages/81/570/png-clipart-profile-logo-computer-icons-user-user-blue-heroes-thumbnail.png',
-}
 
 const Navbar = ({ children }) => {
   const location = useLocation();
@@ -20,10 +15,19 @@ const Navbar = ({ children }) => {
 
   const navigation = isAuthenticated ? [...availableNavigation, ...authenticatedNavigation] : availableNavigation;
 
-
   const classNames = (...classes) => classes.filter(Boolean).join(' ');
 
   let currentNavigationItem = navigation.find(item => item.href === location.pathname)
+
+  const [user, setUser] = useState(null);
+
+  // Recuperando os dados do usuário do localStorage
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));  // Recuperando os dados do usuário
+    }
+  }, []);
 
   return (
     <div className="min-h-full">
@@ -124,7 +128,7 @@ const Navbar = ({ children }) => {
               <>
               <div className="flex items-center px-5">
                 <div className="shrink-0">
-                  <img alt="" src={user.imageUrl} className="h-10 w-10 rounded-full" />
+                  <img alt="" src={'/assets/user.png'} className="h-10 w-10 rounded-full" />
                 </div>
                 <div className="ml-3">
                   <div className="text-base/5 font-medium text-white">{user.name}</div>

@@ -20,7 +20,8 @@ const Login = () => {
     try {
       const response = await api.post('/user/signin', credentials);
       const token = response.data.token;
-      login(token);
+      const user = response.data.user;
+      login(token,user);
       navigate('/', { replace: true });
     } catch (error) {
       console.error('Erro ao fazer login:', error);

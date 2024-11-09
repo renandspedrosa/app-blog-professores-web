@@ -13,13 +13,15 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
 
-  const login = (token) => {
+  const login = (token, user) => {
     localStorage.setItem('authToken', token);
+    localStorage.setItem('user', JSON.stringify(user)); 
     setIsAuthenticated(true);
   };
 
   const logout = () => {
     localStorage.removeItem('authToken');
+    localStorage.removeItem('user');
     setIsAuthenticated(false);
     setTimeout(() => {
       navigate('/');
