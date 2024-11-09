@@ -4,30 +4,18 @@ import { LogIn } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { Link, useLocation } from 'react-router-dom';
 import { useNavigation } from '@/context/NavigationContext';
-import { useEffect, useState } from 'react';
-
 
 const Navbar = ({ children }) => {
   const location = useLocation();
   const { availableNavigation, authenticatedNavigation } = useNavigation();
 
-  const { isAuthenticated, logout } = useAuth();
+  const { user, isAuthenticated, logout } = useAuth();
 
   const navigation = isAuthenticated ? [...availableNavigation, ...authenticatedNavigation] : availableNavigation;
 
   const classNames = (...classes) => classes.filter(Boolean).join(' ');
 
   let currentNavigationItem = navigation.find(item => item.href === location.pathname)
-
-  const [user, setUser] = useState(null);
-
-  // Recuperando os dados do usuário do localStorage
-  useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));  // Recuperando os dados do usuário
-    }
-  }, []);
 
   return (
     <div className="min-h-full">
