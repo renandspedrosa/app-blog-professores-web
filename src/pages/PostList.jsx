@@ -86,7 +86,7 @@ const PostList = () => {
         <div className="flex flex-wrap -m-4">
           {posts.map((post, index) => (
             <div className="p-4 sm:w-1/2 md:w-1/3 w-full min-w-[300px] sm:min-w-[350px]" key={index}>
-              <div className="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden flex flex-col" style={{ minHeight: '400px' }}>
+              <div className="bg-white h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden flex flex-col" style={{ minHeight: '400px' }}>
                 {post.path_img && (
                   <img
                     className="lg:h-48 md:h-36 w-full object-cover object-center flex-shrink-0"
