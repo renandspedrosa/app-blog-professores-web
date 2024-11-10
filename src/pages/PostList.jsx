@@ -85,7 +85,7 @@ const PostList = () => {
                   </h1>
                   <p className="leading-relaxed mb-3">{post.content.length > 100 ? `${post.content.substring(0, 100)} [ ... ]` : post.content}</p>
                   <div className="flex items-center flex-wrap">
-                    <a className="text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0 cursor-pointer" onClick={() => handleReadMore(post.id)}>
+                    <a className="text-indigo-600 hover:text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0 cursor-pointer" onClick={() => handleReadMore(post.id)}>
                       Leia mais
                       <ArrowRight className="w-4 h-4 ml-1" />
                     </a>
@@ -107,7 +107,7 @@ const PostList = () => {
           <button 
             onClick={handlePrevPage} 
             disabled={isPrevDisabled} 
-            className={`focus:outline-none font-medium rounded-lg border-0 mt-6 py-2 px-5 text-white ${isPrevDisabled ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-800'}`}>
+            className={`focus:outline-none font-medium text-sm rounded-lg border-0 mt-6 py-2 px-5 text-white  ${isPrevDisabled ? 'bg-gray-300 cursor-not-allowed' : 'bg-indigo-600 shadow-sm hover:bg-indigo-500'}`}>
             Anterior
           </button>
 
@@ -118,7 +118,7 @@ const PostList = () => {
           <button 
             disabled={isNextDisabled} 
             onClick={handleNextPage} 
-            className={`focus:outline-none font-medium rounded-lg border-0 mt-6 py-2 px-5 text-white ${isNextDisabled ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-800'}`}>
+            className={`focus:outline-none font-medium text-sm rounded-lg border-0 mt-6 py-2 px-5 text-white ${isNextDisabled ? 'bg-gray-300 cursor-not-allowed' : 'bg-indigo-600 shadow-sm hover:bg-indigo-500'}`}>
             Próxima
           </button>
         </div>
