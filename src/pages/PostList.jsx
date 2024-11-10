@@ -1,19 +1,33 @@
 import { useEffect, useState } from 'react';
-import { getPosts } from '@/services/postService';
+import { getPosts } from '@/services/postService'
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, Eye, MessageCircle, Search } from 'lucide-react';
+import { ArrowRight, Eye, MessageCircle } from 'lucide-react';
+import { SearchBar } from '@/components/SearchBar';
 import Load from '@/components/Load';
 
 const PostList = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState(''); // Adicionado para gerenciar o termo de busca
   const postsPerPage = 6;
 
   const navigate = useNavigate();
 
+  const handleSearchPosts = async () => {
+    try {
+      setLoading(true)
+      const search = searchTerm || ''
+      const { data } = await getPosts(currentPage, postsPerPage, search)
+      setPosts(data)
+      setLoading(false)
+    } catch (error) {
+      console.error('Erro ao buscar posts:', error)
+      setError('Ocorreu um erro ao carregar os posts.')
+      setLoading(false)
+    }
+  }
   
   useEffect(() => {
     handleSearchPosts();
@@ -31,26 +45,6 @@ const PostList = () => {
     navigate(`/posts/${postId}`);
   };
 
-  const handleSearchPosts = async () => {
-    try {
-      setLoading(true);
-      const search = searchTerm || '';
-      const { data } = await getPosts(currentPage, postsPerPage, search);
-      setPosts(data);
-      setLoading(false);
-    } catch (error) {
-      console.error('Erro ao buscar posts:', error);
-      setError('Ocorreu um erro ao carregar os posts.');
-      setLoading(false);
-    }
-  };
-  
-  const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      handleSearchPosts();
-    }
-  };
-
   const isNextDisabled = posts.length < postsPerPage;
   const isPrevDisabled = currentPage === 1;
 
@@ -64,24 +58,11 @@ const PostList = () => {
 
   return (
     <section className="text-gray-600 body-font">
-      <div className="flex border border-slate-300 rounded-md mb-4">
-        <input
-          id="search"
-          type="text"
-          className="border-0 outline-slate-400 px-4 py-2 pl-10 pr-0 rounded-l-md w-full"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Buscar por postagens"
-          onKeyPress={handleKeyPress}
-        />
-        <button
-          className="bg-gray-400 text-white px-4 py-2 rounded-r-md flex items-center"
-          type="button"
-          onClick={handleSearchPosts}
-        >
-          <Search className="w-4 h-4" />
-        </button>
-      </div>
+      <SearchBar 
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        onSearch={handleSearchPosts}         
+      />
       <div className="container px-5 py-24 mx-auto">
         <div className="flex flex-wrap -m-4">
           {posts.map((post, index) => (
