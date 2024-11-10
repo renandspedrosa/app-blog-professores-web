@@ -49,7 +49,7 @@ const Login = () => {
             </ul>
           </div>
         </div>
-          <Content title={'Login'} submit={handleSubmit}>
+          <Content title={'Entre na sua conta'} submit={handleSubmit}>
             <div className="relative mb-4">
               <Input label={'E-mail'} value={credentials.email}  onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}  type="email" required={true}/>
             </div>
@@ -57,7 +57,12 @@ const Login = () => {
               <Input label={'Senha'} value={credentials.password} onChange={(e) => setCredentials({ ...credentials, password: e.target.value })} required={true} type="password" />
             </div>
             <Button>Entrar</Button>
-            <p className="text-gray-500 mt-3">cadastre - se</p>
+          <p className="mt-10 text-center text-sm/6 text-gray-500">
+            Não tem uma conta?{' '}
+            <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
+              Registre-se agora
+            </a>
+          </p>
             {errorMessage && (
                 <div className="mb-4 text-red-500 text-sm">
                   {errorMessage}
