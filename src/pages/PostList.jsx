@@ -1,19 +1,33 @@
 import { useEffect, useState } from 'react';
-import { getPosts } from '@/services/postService';
+import { getPosts } from '@/services/postService'
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, Eye, MessageCircle, Search } from 'lucide-react';
+import { ArrowRight, Eye, MessageCircle } from 'lucide-react';
+import { SearchBar } from '@/components/SearchBar';
 import Load from '@/components/Load';
 
 const PostList = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState(''); // Adicionado para gerenciar o termo de busca
   const postsPerPage = 6;
 
   const navigate = useNavigate();
 
+  const handleSearchPosts = async () => {
+    try {
+      setLoading(true)
+      const search = searchTerm || ''
+      const { data } = await getPosts(currentPage, postsPerPage, search)
+      setPosts(data)
+      setLoading(false)
+    } catch (error) {
+      console.error('Erro ao buscar posts:', error)
+      setError('Ocorreu um erro ao carregar os posts.')
+      setLoading(false)
+    }
+  }
   
   useEffect(() => {
     handleSearchPosts();
@@ -31,26 +45,6 @@ const PostList = () => {
     navigate(`/posts/${postId}`);
   };
 
-  const handleSearchPosts = async () => {
-    try {
-      setLoading(true);
-      const search = searchTerm || '';
-      const { data } = await getPosts(currentPage, postsPerPage, search);
-      setPosts(data);
-      setLoading(false);
-    } catch (error) {
-      console.error('Erro ao buscar posts:', error);
-      setError('Ocorreu um erro ao carregar os posts.');
-      setLoading(false);
-    }
-  };
-  
-  const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      handleSearchPosts();
-    }
-  };
-
   const isNextDisabled = posts.length < postsPerPage;
   const isPrevDisabled = currentPage === 1;
 
@@ -64,24 +58,11 @@ const PostList = () => {
 
   return (
     <section className="text-gray-600 body-font">
-      <div className="flex border border-slate-300 rounded-md mb-4">
-        <input
-          id="search"
-          type="text"
-          className="border-0 outline-slate-400 px-4 py-2 pl-10 pr-0 rounded-l-md w-full"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Buscar por postagens"
-          onKeyPress={handleKeyPress}
-        />
-        <button
-          className="bg-gray-400 text-white px-4 py-2 rounded-r-md flex items-center"
-          type="button"
-          onClick={handleSearchPosts}
-        >
-          <Search className="w-4 h-4" />
-        </button>
-      </div>
+      <SearchBar 
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        onSearch={handleSearchPosts}         
+      />
       <div className="container px-5 py-24 mx-auto">
         <div className="flex flex-wrap -m-4">
           {posts.map((post, index) => (
@@ -104,7 +85,7 @@ const PostList = () => {
                   </h1>
                   <p className="leading-relaxed mb-3">{post.content.length > 100 ? `${post.content.substring(0, 100)} [ ... ]` : post.content}</p>
                   <div className="flex items-center flex-wrap">
-                    <a className="text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0 cursor-pointer" onClick={() => handleReadMore(post.id)}>
+                    <a className="text-indigo-600 hover:text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0 cursor-pointer" onClick={() => handleReadMore(post.id)}>
                       Leia mais
                       <ArrowRight className="w-4 h-4 ml-1" />
                     </a>
@@ -126,7 +107,7 @@ const PostList = () => {
           <button 
             onClick={handlePrevPage} 
             disabled={isPrevDisabled} 
-            className={`focus:outline-none font-medium rounded-lg border-0 mt-6 py-2 px-5 text-white ${isPrevDisabled ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-800'}`}>
+            className={`focus:outline-none font-medium text-sm rounded-lg border-0 mt-6 py-2 px-5 text-white  ${isPrevDisabled ? 'bg-gray-300 cursor-not-allowed' : 'bg-indigo-600 shadow-sm hover:bg-indigo-500'}`}>
             Anterior
           </button>
 
@@ -137,7 +118,7 @@ const PostList = () => {
           <button 
             disabled={isNextDisabled} 
             onClick={handleNextPage} 
-            className={`focus:outline-none font-medium rounded-lg border-0 mt-6 py-2 px-5 text-white ${isNextDisabled ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-800'}`}>
+            className={`focus:outline-none font-medium text-sm rounded-lg border-0 mt-6 py-2 px-5 text-white ${isNextDisabled ? 'bg-gray-300 cursor-not-allowed' : 'bg-indigo-600 shadow-sm hover:bg-indigo-500'}`}>
             Próxima
           </button>
         </div>

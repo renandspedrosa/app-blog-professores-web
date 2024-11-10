@@ -73,7 +73,7 @@ const Navbar = ({ children }) => {
                   <Link
                     to="/login"
                     type="button"
-                    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
+                    className="rounded-md bg-indigo-600 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 font-medium text-sm px-4 py-2"
                   >
                     Login <LogIn strokeWidth={1.9} className="inline h-4 w-4" />
                   </Link>
