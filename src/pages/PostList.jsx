@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getPosts } from '@/services/postService'
+import { getPosts } from '@/services/post'
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Eye, MessageCircle } from 'lucide-react';
 import { SearchBar } from '@/components/SearchBar';
