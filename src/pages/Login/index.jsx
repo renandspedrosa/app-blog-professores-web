@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import Load from '@/components/Load';
-import { Content, Input, Button } from '@/components/Form';
+import { Form, Input, Button } from '@/components/Form';
 import useLogin from '@/hooks/useLogin';
 
 const Login = () => {
@@ -24,7 +24,7 @@ const Login = () => {
             </ul>
           </div>
         </div>
-        <Content title={'Entre na sua conta'} submit={handleLogin} styles={'lg:w-2/6 md:w-1/2 '}>
+        <Form title={'Entre na sua conta'} submit={handleLogin} styles={'lg:w-2/6 md:w-1/2 '}>
           <div className="relative mb-4">
             <Input
               label={'E-mail'}
@@ -56,7 +56,7 @@ const Login = () => {
               {errorMessage}
             </div>
           )}
-        </Content>
+        </Form>
       </div>
     </section>
   );

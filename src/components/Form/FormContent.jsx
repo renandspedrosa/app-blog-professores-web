@@ -1,5 +1,4 @@
-const Content = ({title, children, submit, styles}) => {
-    // lg:w-2/6 md:w-1/2 
+const Form = ({title, children, submit, styles}) => {
     return (
         <form 
             onSubmit={submit}
@@ -9,4 +8,4 @@ const Content = ({title, children, submit, styles}) => {
         </form>
     )
 }
-export default Content;
+export default Form;

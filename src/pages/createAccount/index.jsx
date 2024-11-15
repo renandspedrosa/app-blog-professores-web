@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Content, Input, Button, Select } from '@/components/Form';
+import { Form, Input, Button, Select } from '@/components/Form';
 import Load from '@/components/Load';
 import useCreateAccountForm from '@/hooks/useCreateAccountForm';
 
@@ -16,7 +16,7 @@ const CreateAccount = () => {
     }
 
     return (
-        <Content submit={handleCreateUser}>
+        <Form submit={handleCreateUser}>
             <div className="border-b border-gray-900/7 pb-12">
                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                     <div className="sm:col-span-3">
@@ -75,7 +75,7 @@ const CreateAccount = () => {
                 <Link to="/" className="text-sm font-semibold text-gray-900">Cancel</Link>
                 <Button>Salvar</Button>
             </div>
-        </Content>
+        </Form>
     );
 };
 
