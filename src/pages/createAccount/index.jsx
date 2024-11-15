@@ -1,13 +1,9 @@
 import { Link } from 'react-router-dom';
-import { Form, Input, Button, Select } from '@/components/Form';
+import { Form, Input, Button, Select, FormError } from '@/components/Form';
 import Load from '@/components/Load';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import useCreateAccountForm from '@/hooks/useCreateAccountForm';
-
-const FormError = ({ error }) => {
-    return error ? <div className="text-red-500 text-sm mt-1">{error}</div> : null;
-};
 
 const CreateAccount = () => {
     const optionsSelect = [
