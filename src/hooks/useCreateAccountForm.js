@@ -3,10 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { createTeacher } from '@/services/teacher';
 import { createStudent } from '@/services/student';
 import errorsMessage from '@/utils/messageError';
-import { useAlert } from "react-alert";
+import { toast } from 'react-toastify';
 
 const useCreateAccountForm = () => {
-    const alert = useAlert();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [formUser, setFormUser] = useState({
@@ -24,32 +23,27 @@ const useCreateAccountForm = () => {
         }));
     };
 
-    const handleCreateUser = async () => {
+    const handleCreateUser = async (event) => {
         try {
-            setLoading(true);
-
-            if (formUser.password !== formUser.confirmPassword) {
-                alert.info('Senhas não conferem!');
-                setLoading(false);
+            if (formUser.password != formUser.confirmPassword) {
+                event.preventDefault();
+                toast.info('Senhas não conferem!');
                 return;
             }
 
+            setLoading(true);
             if (formUser.typeUser === '1') {
                 await createTeacher(formUser);
             } else if (formUser.typeUser === '2') {
                 await createStudent(formUser);
-            } else {
-                alert.info('Tipo de usuário inválido!');
-                setLoading(false);
-                return;
             }
 
             setLoading(false);
             navigate('/login', { replace: true });
-            alert.success('Usuário criado com sucesso!');
+            toast.success('Usuário criado com sucesso!');
         } catch (error) {
             setLoading(false);
-            errorsMessage(error, alert);
+            errorsMessage(error, toast);
         }
     };
 
