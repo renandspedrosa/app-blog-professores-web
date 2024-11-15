@@ -1,52 +1,28 @@
-import { useEffect, useState } from 'react';
-import { getPosts } from '@/services/postService'
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Eye, MessageCircle } from 'lucide-react';
 import { SearchBar } from '@/components/SearchBar';
 import Load from '@/components/Load';
+import usePosts from '@/hooks/usePostList';
 
 const PostList = () => {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 6;
-
   const navigate = useNavigate();
-
-  const handleSearchPosts = async () => {
-    try {
-      setLoading(true)
-      const search = searchTerm || ''
-      const { data } = await getPosts(currentPage, postsPerPage, search)
-      setPosts(data)
-      setLoading(false)
-    } catch (error) {
-      console.error('Erro ao buscar posts:', error)
-      setError('Ocorreu um erro ao carregar os posts.')
-      setLoading(false)
-    }
-  }
-  
-  useEffect(() => {
-    handleSearchPosts();
-  }, [currentPage]);
-
-  const handleNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
-  };
-
-  const handlePrevPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-  };
+  const {
+    posts,
+    loading,
+    error,
+    searchTerm,
+    setSearchTerm,
+    currentPage,
+    handleNextPage,
+    handleSearchPosts,
+    handlePrevPage,
+    isNextDisabled,
+    isPrevDisabled,
+  } = usePosts();
 
   const handleReadMore = (postId) => {
     navigate(`/posts/${postId}`);
   };
-
-  const isNextDisabled = posts.length < postsPerPage;
-  const isPrevDisabled = currentPage === 1;
 
   if (loading) {
     return <Load />;
