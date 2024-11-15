@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '@/config/axios';
 import { useAuth } from '@/context/AuthContext';
-import { toast } from 'react-toastify';
 
 const useLogin = () => {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
