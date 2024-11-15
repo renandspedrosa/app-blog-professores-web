@@ -5,23 +5,24 @@ import CreateAccount from '@/pages/CreateAccount';
 import Navbar from '@/components/Navbar';
 import { AuthProvider } from '@/context/AuthContext';
 import { NavigationProvider } from '@/context/NavigationContext';
-import AlertTemplate from "react-alert-template-basic";
-import { positions, Provider } from 'react-alert';
-
-const options = {
-  timeout: 5000,
-  position: positions.TOP_RIGHT,
-  containerStyle: {
-    marginTop: '4rem'
-  }
-};
+import { Slide, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   return (
-    <Provider 
-      template={AlertTemplate} 
-      {...options}
-    >
+    <>
+      <ToastContainer 
+        position="bottom-right" 
+        autoClose={5000} 
+        hideProgressBar={true} 
+        newestOnTop={false} 
+        closeOnClick 
+        rtl={false} 
+        pauseOnFocusLoss 
+        draggable 
+        pauseOnHover 
+        transition={Slide}
+      />
       <Router>
         <NavigationProvider>
           <AuthProvider>
@@ -35,9 +36,8 @@ const App = () => {
           </AuthProvider>
         </NavigationProvider>
       </Router>
-    </Provider>
+    </>
   );
 };
-
 
 export default App;

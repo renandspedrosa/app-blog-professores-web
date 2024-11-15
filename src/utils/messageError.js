@@ -1,4 +1,4 @@
-const errorsMessage = (error, alert) => {
+const errorsMessage = (error, toast) => {
     if (error.response) {
         const { data } = error.response;
 
@@ -7,15 +7,15 @@ const errorsMessage = (error, alert) => {
             Object.keys(errors).forEach((field) => {
                 if (errors[field]._errors && errors[field]._errors.length > 0) {
                     errors[field]._errors.forEach((errorMsg) => {
-                        alert.info(`Campo ${field}: ${errorMsg}`);
+                        toast.info(`Campo ${field}: ${errorMsg}`);
                     });
                 }
             });
         } else {
-            alert.info(data.message || "Ocorreu um erro inesperado.");
+            toast.info(data.message || "Ocorreu um erro inesperado.");
         }
     } else {
-        alert.error(error.message || "Ocorreu um erro inesperado.");
+        toast.error(error.message || "Ocorreu um erro inesperado.");
     }
 };
 
