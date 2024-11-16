@@ -6,8 +6,9 @@ export const NavigationProvider = ({ children }) => {
   const availableNavigation = [
     { name: 'Postagens', href: '/', show: true  },
     { name: 'Login', href: '/login'},
+    { name: 'Crie seu usuário', href: '/create-account'},  
   ];
-
+  
   const authenticatedNavigation = [
     { name: 'Criar Postagens', href: '/create', show: true },
     { name: 'Perfil', href: '/profile', user: true },

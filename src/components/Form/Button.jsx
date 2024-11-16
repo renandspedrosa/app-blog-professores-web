@@ -1,18 +1,12 @@
 function Button(props) {
-    let color = 'bg-blue-600 hover:bg-blue-800';
-
-    if(props.color == 'gray') {
-        color = 'bg-red-600 hover:bg-red-800';
-    }
-    
-    return (
-        <button 
-         {...props}
-            className={`text-white border-0 py-2 px-8 focus:outline-none rounded text-lg  ${color} ${props.css}`}>
+  return (
+      <button 
+          {...props}
+          className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+      >
           {props.children}
-        </button>
-    );
-  }
-  
-  export default Button;
-  
+      </button>
+  );
+}
+
+export default Button;
