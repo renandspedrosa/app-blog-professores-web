@@ -23,19 +23,13 @@ const useCreateAccountForm = () => {
         }));
     };
 
-    const handleCreateUser = async (event) => {
+    const handleCreateUser = async (values) => {
         try {
-            if (formUser.password != formUser.confirmPassword) {
-                event.preventDefault();
-                toast.info('Senhas não conferem!');
-                return;
-            }
-
             setLoading(true);
-            if (formUser.typeUser === '1') {
-                await createTeacher(formUser);
-            } else if (formUser.typeUser === '2') {
-                await createStudent(formUser);
+            if (values.typeUser === '1') {
+                await createTeacher(values);
+            } else if (values.typeUser === '2') {
+                await createStudent(values);
             }
 
             setLoading(false);
