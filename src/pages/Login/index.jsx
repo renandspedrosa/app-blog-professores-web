@@ -24,7 +24,7 @@ const Login = () => {
             </ul>
           </div>
         </div>
-        <Form title={'Entre na sua conta'} submit={handleLogin} styles={'lg:w-2/6 md:w-1/2 '}>
+        <Form title={'Entre na sua conta'} onSubmit={handleLogin} styles={'lg:w-2/6 md:w-1/2 '}>
           <div className="relative mb-4">
             <Input
               label={'E-mail'}
@@ -43,7 +43,7 @@ const Login = () => {
               type="password"
             />
           </div>
-          <Button>Entrar</Button>
+          <Button type="submit">Entrar</Button>
 
           <p className="mt-10 text-center text-sm/6 text-gray-500">
             Não tem uma conta?{' '}
