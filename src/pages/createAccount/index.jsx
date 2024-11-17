@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom';
 import { Form, Input, Button, Select, FormError } from '@/components/Form';
 import Load from '@/components/Load';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import useCreateAccountForm from '@/hooks/useCreateAccountForm';
+import schema  from '@/pages/createAccount/schema';
 
 const CreateAccount = () => {
     const optionsSelect = [
@@ -15,15 +15,7 @@ const CreateAccount = () => {
 
     const formik = useFormik({
         initialValues: formUser,
-        validationSchema: Yup.object({
-            typeUser: Yup.string().required('Tipo de usuário é obrigatório'),
-            name: Yup.string().required('Nome é obrigatório'),
-            email: Yup.string().email('E-mail inválido').required('E-mail é obrigatório'),
-            password: Yup.string().required('Senha é obrigatória'),
-            confirmPassword: Yup.string()
-                .oneOf([Yup.ref('password')], 'As senhas não conferem')
-                .required('Confirmação de senha é obrigatória'),
-        }),
+        validationSchema:schema,
         onSubmit: handleCreateUser,
     });    
 
