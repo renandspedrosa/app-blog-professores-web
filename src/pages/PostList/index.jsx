@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { SearchBar } from '@/components/SearchBar'
 import Load from '@/components/Load'
 import usePosts from '@/hooks/usePostList'
-import PostCard from '../../components/PostCard'
+import PostCard from '../../components/PostCard/PostCard'
 
 const PostList = () => {
   const navigate = useNavigate()
@@ -43,6 +43,7 @@ const PostList = () => {
       <div className='container px-5 py-24 mx-auto'>
         <div className='flex flex-wrap -m-4'>
           {posts.map((post, index) => (
+            // <PostCard key={index} post={post} handleReadMore={handleReadMore} />
             <PostCard key={index} post={post} handleReadMore={handleReadMore} />
           ))}
         </div>
