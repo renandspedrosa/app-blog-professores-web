@@ -1,6 +1,10 @@
-const PostContent = ({ content }) => (
+const PostContent = ({ content, hasImage }) => (
   <p className='leading-relaxed mb-3'>
-    {content.length > 100 ? `${content.substring(0, 100)} [ ... ]` : content}
+    {hasImage
+      ? content.length > 100
+        ? `${content.substring(0, 100)} [ ... ]`
+        : content
+      : content}
   </p>
 )
 
