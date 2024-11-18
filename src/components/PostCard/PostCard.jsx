@@ -22,11 +22,12 @@ const PostCard = ({ post, index, handleReadMore }) => {
   return (
     <div
       className={`p-4 sm:w-1/2 md:w-1/3 w-full min-w-[300px] sm:min-w-[350px] transition-transform duration-300 ${
-        isHovered ? 'transform scale-105' : ''
+        isHovered ? 'transform scale-105 cursor-pointer' : ''
       }`}
       key={index}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onClick={() => handleReadMore(id)}
     >
       <div
         className='bg-white h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden flex flex-col'
@@ -37,9 +38,7 @@ const PostCard = ({ post, index, handleReadMore }) => {
           <PostHeader title={title} teacherName={teacherName} />
           <PostContent content={content} />
           <PostTags tags={tags} />
-          {!isHovered && (
-            <PostActions id={id} handleReadMore={handleReadMore} />
-          )}
+          <PostActions />
         </div>
       </div>
     </div>
