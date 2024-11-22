@@ -12,6 +12,8 @@ RUN npm install
 # Copia o restante dos arquivos para o contêiner
 COPY . .
 
+COPY .env.example .env
+
 # Executa o build da aplicação dentro do Docker
 RUN npm run build
 
