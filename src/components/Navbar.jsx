@@ -9,9 +9,14 @@ const Navbar = ({ children }) => {
   const location = useLocation();
   const { availableNavigation, authenticatedNavigation } = useNavigation();
 
-  const { user, isAuthenticated, logout } = useAuth();
+  const { user, isAuthenticated, isTeacher, logout } = useAuth();
 
-  const navigation = isAuthenticated ? [...availableNavigation, ...authenticatedNavigation] : availableNavigation;
+  const navigation = isAuthenticated
+  ? [
+      ...availableNavigation,
+      ...authenticatedNavigation.filter(item => !(item.teacher && !isTeacher)),
+    ]
+  : availableNavigation;
 
   const classNames = (...classes) => classes.filter(Boolean).join(' ');
 
