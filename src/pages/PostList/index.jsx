@@ -4,8 +4,16 @@ import { SearchBar } from '@/components/SearchBar';
 import { Pagination }from '@/components/Pagination';
 import Load from '@/components/Load';
 import usePosts from '@/hooks/usePostList';
+import checkPermission from '@/utils/checkPermission';
+
 
 const PostList = () => {
+  // Verifica a permissão
+  const permissionComponent = checkPermission();
+  if (permissionComponent) {
+    return permissionComponent; 
+  }
+  
   const navigate = useNavigate();
   const {
     posts,
