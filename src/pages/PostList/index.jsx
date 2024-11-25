@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Eye, MessageCircle } from 'lucide-react';
 import { SearchBar } from '@/components/SearchBar';
+import { Pagination }from '@/components/Pagination';
 import Load from '@/components/Load';
 import usePosts from '@/hooks/usePostList';
 
@@ -79,25 +80,13 @@ const PostList = () => {
             </div>
           ))}
         </div>
-        <div className="flex justify-between mt-4">
-          <button 
-            onClick={handlePrevPage} 
-            disabled={isPrevDisabled} 
-            className={`focus:outline-none font-medium text-sm rounded-lg border-0 mt-6 py-2 px-5 text-white  ${isPrevDisabled ? 'bg-gray-300 cursor-not-allowed' : 'bg-indigo-600 shadow-sm hover:bg-indigo-500'}`}>
-            Anterior
-          </button>
-
-          <div className="mt-4 text-center">
-              <span>Página {currentPage}</span>
-          </div>
-
-          <button 
-            disabled={isNextDisabled} 
-            onClick={handleNextPage} 
-            className={`focus:outline-none font-medium text-sm rounded-lg border-0 mt-6 py-2 px-5 text-white ${isNextDisabled ? 'bg-gray-300 cursor-not-allowed' : 'bg-indigo-600 shadow-sm hover:bg-indigo-500'}`}>
-            Próxima
-          </button>
-        </div>
+        <Pagination 
+          goToPrevPage={handlePrevPage}
+          isPrevDisabled={isPrevDisabled}
+          currentPage={currentPage}
+          isNextDisabled={isNextDisabled}
+          goToNextPage={handleNextPage}
+        />
       </div>
     </section>
   );
