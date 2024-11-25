@@ -11,6 +11,7 @@ export const NavigationProvider = ({ children }) => {
     { name: 'Crie seu usuário', href: '/create-account'},  
   ];
   
+  //precisa de login para acessar
   const authenticatedNavigation = [
     //menus para o professor autenticado, teacher: true
     { name: 'Criar Postagens', href: '/create', show: true, teacher: true },

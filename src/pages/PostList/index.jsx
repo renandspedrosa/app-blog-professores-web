@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Eye, MessageCircle } from 'lucide-react';
 import { SearchBar } from '@/components/SearchBar';
+
 import Load from '@/components/Load';
 import usePosts from '@/hooks/usePostList';
 
