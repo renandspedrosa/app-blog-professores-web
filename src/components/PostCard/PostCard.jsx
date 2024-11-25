@@ -16,7 +16,7 @@ const PostCard = ({ post, index, handleReadMore }) => {
     teacher: {
       user: { name: teacherName },
     },
-    id,
+    // id,
   } = post
 
   const hasImage = !!image
@@ -28,7 +28,7 @@ const PostCard = ({ post, index, handleReadMore }) => {
       key={index}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={() => handleReadMore(id)}
+      onClick={() => handleReadMore(post)}
     >
       <div
         className='bg-white h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden flex flex-col'

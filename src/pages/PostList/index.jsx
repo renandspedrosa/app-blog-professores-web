@@ -21,8 +21,8 @@ const PostList = () => {
     isPrevDisabled,
   } = usePosts()
 
-  const handleReadMore = (postId) => {
-    navigate(`/posts/${postId}`)
+  const handleReadMore = (post) => {
+    navigate(`/posts/${post.id}`, { state: { post } })
   }
 
   if (loading) {
@@ -42,9 +42,13 @@ const PostList = () => {
       />
       <div className='container px-5 py-24 mx-auto'>
         <div className='flex flex-wrap -m-4'>
-          {posts.map((post, index) => (
+          {posts.map((post) => (
             // <PostCard key={index} post={post} handleReadMore={handleReadMore} />
-            <PostCard key={index} post={post} handleReadMore={handleReadMore} />
+            <PostCard
+              key={post.id}
+              post={post}
+              handleReadMore={handleReadMore}
+            />
           ))}
         </div>
         <div className='flex justify-between mt-4'>
