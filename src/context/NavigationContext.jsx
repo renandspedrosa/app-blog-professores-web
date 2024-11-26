@@ -10,7 +10,7 @@ export const NavigationProvider = ({ children }) => {
   ];
   
   const authenticatedNavigation = [
-    { name: 'Criar Postagens', href: '/create', show: true },
+    { name: 'Criar Postagens', href: '/create-post', show: true },
     { name: 'Perfil', href: '/profile', user: true },
     { name: 'Configurações', href: '/settings', user: true },
     { name: 'Sair', href: '#', user: true},
