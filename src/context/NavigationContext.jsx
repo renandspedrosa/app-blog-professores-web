@@ -15,7 +15,6 @@ export const NavigationProvider = ({ children }) => {
   const authenticatedNavigation = [
     //menus para o professor autenticado, teacher: true
     { name: 'Criar Postagens', href: '/create', show: true, teacher: true },
-    { name: 'Criar Postagens', href: '/', show: true, teacher: true },
 
     //menus para usuário logado
     { name: 'Perfil', href: '/profile', user: true },
