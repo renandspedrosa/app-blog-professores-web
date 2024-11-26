@@ -3,7 +3,7 @@ import { Form, Input, Button, Select, FormError } from '@/components/Form';
 import Load from '@/components/Load';
 import { useFormik } from 'formik';
 import useCreateAccountForm from '@/hooks/useCreateAccountForm';
-import schema  from '@/pages/createAccount/schema';
+import schema  from '@/pages/CreateAccount/schema';
 
 const CreateAccount = () => {
     const optionsSelect = [
