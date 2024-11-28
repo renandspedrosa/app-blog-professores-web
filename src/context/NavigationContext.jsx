@@ -1,12 +1,11 @@
 import { createContext, useContext } from 'react';
 
-const NavigationContext = createContext();
+export const NavigationContext = createContext();
 
 export const NavigationProvider = ({ children }) => {
+  //não precisa de permissão para acessar, show true para visualizar no navbar
   const availableNavigation = [
     { name: 'Login', href: '/login'},
-
-    //não precisa de permissão para acessar, show true para visualizar no navbar
     { name: 'Postagens', href: '/', show: true  },
     { name: 'Crie seu usuário', href: '/create-account'},  
   ];
@@ -15,12 +14,9 @@ export const NavigationProvider = ({ children }) => {
   const authenticatedNavigation = [
     //menus para o professor autenticado, teacher: true
     { name: 'Criar Postagens', href: '/create', show: true, teacher: true },
-
-    //menus para usuário logado
-    { name: 'Perfil', href: '/profile', user: true },
-    { name: 'Configurações', href: '/settings', user: true },
-    { name: 'Sair', href: '#', user: true},
-    
+    { name: 'Perfil', href: '/profile', user: true }, //menus para usuário logado
+    { name: 'Configurações', href: '/settings', user: true }, //menus para usuário logado
+    { name: 'Sair', href: '#', user: true}, //menus para usuário logadoå
   ];
 
   return (
@@ -38,4 +34,9 @@ export const useNavigation = () => {
   return context;
 };
 
-export default NavigationContext;
+export const NavigationConsumer = ({ children }) => {
+  return (
+    <NavigationContext.Consumer>
+      {(context) => children(context)}
+    </NavigationContext.Consumer>
+)}
