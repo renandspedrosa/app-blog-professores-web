@@ -4,6 +4,7 @@ import { LogIn } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { Link, useLocation } from 'react-router-dom';
 import { useNavigation } from '@/context/NavigationContext';
+import NavigationMenu from './NavigationMenu';
 import MobileMenuBtn from './MobileMenuBtn';
 import Header from './Header';
 import MainContent from './MainContent';
@@ -21,8 +22,6 @@ const Navbar = ({ children }) => {
     ]
   : availableNavigation;
 
-  const classNames = (...classes) => classes.filter(Boolean).join(' ');
-
   let currentNavigationItem = navigation.find(item => item.href === location.pathname)
 
   return (
@@ -34,26 +33,10 @@ const Navbar = ({ children }) => {
               <div className="shrink-0">
                 <img alt="Your Company" src="/assets/logo.png" className="h-8 w-8" />
               </div>
-              <div className="hidden md:block">
-                <div className="ml-10 flex items-baseline space-x-4">
-                  {navigation.map((item) => (
-                    item.show && (
-                      <Link
-                        key={item.name}
-                        to={item.href}
-                        aria-current={location.pathname === item.href ? 'page' : undefined}
-                        className={classNames(
-                          location.pathname === item.href ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                          'rounded-md px-3 py-2 text-sm font-medium'
-                        )}
-                      >
-                        {item.name}
-                      </Link>
-                    )
-                  ))}
-                </div>
-              </div>
+              {/* NAVIGATION MENU */}
+              <NavigationMenu navigation={navigation} location={location} isMobile={false} />
             </div>
+            {/* PROFILE MENU */}
             <div className="hidden md:block">
               <div className="ml-4 flex items-center md:ml-6">
                 {isAuthenticated ? (
@@ -93,24 +76,8 @@ const Navbar = ({ children }) => {
         </div>
 
         <DisclosurePanel className="md:hidden">
-          <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
-            {navigation.map((item) => (
-              item.show && (
-              <Link
-                key={item.name}
-                as="a"
-                to={item.href}
-                aria-current={location.pathname === item.href ? 'page' : undefined}
-                className={classNames(
-                  location.pathname === item.href ? 'bg-black-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                  'block rounded-md px-3 py-2 text-base font-medium'
-                )}
-              >
-                {item.name}
-              </Link>
-              )
-            ))}
-          </div>
+          {/* MOBILE NAVIGATION MENU */}
+          <NavigationMenu navigation={navigation} location={location} isMobile={true} />
           <div className="border-t border-gray-700 pb-3 pt-4">
             {isAuthenticated && (
               <>
