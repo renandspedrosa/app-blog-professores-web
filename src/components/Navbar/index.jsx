@@ -1,9 +1,12 @@
-import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
-import { Bars3Icon, XMarkIcon, UserCircleIcon } from '@heroicons/react/24/outline';
+import { Disclosure, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
+import { UserCircleIcon } from '@heroicons/react/24/outline';
 import { LogIn } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { Link, useLocation } from 'react-router-dom';
 import { useNavigation } from '@/context/NavigationContext';
+import MobileMenuBtn from './MobileMenuBtn';
+import Header from './Header';
+import MainContent from './MainContent';
 
 const Navbar = ({ children }) => {
   const location = useLocation();
@@ -85,15 +88,7 @@ const Navbar = ({ children }) => {
                 )}
               </div>
             </div>
-            {/* Mobile menu button */}
-            <div className="-mr-2 flex md:hidden">
-              <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                <span className="absolute -inset-0.5" />
-                <span className="sr-only">Open main menu</span>
-                <Bars3Icon aria-hidden="true" className="block h-6 w-6 group-data-[open]:hidden" />
-                <XMarkIcon aria-hidden="true" className="hidden h-6 w-6 group-data-[open]:block" />
-              </DisclosureButton>
-            </div>
+            <MobileMenuBtn />            
           </div>
         </div>
 
@@ -157,14 +152,8 @@ const Navbar = ({ children }) => {
         </DisclosurePanel>
       </Disclosure>
 
-      <header className="bg-white shadow">
-        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">{currentNavigationItem ? currentNavigationItem.name : ''}</h1>
-        </div>
-      </header>
-      <main>
-        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">{children}</div>
-      </main>
+      <Header>{currentNavigationItem ? currentNavigationItem.name : ''}</Header>
+      <MainContent>{children}</MainContent>
     </div>
   );
 };
