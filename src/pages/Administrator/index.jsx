@@ -3,6 +3,7 @@ import Load from '@/components/Load';
 import usePosts from '@/hooks/usePostList';
 import { Pagination }from '@/components/Pagination';
 import { ButtonEditar, ButtonExcluir }from '@/components/Buttons';
+import checkPermission from '@/utils/checkPermission';
 
 const columns = [
 	{
@@ -21,6 +22,12 @@ const columns = [
 ];
 
 const Administrator = () => {
+    // Verifica a permissão
+    const permissionComponent = checkPermission();
+    if (permissionComponent) {
+        return permissionComponent; 
+    }
+
     const {
     posts,
     loading,

@@ -16,6 +16,7 @@ const routeComponents = {
   '/login': Login,
   '/create-account': CreateAccount,
   '/create-post': CreatePost,
+  '/administrador': Administrator,
   //'/profile': Profile,
   //'/settings': Settings,
 };
