@@ -4,10 +4,8 @@ const NavigationContext = createContext();
 
 export const NavigationProvider = ({ children }) => {
   const availableNavigation = [
-    { name: 'Login', href: '/login'},
-
-    //não precisa de permissão para acessar, show true para visualizar no navbar
     { name: 'Postagens', href: '/', show: true  },
+    { name: 'Login', href: '/login'},
     { name: 'Crie seu usuário', href: '/create-account'},  
   ];
   
@@ -39,4 +37,9 @@ export const useNavigation = () => {
   return context;
 };
 
-export default NavigationContext;
+export const NavigationConsumer = ({ children }) => {
+  return (
+    <NavigationContext.Consumer>
+      {(context) => children(context)}
+    </NavigationContext.Consumer>
+)}

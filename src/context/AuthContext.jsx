@@ -5,16 +5,14 @@ import { decode } from 'jwt-js-decode';
 
 const AuthContext = createContext();
 
-export const useAuth = () => {
-  return useContext(AuthContext);
-};
+export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
   const { availableNavigation } = useNavigation();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isTeacher, setIsTeacher] = useState(false);
   const [isStudent, setISStudent] = useState(false);
-  const [user, setUser] = useState(null); 
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
   const handleUserType = (token) => {
@@ -43,7 +41,7 @@ export const AuthProvider = ({ children }) => {
     setTimeout(() => {
       navigate('/');
     }, 0);
-  };
+  }
 
   useEffect(() => {
     const token = localStorage.getItem('authToken');
@@ -72,4 +70,12 @@ export const AuthProvider = ({ children }) => {
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
+
+export const AuthConsumer = ({ children }) => {
+  return (
+    <AuthContext.Consumer>
+      {(context) => children(context)}
+    </AuthContext.Consumer>
+  );
 };
