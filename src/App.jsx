@@ -14,7 +14,7 @@ const routeComponents = {
   '/': PostList,
   '/login': Login,
   '/create-account': CreateAccount,
-  //'/create': CreatePost,
+  '/create-post': CreatePost,
   //'/profile': Profile,
   //'/settings': Settings,
 };
@@ -38,12 +38,6 @@ const App = () => {
         <NavigationProvider>
           <AuthProvider>
             <Navbar>
-              <Routes>
-                <Route path="/" element={<PostList />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/create-account" element={<CreateAccount />} />
-                <Route path="/create-post" element={<CreatePost />} />
-              </Routes>
               <NavigationConsumer>
                 {({ availableNavigation, authenticatedNavigation }) => (
                   <AuthConsumer>
