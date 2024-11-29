@@ -9,11 +9,13 @@ export const NavigationProvider = ({ children }) => {
     { name: 'Crie seu usuário', href: '/create-account'},  
   ];
   
+  //precisa de login para acessar
   const authenticatedNavigation = [
-    { name: 'Criar Postagens', href: '/create-post', show: true },
-    { name: 'Perfil', href: '/profile', user: true },
-    { name: 'Configurações', href: '/settings', user: true },
-    { name: 'Sair', href: '#', user: true},
+    //menus para o professor autenticado, teacher: true
+    { name: 'Criar Postagens', href: '/create-post', show: true, teacher: true },
+    { name: 'Perfil', href: '/profile', user: true }, //menus para usuário logado
+    { name: 'Configurações', href: '/settings', user: true }, //menus para usuário logado
+    { name: 'Sair', href: '#', user: true}, //menus para usuário logadoå
   ];
 
   return (
@@ -31,4 +33,9 @@ export const useNavigation = () => {
   return context;
 };
 
-export default NavigationContext;
+export const NavigationConsumer = ({ children }) => {
+  return (
+    <NavigationContext.Consumer>
+      {(context) => children(context)}
+    </NavigationContext.Consumer>
+)}
