@@ -1,5 +1,7 @@
 import api from '@/config/axios';
+import axios from 'axios';
 
+const host = import.meta.env.API_HOST || 'http://localhost:3000';
 const token = localStorage.getItem('authToken');
 
 export const getPosts = async (page = 1, limit = 5, search = '') => {
@@ -31,19 +33,25 @@ export const getPostById = async (id) => {
 
 export const createPost = async (postData) => {
   try {
-    
-    // Verifica se o token existe
     if (!token) {
       throw new Error('Token de autenticação não encontrado. Usuário não está logado.');
     }
 
-    const response = await api.post(`/posts`, postData, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    let payload = postData;
+
+    if (!(postData instanceof FormData)) {
+      headers['Content-Type'] = 'application/json';
+      payload = {
+        title: postData.title,
+        content: postData.content,
+      };
+    }
+
+    const response = await axios.post(`${host}/posts`, payload, { headers });
 
     return response.data;
   } catch (error) {
@@ -51,6 +59,7 @@ export const createPost = async (postData) => {
     throw error;
   }
 };
+
 
 
 export const updatePost = async (id, postData) => {
