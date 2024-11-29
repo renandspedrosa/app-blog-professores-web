@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PostList from '@/pages/PostList';
 import Login from '@/pages/Login';
 import CreateAccount from '@/pages/CreateAccount';
+import Administrator from '@/pages/Administrator';
 import CreatePost from '@/pages/CreatePost';
 import Navbar from '@/components/Navbar';
 import { AuthProvider, AuthConsumer } from '@/context/AuthContext';
@@ -15,6 +16,7 @@ const routeComponents = {
   '/login': Login,
   '/create-account': CreateAccount,
   '/create-post': CreatePost,
+  '/administrador': Administrator,
   //'/profile': Profile,
   //'/settings': Settings,
 };

@@ -13,9 +13,13 @@ export const NavigationProvider = ({ children }) => {
   const authenticatedNavigation = [
     //menus para o professor autenticado, teacher: true
     { name: 'Criar Postagens', href: '/create-post', show: true, teacher: true },
-    { name: 'Perfil', href: '/profile', user: true }, //menus para usuário logado
-    { name: 'Configurações', href: '/settings', user: true }, //menus para usuário logado
-    { name: 'Sair', href: '#', user: true}, //menus para usuário logadoå
+    { name: 'Administrar Postagens', href: '/administrador', show: true, teacher: true },
+
+    //menus para usuário logado
+    { name: 'Perfil', href: '/profile', user: true },
+    { name: 'Configurações', href: '/settings', user: true },
+    { name: 'Sair', href: '#', user: true},
+    
   ];
 
   return (
