@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PostList from '@/pages/PostList';
 import Login from '@/pages/Login';
 import CreateAccount from '@/pages/CreateAccount';
+import CreatePost from '@/pages/CreatePost';
 import Navbar from '@/components/Navbar';
 import { AuthProvider, AuthConsumer } from '@/context/AuthContext';
 import { NavigationProvider, NavigationConsumer } from '@/context/NavigationContext';
@@ -37,12 +38,18 @@ const App = () => {
         <NavigationProvider>
           <AuthProvider>
             <Navbar>
+              <Routes>
+                <Route path="/" element={<PostList />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/create-account" element={<CreateAccount />} />
+                <Route path="/create-post" element={<CreatePost />} />
+              </Routes>
               <NavigationConsumer>
                 {({ availableNavigation, authenticatedNavigation }) => (
                   <AuthConsumer>
                     {({ isAuthenticated }) => {
-                      const navigation = isAuthenticated ? 
-                    [...availableNavigation, ...authenticatedNavigation] : 
+                      const navigation = isAuthenticated ?
+                    [...availableNavigation, ...authenticatedNavigation] :
                     availableNavigation;
                       return (
                         <Routes>
