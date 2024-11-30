@@ -5,7 +5,6 @@ import { Pagination }from '@/components/Pagination';
 import { ButtonEditar, ButtonExcluir }from '@/components/Buttons';
 import checkPermission from '@/utils/checkPermission';
 import Confirm from '@/components/Confirm';
-import useDeletePost from '@/hooks/useDeletePost';
 
 const columns = [
 	{
@@ -23,6 +22,15 @@ const columns = [
 	},
 ];
 
+const handleDelete = (idPost) => {
+    Confirm(
+        'Confirmação',
+        'Tem certeza que deseja excluir essa postagem?',
+        () => {
+            console.log(`id ${idPost} excluído!`);
+        }
+    );
+};
 
 const Administrator = () => {
     // Verifica a permissão
@@ -40,22 +48,9 @@ const Administrator = () => {
     handlePrevPage,
     isNextDisabled,
     isPrevDisabled,
-    handleSearchPosts,
     } = usePosts();
 
-    const { loading: deleteLoading, handleDeletePost } = useDeletePost();
-
-    const handleDelete = (idPost) => {
-        Confirm(
-            'Confirmação',
-            'Tem certeza que deseja excluir essa postagem?',
-            () => {
-                handleDeletePost(idPost,handleSearchPosts);
-            }
-        );
-    };
-
-    if (loading || deleteLoading) {
+    if (loading) {
         return <Load />;
     }
 
