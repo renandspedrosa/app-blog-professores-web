@@ -42,25 +42,16 @@ export const AuthProvider = ({ children }) => {
     setTimeout(() => {
       navigate('/');
     }, 0);
-  };
+  }
 
   const isTokenExpired = (token) => {
     try {
-      const decoded = decode(token);
-      const currentTime = Math.floor(Date.now() / 1000);
-      return decoded.payload.exp < currentTime;
+        const decoded = decode(token);
+        const currentTime = Math.floor(Date.now() / 1000);
+        return decoded.payload.exp < currentTime;
     } catch (error) {
-      console.error("Erro ao decodificar o token:", error);
-      return true;
-    }
-  };
-
-  const handleTokenExpiration = () => {
-    const token = localStorage.getItem('authToken');
-    if (token && isTokenExpired(token)) {
-      logout();
-      toast.info('Sua sessão expirou, faça login novamente.');
-      navigate('/login');
+        console.error("Erro ao decodificar o token:", error);
+        return true;
     }
   };
 
@@ -81,6 +72,17 @@ export const AuthProvider = ({ children }) => {
     }
   }, [isAuthenticated, navigate, availableNavigation]);
 
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    if (token && isTokenExpired(token)) {
+        logout();
+        toast.info('Sua sessão expirou, faça login novamente.');
+        navigate('/login');
+    } else {
+        setIsAuthenticated(true);
+    }
+}, [navigate])
+
   const value = {
     isAuthenticated,
     isStudent,
@@ -88,7 +90,6 @@ export const AuthProvider = ({ children }) => {
     user,
     login,
     logout,
-    handleTokenExpiration, // Passando a função de expiração do token
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
