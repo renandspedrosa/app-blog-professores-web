@@ -1,45 +1,62 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext } from 'react'
 
-const NavigationContext = createContext();
+const NavigationContext = createContext()
 
 export const NavigationProvider = ({ children }) => {
   const availableNavigation = [
-    { name: 'Postagens', href: '/', show: true  },
-    { name: 'Login', href: '/login'},
-    { name: 'Crie seu usuário', href: '/create-account'},  
-  ];
-  
+    { name: 'Postagens', href: '/', show: true },
+    { name: 'Login', href: '/login' },
+    { name: 'Crie seu usuário', href: '/create-account' },
+  ]
+
   //precisa de login para acessar
   const authenticatedNavigation = [
     //menus para o professor autenticado, teacher: true
-    { name: 'Criar Postagens', href: '/create-post', show: true, teacher: true },
-    { name: 'Administrar Postagens', href: '/administrador', show: true, teacher: true },
+    {
+      name: 'Criar Postagens',
+      href: '/create-post',
+      show: true,
+      teacher: true,
+    },
+    {
+      name: 'Administrar Postagens',
+      href: '/administrador',
+      show: true,
+      teacher: true,
+    },
 
     //menus para usuário logado
     { name: 'Perfil', href: '/profile', user: true },
     { name: 'Configurações', href: '/settings', user: true },
-    { name: 'Sair', href: '#', user: true},
-    
-  ];
+    { name: 'Sair', href: '#', user: true },
+
+    // menu para student logado
+    { name: 'Detalhes da Postagem', href: '/posts/:id', student: true },
+  ]
 
   return (
-    <NavigationContext.Provider value={{ availableNavigation, authenticatedNavigation }}>
+    <NavigationContext.Provider
+      value={{ availableNavigation, authenticatedNavigation }}
+    >
       {children}
     </NavigationContext.Provider>
-  );
-};
+  )
+}
 
 export const useNavigation = () => {
-  const context = useContext(NavigationContext);
+  const context = useContext(NavigationContext)
   if (!context) {
-    throw new Error('useNavigation deve ser usado dentro de um NavigationProvider');
+    throw new Error(
+      'useNavigation deve ser usado dentro de um NavigationProvider',
+    )
   }
-  return context;
-};
+  return context
+}
 
 export const NavigationConsumer = ({ children }) => {
   return (
     <NavigationContext.Consumer>
       {(context) => children(context)}
     </NavigationContext.Consumer>
-)}
+  )
+}
