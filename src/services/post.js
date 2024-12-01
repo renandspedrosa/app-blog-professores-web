@@ -1,5 +1,7 @@
 import api from '@/config/axios';
+import axios from 'axios';
 
+const host = import.meta.env.API_HOST || 'http://localhost:3000';
 const token = localStorage.getItem('authToken');
 
 export const getPosts = async (page = 1, limit = 5, search = '') => {
@@ -21,7 +23,7 @@ export const getPosts = async (page = 1, limit = 5, search = '') => {
   
 export const getPostById = async (id) => {
   try {
-    const response = await api.get(`/posts/${id}`);
+    const response = await axios.get(`${host}/posts/${id}`);
     return response.data;
   } catch (error) {
     console.error(`Erro ao obter o post com id ${id}:`, error);
@@ -31,19 +33,25 @@ export const getPostById = async (id) => {
 
 export const createPost = async (postData) => {
   try {
-    
-    // Verifica se o token existe
     if (!token) {
       throw new Error('Token de autenticação não encontrado. Usuário não está logado.');
     }
 
-    const response = await api.post(`/posts`, postData, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    let payload = postData;
+
+    if (!(postData instanceof FormData)) {
+      headers['Content-Type'] = 'application/json';
+      payload = {
+        title: postData.title,
+        content: postData.content,
+      };
+    }
+
+    const response = await axios.post(`${host}/posts`, payload, { headers });
 
     return response.data;
   } catch (error) {
@@ -53,9 +61,10 @@ export const createPost = async (postData) => {
 };
 
 
+
 export const updatePost = async (id, postData) => {
   try {
-    const response = await api.put(`/posts/${id}`, postData, {
+    const response = await axios.put(`${host}/posts/${id}`, postData, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
@@ -71,7 +80,7 @@ export const updatePost = async (id, postData) => {
 export const deletePost = async (id) => {
   try {
     const token = localStorage.getItem('authToken');
-    await api.delete(`/posts/${id}`, {
+    await axios.delete(`${host}/posts/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
