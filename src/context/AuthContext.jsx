@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useNavigation } from '@/context/NavigationContext';
 import { decode } from 'jwt-js-decode';
@@ -12,17 +12,21 @@ export const AuthProvider = ({ children }) => {
   const { availableNavigation } = useNavigation();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isTeacher, setIsTeacher] = useState(false);
-  const [isStudent, setISStudent] = useState(false);
+  const [isStudent, setIsStudent] = useState(false);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-  const handleUserType = (token) => {
-    const jwt = decode(token);
-    const userType = jwt.payload.type;
+  const handleUserType = useCallback((token) => {
+    try {
+      const jwt = decode(token);
+      const userType = jwt.payload?.type;
 
-    setIsTeacher(userType === 'teacher');
-    setISStudent(userType === 'student');
-  };
+      setIsTeacher(userType === 'teacher');
+      setIsStudent(userType === 'student');
+    } catch (error) {
+      console.error('Erro ao decodificar o token:', error);
+    }
+  }, []);
 
   const login = (token, userData) => {
     localStorage.setItem('authToken', token);
@@ -32,28 +36,35 @@ export const AuthProvider = ({ children }) => {
     handleUserType(token);
   };
 
-  const logout = () => {
+  const logout = useCallback(
+    (redirectTo = '/') => {
     localStorage.removeItem('authToken');
     localStorage.removeItem('user');
     setIsAuthenticated(false);
     setUser(null);
     setIsTeacher(false);
-    setISStudent(false);
-    setTimeout(() => {
-      navigate('/');
-    }, 0);
-  }
+    setIsStudent(false);
+    navigate(redirectTo);
+  }, [navigate]);
 
-  const isTokenExpired = (token) => {
+  const isTokenExpired = useCallback((token) => {
     try {
-        const decoded = decode(token);
-        const currentTime = Math.floor(Date.now() / 1000);
-        return decoded.payload.exp < currentTime;
+      const decoded = decode(token);
+      const currentTime = Math.floor(Date.now() / 1000);
+      return decoded.payload?.exp < currentTime;
     } catch (error) {
-        console.error("Erro ao decodificar o token:", error);
-        return true;
+      console.error('Erro ao verificar validade do token:', error);
+      return true;
     }
-  };
+  }, []);
+
+  const handleTokenExpiration = useCallback(() => {
+    const token = localStorage.getItem('authToken');
+    if (token && isTokenExpired(token)) {
+      logout('/login');
+      toast.info('Sua sessão expirou, faça login novamente.');
+    }
+  }, [isTokenExpired, logout]);
 
   useEffect(() => {
     const token = localStorage.getItem('authToken');
@@ -63,8 +74,12 @@ export const AuthProvider = ({ children }) => {
       setIsAuthenticated(true);
       setUser(JSON.parse(storedUser));
       handleUserType(token);
+
+      if (isTokenExpired(token)) {
+        logout();
+      }
     }
-  }, []);
+  }, [handleUserType, isTokenExpired, logout]);
 
   useEffect(() => {
     if (!isAuthenticated && !availableNavigation) {
@@ -72,24 +87,14 @@ export const AuthProvider = ({ children }) => {
     }
   }, [isAuthenticated, navigate, availableNavigation]);
 
-  useEffect(() => {
-    const token = localStorage.getItem('authToken');
-    if (token && isTokenExpired(token)) {
-        logout();
-        toast.info('Sua sessão expirou, faça login novamente.');
-        navigate('/login');
-    } else {
-        setIsAuthenticated(true);
-    }
-}, [navigate])
-
   const value = {
     isAuthenticated,
-    isStudent,
     isTeacher,
+    isStudent,
     user,
     login,
     logout,
+    handleTokenExpiration,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
