@@ -31,7 +31,7 @@ export const NavigationProvider = ({ children }) => {
     { name: 'Sair', href: '#', user: true },
 
     // menu para student logado
-    { name: 'Detalhes da Postagem', href: '/posts/:id', student: true },
+    { name: 'Detalhes da Postagem', href: '/posts/:id', user: true },
   ]
 
   return (
