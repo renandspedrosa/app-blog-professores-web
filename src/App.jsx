@@ -9,6 +9,7 @@ import { AuthProvider, AuthConsumer } from '@/context/AuthContext';
 import { NavigationProvider, NavigationConsumer } from '@/context/NavigationContext';
 import { Slide, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import PostDetails from './pages/PostDetails';
 
 // ADICIONE ROTAS E COMPONENTES DE PÁGINA AQUI
 const routeComponents = {
@@ -17,6 +18,7 @@ const routeComponents = {
   '/create-account': CreateAccount,
   '/create-post': CreatePost,
   '/administrador': Administrator,
+  '/posts/:id': PostDetails,
   //'/profile': Profile,
   //'/settings': Settings,
 };
@@ -24,16 +26,16 @@ const routeComponents = {
 const App = () => {
   return (
     <>
-      <ToastContainer 
-        position="bottom-right" 
-        autoClose={5000} 
-        hideProgressBar={true} 
-        newestOnTop={false} 
-        closeOnClick 
-        rtl={false} 
-        pauseOnFocusLoss 
-        draggable 
-        pauseOnHover 
+      <ToastContainer
+        position='bottom-right'
+        autoClose={5000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
         transition={Slide}
       />
       <Router>
@@ -66,7 +68,7 @@ const App = () => {
         </NavigationProvider>
       </Router>
     </>
-  );
-};
+  )
+}
 
-export default App;
+export default App

@@ -6,35 +6,37 @@ const token = localStorage.getItem('authToken');
 
 export const getPosts = async (page = 1, limit = 5, search = '') => {
   try {
-    const response = await  api.get(`/posts`, {
+    const response = await api.get(`/posts`, {
       params: {
         page,
         limit,
-        term : search
+        term: search,
       },
-    });
-    return { data: response.data};
+    })
+    return { data: response.data }
   } catch (error) {
-    console.error('Erro ao buscar posts:', error);
-    throw error;
+    console.error('Erro ao buscar posts:', error)
+    throw error
   }
-};
+}
 
-  
 export const getPostById = async (id) => {
   try {
     const response = await axios.get(`${host}/posts/${id}`);
     return response.data;
   } catch (error) {
-    console.error(`Erro ao obter o post com id ${id}:`, error);
-    throw error;
+    console.error(`Erro ao obter o post com id ${id}:`, error)
+    throw error
   }
-};
+}
 
 export const createPost = async (postData) => {
   try {
+    // Verifica se o token existe
     if (!token) {
-      throw new Error('Token de autenticação não encontrado. Usuário não está logado.');
+      throw new Error(
+        'Token de autenticação não encontrado. Usuário não está logado.',
+      )
     }
 
     const headers = {
@@ -53,13 +55,26 @@ export const createPost = async (postData) => {
 
     const response = await axios.post(`${host}/posts`, payload, { headers });
 
-    return response.data;
+    return response.data
   } catch (error) {
-    console.error('Erro ao criar post:', error.response ? error.response.data : error.message);
-    throw error;
+    console.error(
+      'Erro ao criar post:',
+      error.response ? error.response.data : error.message,
+    )
+    throw error
   }
-};
+}
 
+//TODO: Desenvolver método postviewed para quando clicar e navegar marcar como visto
+
+export const postViewed = async (id) => {
+  try {
+    await api.put(`/posts/${id}/viewed`)
+  } catch (error) {
+    console.error(`Erro ao marcar post com id ${id} como visualizado:`, error)
+    throw error
+  }
+}
 
 
 export const updatePost = async (id, postData) => {
@@ -69,13 +84,13 @@ export const updatePost = async (id, postData) => {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-    });
-    return response.data;
+    })
+    return response.data
   } catch (error) {
-    console.error(`Erro ao atualizar post com id ${id}:`, error);
-    throw error;
+    console.error(`Erro ao atualizar post com id ${id}:`, error)
+    throw error
   }
-};
+}
 
 export const deletePost = async (id) => {
   try {
@@ -84,10 +99,9 @@ export const deletePost = async (id) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    });
+    })
   } catch (error) {
-    console.error(`Erro ao excluir post com id ${id}:`, error);
-    throw error;
+    console.error(`Erro ao excluir post com id ${id}:`, error)
+    throw error
   }
-};
-
+}
