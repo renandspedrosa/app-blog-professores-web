@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useNavigation } from '@/context/NavigationContext';
 import { decode } from 'jwt-js-decode';
+import { toast } from 'react-toastify';
 
 const AuthContext = createContext();
 
@@ -43,6 +44,17 @@ export const AuthProvider = ({ children }) => {
     }, 0);
   }
 
+  const isTokenExpired = (token) => {
+    try {
+        const decoded = decode(token);
+        const currentTime = Math.floor(Date.now() / 1000);
+        return decoded.payload.exp < currentTime;
+    } catch (error) {
+        console.error("Erro ao decodificar o token:", error);
+        return true;
+    }
+  };
+
   useEffect(() => {
     const token = localStorage.getItem('authToken');
     const storedUser = localStorage.getItem('user');
@@ -59,6 +71,17 @@ export const AuthProvider = ({ children }) => {
       navigate('/');
     }
   }, [isAuthenticated, navigate, availableNavigation]);
+
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    if (token && isTokenExpired(token)) {
+        logout();
+        toast.info('Sua sessão expirou, faça login novamente.');
+        navigate('/login');
+    } else {
+        setIsAuthenticated(true);
+    }
+}, [navigate])
 
   const value = {
     isAuthenticated,

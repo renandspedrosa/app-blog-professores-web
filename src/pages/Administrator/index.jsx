@@ -4,6 +4,8 @@ import usePosts from '@/hooks/usePostList';
 import { Pagination }from '@/components/Pagination';
 import { ButtonEditar, ButtonExcluir }from '@/components/Buttons';
 import checkPermission from '@/utils/checkPermission';
+import Confirm from '@/components/Confirm';
+import useDeletePost from '@/hooks/useDeletePost';
 
 const columns = [
 	{
@@ -17,7 +19,7 @@ const columns = [
 	{
 		name: '',
 		selector: row => row.acao,
-        right: true,
+        right: "true",
 	},
 ];
 
@@ -37,9 +39,21 @@ const Administrator = () => {
     handlePrevPage,
     isNextDisabled,
     isPrevDisabled,
+    handleSearchPosts,
     } = usePosts();
 
-    if (loading) {
+    const { loading: deleteLoading, handleDeletePost } = useDeletePost();
+    const handleDelete = (idPost) => {
+        Confirm(
+            'Confirmação',
+            'Tem certeza que deseja excluir essa postagem?',
+            () => {
+                handleDeletePost(idPost,handleSearchPosts);
+            }
+        );
+    };
+    
+    if (loading || deleteLoading) {
         return <Load />;
     }
 
@@ -51,7 +65,7 @@ const Administrator = () => {
         post.acao = (
             <div className="flex items-center space-x-2">
                 <ButtonEditar/>
-                <ButtonExcluir/>
+                <ButtonExcluir onClick={() => handleDelete(post.id)}/>
             </div>
         );
     });

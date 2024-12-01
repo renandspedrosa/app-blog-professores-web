@@ -7,7 +7,7 @@ const checkPermission = () => {
     const location = useLocation();
     const currentPath = location.pathname;
 
-    const { authenticatedNavigation } = useNavigation();    
+    const { authenticatedNavigation, handleTokenExpiration } = useNavigation();    
 
     const { isTeacher } = useAuth();
 
