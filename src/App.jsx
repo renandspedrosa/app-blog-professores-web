@@ -4,6 +4,7 @@ import Login from '@/pages/Login';
 import CreateAccount from '@/pages/CreateAccount';
 import Administrator from '@/pages/Administrator';
 import CreatePost from '@/pages/CreatePost';
+import NotFound from '@/pages/NotFound';
 import Navbar from '@/components/Navbar';
 import { AuthProvider, AuthConsumer } from '@/context/AuthContext';
 import { NavigationProvider, NavigationConsumer } from '@/context/NavigationContext';
@@ -57,6 +58,8 @@ const App = () => {
                               <Route key={navItem.href} path={navItem.href} element={Component ? <Component /> : null} />
                             );
                           })}
+                          {/* Rota "catch-all" */}
+                          <Route path="*" element={<NotFound />} />
                         </Routes>
                       );
                     }}
