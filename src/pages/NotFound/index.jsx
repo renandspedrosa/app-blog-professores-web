@@ -1,5 +1,5 @@
 import { AlertTriangle } from 'lucide-react';
-import ButtonPrimary from '@/components/Buttons/ButtonPrimary';
+import {ButtonPrimary} from '@/components/Buttons';
 import { Link } from 'react-router-dom';
 
 const NotFound = () => {
