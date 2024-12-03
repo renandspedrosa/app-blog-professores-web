@@ -5,9 +5,6 @@ import { toast } from 'react-toastify';
 
 const useCreateTag = () => {
     const [loadingCreate, setLoadingCreate] = useState(false);
-    const [formTag, setFormTag] = useState({
-        name: '', 
-    });
 
     const handleCreateTag = async (values, onAction, onSuccess) => {
         try {
@@ -29,8 +26,6 @@ const useCreateTag = () => {
 
     return {
         loadingCreate,
-        formTag,
-        setFormTag,
         handleCreateTag,
     };
 }

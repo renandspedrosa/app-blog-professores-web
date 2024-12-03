@@ -42,6 +42,26 @@ export const createTag = async (tagData) => {
   }
 };
 
+export const updateTag = async (tagData) => {
+  try {
+    const token = localStorage.getItem('authToken');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json', 
+    };
+
+    const response = await axios.put(`${host}/tag/${tagData.id}`, tagData, { headers });
+
+    return response.data;
+  } catch (error) {
+    console.error(
+      'Erro ao criar tag:',
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
+
 export const deleteTag = async (id) => {
   try {
     const token = localStorage.getItem('authToken');
