@@ -7,7 +7,7 @@ import {
   PostImage,
   PostTags,
 } from '../../components/PostCard'
-import { NoComment, Comment } from '../../components/PostDetails'
+import { NoComment, Comment } from '../../components/Comment'
 
 const comments = [
   {
@@ -99,7 +99,7 @@ const PostDetails = () => {
         '
         >
           <div className='bg-pink-700 h-1/2 lg:h-full lg:w-1/2 p-6 overflow-auto justify-between'>
-            <PostImage image={image} title={title} />
+            <PostImage image={image} title={title} type={'CARD'} />
             <PostHeader title={title} teacherName={teacherName} />
             <PostContent content={content} hasImage={hasImage} />
             <PostTags tags={tags} />
