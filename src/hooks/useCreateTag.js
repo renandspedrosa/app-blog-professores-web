@@ -3,7 +3,6 @@ import { createTag } from '@/services/tag';
 import errorsMessage from '@/utils/messageError';
 import { toast } from 'react-toastify';
 
-
 const useCreateTag = () => {
     const [loadingCreate, setLoadingCreate] = useState(false);
     const [formTag, setFormTag] = useState({
