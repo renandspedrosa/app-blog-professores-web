@@ -11,7 +11,7 @@ import { useState } from 'react';
 import { useFormik } from 'formik';
 import schema  from '@/pages/Tag/schema';
 import { Input, FormError } from '@/components/Form';
-import { createTag } from '@/services/tag';
+import useCreateTag from '@/hooks/useCreateTag';
 
 const columns = [
     {
@@ -31,120 +31,102 @@ const Tag = () => {
   if (permissionComponent) {
       return permissionComponent; 
   } 
-  const [loadingCreate, setLoadingCreate] = useState(false);
-
-  const [formTag, setFormTag] = useState({
-    name: '', 
-  });
-
   
-  const handleCreateTag = async (values) => {
-    try {
-        setModalOpen(false);
-        setLoadingCreate(true);
-        await createTag(values);
-        setLoadingCreate(false);
-        handleSearchTags()
-        toast.success('Categoria criada com sucesso!');
-    } catch (error) {
-      setLoadingCreate(false);
-        errorsMessage(error, toast);
-    }
-  };
+  const { loadingCreate, formTag, handleCreateTag } = useCreateTag();
 
   const formik = useFormik({
     initialValues: formTag,
     validationSchema:schema,
-    onSubmit: handleCreateTag,
+    onSubmit: (values) => handleCreateTag(values, closeModal,handleSearchTags),
   });    
 
-    const [isModalOpen, setModalOpen] = useState(false);
-    const [titleModal, setTitleModal] = useState('');
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [titleModal, setTitleModal] = useState('');
 
-    const openModalAdicionar = () => {
-        setTitleModal('Adicionar Categoria');
-        formik.setFieldValue('name', '');
-        formik.setFieldTouched('name', false);
-        setModalOpen(true);
-    }
+  const openModalAdicionar = () => {
+      setTitleModal('Adicionar Categoria');
+      formik.setFieldValue('name', '');
+      formik.setFieldTouched('name', false);
+      setModalOpen(true);
+  }
 
-    const closeModal = () => setModalOpen(false);
+  const closeModal = () => setModalOpen(false);
 
-    const {
-    tags,
-    error,
-    loading,
-    currentPage,
-    handleNextPage,
-    handlePrevPage,
-    isNextDisabled,
-    isPrevDisabled,
-    handleSearchTags,
-    } = useTags();
+  const {
+  tags,
+  error,
+  loading,
+  currentPage,
+  handleNextPage,
+  handlePrevPage,
+  isNextDisabled,
+  isPrevDisabled,
+  handleSearchTags,
+  } = useTags();
 
-    const { loading: deleteLoading, handleDeleteTag } = useDeleteTag();
+  const { loading: deleteLoading, handleDeleteTag } = useDeleteTag();
 
-    const handleDelete = (idTag) => {
-        Confirm(
-            'Confirmação',
-            'Tem certeza que deseja excluir essa categoria?',
-            () => {
-                handleDeleteTag(idTag,handleSearchTags);
-            }
-        );
-    };
-    
-    if (loading || deleteLoading || loadingCreate) {
-        return <Load />;
-    }
+  const handleDelete = (idTag) => {
+      Confirm(
+          'Confirmação',
+          'Tem certeza que deseja excluir essa categoria?',
+          () => {
+              handleDeleteTag(idTag,handleSearchTags);
+          }
+      );
+  };
+  
+  if (loading || deleteLoading || loadingCreate) {
+      return <Load />;
+  }
 
-    if (error) {
-        return <p>{error}</p>;
-    }
+  if (error) {
+      return <p>{error}</p>;
+  }
 
-    tags.map((tag) => {
-        tag.acao = (
-            <div className="flex items-center space-x-2">
-                <ButtonEditar/>
-                <ButtonExcluir onClick={() => handleDelete(tag.id)}/>
-            </div>
-        );
-    });
-
-    return (
-        <>
-          <div className='mb-4'>
-            <ButtonSecondary onClick={openModalAdicionar}>Adicionar Categoria</ButtonSecondary>
+  tags.map((tag) => {
+      tag.acao = (
+          <div className="flex items-center space-x-2">
+              <ButtonEditar/>
+              <ButtonExcluir onClick={() => handleDelete(tag.id)}/>
           </div>
-          <DataTable
-              columns={columns}
-              data={tags}
-          />
-          <Pagination
-              goToPrevPage={handlePrevPage}
-              isPrevDisabled={isPrevDisabled}
-              currentPage={currentPage}
-              isNextDisabled={isNextDisabled}
-              goToNextPage={handleNextPage}
-          />
-          
-          <Modal
-            isOpen={isModalOpen}
-            onClose={closeModal}
-            title={titleModal}
-            onConfirm={formik.handleSubmit}
-          >
-            <Input
-                  label="Descrição"
-                  type="text"
-                  required
-                  name="name"
-                  value={formik.values.name}
-                  onChange={formik.handleChange}
-              />
-              <FormError error={formik.touched.name && formik.errors.name} />
-          </Modal>
-        </>
+      );
+  });
+
+  return (
+      <>
+        <div className='mb-4'>
+          <ButtonSecondary onClick={openModalAdicionar}>Adicionar Categoria</ButtonSecondary>
+        </div>
+        <DataTable
+            columns={columns}
+            data={tags}
+        />
+        <Pagination
+            goToPrevPage={handlePrevPage}
+            isPrevDisabled={isPrevDisabled}
+            currentPage={currentPage}
+            isNextDisabled={isNextDisabled}
+            goToNextPage={handleNextPage}
+        />
+        
+        <Modal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          title={titleModal}
+          onConfirm={formik.handleSubmit}
+        >
+          <Input
+                label="Descrição"
+                type="text"
+                required
+                name="name"
+                value={formik.values.name}
+                onChange={formik.handleChange}
+            />
+            <FormError error={formik.touched.name && formik.errors.name} />
+        </Modal>
+      </>
   );
 };
 

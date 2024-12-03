@@ -1,9 +1,8 @@
 import axios from 'axios';
-
 const host = import.meta.env.API_HOST || 'http://localhost:3000';
-const token = localStorage.getItem('authToken');
 
 export const getTags = async (page = 1, limit = 5, search = '') => {
+  const token = localStorage.getItem('authToken');
     try {
       const response = await axios.get(`${host}/tag`,{
           headers: {
@@ -25,12 +24,7 @@ export const getTags = async (page = 1, limit = 5, search = '') => {
 
 export const createTag = async (tagData) => {
   try {
-    if (!token) {
-      throw new Error(
-        'Token de autenticação não encontrado. Usuário não está logado.'
-      );
-    }
-
+    const token = localStorage.getItem('authToken');
     const headers = {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json', 
