@@ -1,5 +1,7 @@
 import axios from 'axios';
-const host = import.meta.env.API_HOST || 'http://localhost:3000';
+import dotenv from 'dotenv'
+
+const host = dotenv.config().parsed.API_HOST || 'http://localhost:3000';
 
 export const getTags = async (page = 1, limit = 5, search = '') => {
   const token = localStorage.getItem('authToken');
