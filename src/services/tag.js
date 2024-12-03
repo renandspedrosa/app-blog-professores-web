@@ -23,6 +23,31 @@ export const getTags = async (page = 1, limit = 5, search = '') => {
     }
 }
 
+export const createTag = async (tagData) => {
+  try {
+    if (!token) {
+      throw new Error(
+        'Token de autenticação não encontrado. Usuário não está logado.'
+      );
+    }
+
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json', 
+    };
+
+    const response = await axios.post(`${host}/tag`, tagData, { headers });
+
+    return response.data;
+  } catch (error) {
+    console.error(
+      'Erro ao criar tag:',
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
+
 export const deleteTag = async (id) => {
   try {
     const token = localStorage.getItem('authToken');
