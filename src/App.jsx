@@ -4,12 +4,14 @@ import Login from '@/pages/Login';
 import CreateAccount from '@/pages/CreateAccount';
 import Administrator from '@/pages/Administrator';
 import CreatePost from '@/pages/CreatePost';
+import NotFound from '@/pages/NotFound';
+import Tag from '@/pages/Tag';
 import Navbar from '@/components/Navbar';
 import { AuthProvider, AuthConsumer } from '@/context/AuthContext';
 import { NavigationProvider, NavigationConsumer } from '@/context/NavigationContext';
 import { Slide, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import PostDetails from './pages/PostDetails';
+import PostDetails from '@/pages/PostDetails';
 
 // ADICIONE ROTAS E COMPONENTES DE PÁGINA AQUI
 const routeComponents = {
@@ -19,6 +21,7 @@ const routeComponents = {
   '/create-post': CreatePost,
   '/administrador': Administrator,
   '/posts/:id': PostDetails,
+  '/categorias': Tag,
   //'/profile': Profile,
   //'/settings': Settings,
 };
@@ -57,6 +60,8 @@ const App = () => {
                               <Route key={navItem.href} path={navItem.href} element={Component ? <Component /> : null} />
                             );
                           })}
+                          {/* Rota "catch-all" */}
+                          <Route path="*" element={<NotFound />} />
                         </Routes>
                       );
                     }}
