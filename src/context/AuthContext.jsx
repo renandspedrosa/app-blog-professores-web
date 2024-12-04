@@ -36,15 +36,16 @@ export const AuthProvider = ({ children }) => {
     handleUserType(token);
   };
 
-  const logout = useCallback(
-    (redirectTo = '/') => {
+  const logout = useCallback(() => {
     localStorage.removeItem('authToken');
     localStorage.removeItem('user');
     setIsAuthenticated(false);
     setUser(null);
     setIsTeacher(false);
     setIsStudent(false);
-    navigate(redirectTo);
+    setTimeout(() => {
+      navigate('/');
+    }, 0);
   }, [navigate]);
 
   const isTokenExpired = useCallback((token) => {
@@ -61,7 +62,7 @@ export const AuthProvider = ({ children }) => {
   const handleTokenExpiration = useCallback(() => {
     const token = localStorage.getItem('authToken');
     if (token && isTokenExpired(token)) {
-      logout('/login');
+      logout();
       toast.info('Sua sessão expirou, faça login novamente.');
     }
   }, [isTokenExpired, logout]);
