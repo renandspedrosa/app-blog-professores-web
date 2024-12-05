@@ -12,7 +12,7 @@ export const NavigationProvider = ({ children }) => {
   //precisa de login para acessar
   const authenticatedNavigation = [
     //menus para o professor autenticado, teacher: true
-    { name: 'Criar Postagens', href: '/create-post', show: true, teacher: false },
+    { name: 'Criar Postagens', href: '/create-post', show: true, teacher: true },
     { name: 'Administrar Postagens', href: '/administrador', show: true, teacher: true },
     { name: 'Categorias', href: '/categorias', show: true, teacher: true },
 
