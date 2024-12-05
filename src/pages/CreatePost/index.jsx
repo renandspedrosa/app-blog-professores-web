@@ -41,7 +41,7 @@ const CreatePost = () => {
                             error={formik.touched.title && formik.errors.title}
                         />
 
-                        <FormError error={formik.touched.title && formik.errors.title} />
+                        <FormError error={formik.touched.title && formik.errors.title}/>
                     </div>
                 </div>
 
@@ -59,24 +59,24 @@ const CreatePost = () => {
                             error={formik.touched.content && formik.errors.content}
                         />
 
-                        <FormError error={formik.touched.content && formik.errors.content} />
+                        <FormError error={formik.touched.content && formik.errors.content}/>
                     </div>
                 </div>
 
-                {/* Campo Anexo */}
-                <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                    <div className="sm:col-span-6">
-                        <Input
-                            label="Anexo"
-                            type="file"
-                            name="attachment"
-                            onChange={(e) => formik.setFieldValue('attachment', e.target.files[0])}
-                            onBlur={formik.handleBlur}
-                        />
-
-                        <FormError error={formik.touched.attachment && formik.errors.attachment} />
+                    {/* Campo Anexo */}
+                    <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                        <div className="sm:col-span-6">
+                            <Input
+                                label="Anexo"
+                                type="file"
+                                name="attachment"
+                                accept="image/*"
+                                onChange={(e) => formik.setFieldValue('attachment', e.target.files[0])}
+                                onBlur={formik.handleBlur}
+                            />
+                            <FormError error={formik.touched.attachment && formik.errors.attachment} />
+                        </div>
                     </div>
-                </div>
             </div>
 
             <div className="mt-6 flex items-center justify-end gap-x-6">
