@@ -1,5 +1,10 @@
 const PostImage = ({ image, title }) => {
-  if (!image) return null
+  const host = import.meta.env.VITE_API_HOST || 'http://localhost:3000';
+  if (!image){
+    return null
+  }else{
+    image = host+ '/' + image
+  }
   return (
     <img
       className='lg:h-48 md:h-36 w-full object-cover object-center flex-shrink-0'

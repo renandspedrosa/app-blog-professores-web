@@ -30,40 +30,40 @@ export const getPostById = async (id) => {
   }
 }
 
-export const createPost = async (postData) => {
+export const createPost = async (formData) => {
   try {
-    // Verifica se o token existe
+    const token = localStorage.getItem('authToken');
     if (!token) {
-      throw new Error(
-        'Token de autenticação não encontrado. Usuário não está logado.',
-      )
+      throw new Error('Token de autenticação não encontrado. Usuário não está logado.');
+    }
+
+    if (formData && formData.entries) {
+      for (let [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
+      }
+    } else {
+      console.warn('FormData não está no formato esperado.');
     }
 
     const headers = {
       Authorization: `Bearer ${token}`,
     };
 
-    let payload = postData;
+    const response = await axios.post(`${host}/posts`, formData, { headers });
 
-    if (!(postData instanceof FormData)) {
-      headers['Content-Type'] = 'application/json';
-      payload = {
-        title: postData.title,
-        content: postData.content,
-      };
-    }
+    console.log('Resposta do servidor:', response.data);
 
-    const response = await axios.post(`${host}/posts`, payload, { headers });
+    return response.data;
 
-    return response.data
   } catch (error) {
-    console.error(
-      'Erro ao criar post:',
-      error.response ? error.response.data : error.message,
-    )
-    throw error
+    if (error.response) {
+      console.error('Erro do servidor ao criar o post:', error.response.data);
+    } else {
+      console.error('Erro inesperado:', error.message);
+    }
+    throw error;
   }
-}
+};
 
 //TODO: Desenvolver método postviewed para quando clicar e navegar marcar como visto
 
