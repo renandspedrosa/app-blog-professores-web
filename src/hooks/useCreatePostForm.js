@@ -29,36 +29,35 @@ const useCreatePostForm = () => {
     };
 
     const handleCreatePost = async (values) => {
-        console.log('Valores recebidos pelo Formik:', values);
+            try {
+            setLoading(true);  // Ativa o carregamento
 
-        try {
-            setLoading(true);
+            // Cria uma instância de FormData
+            const formData = new FormData();
+            formData.append('title', values.title);  // Adiciona o título
+            formData.append('content', values.content);  // Adiciona o conteúdo
+            formData.append('teacher_id', 156);  // Adiciona o conteúdo
 
-            // // Cria uma instância de FormData
-            // const formData = new FormData();
-            // formData.append('title', values.title);
-            // formData.append('content', values.content);
-            //
-            // // Se houver um arquivo de anexo, adicione ao FormData
-            // if (values.attachment) {
-            //     formData.append('attachment', values.attachment);
-            // }
-            //
-            // // Log do FormData para debug
-            // for (const [key, value] of formData.entries()) {
-            //     console.log(`${key}:`, value);
-            // }
+            if (values.attachment) {
+                formData.append('attachment', values.attachment);  // Adiciona o arquivo
+            } else {
 
-            await createPost(values);
+            }
 
-            setLoading(false);
-            navigate('/', { replace: true });
-            toast.success('Post criado com sucesso!');
+
+            await createPost(formData);
+
+            setLoading(false);  // Desativa o carregamento
+            navigate('/', { replace: true });  // Redireciona para a página inicial
+            toast.success('Post criado com sucesso!');  // Exibe uma mensagem de sucesso
+
         } catch (error) {
-            setLoading(false);
-            errorsMessage(error, toast);
+            setLoading(false);  // Desativa o carregamento em caso de erro
+            errorsMessage(error, toast);  // Exibe a mensagem de erro
         }
     };
+
+
 
     return {
         loading,
