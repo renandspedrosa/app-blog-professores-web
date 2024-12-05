@@ -14,6 +14,7 @@ export const NavigationProvider = ({ children }) => {
     //menus para o professor autenticado, teacher: true
     { name: 'Criar Postagens', href: '/create-post', show: true, teacher: false },
     { name: 'Administrar Postagens', href: '/administrador', show: true, teacher: true },
+    { name: 'Categorias', href: '/categorias', show: true, teacher: true },
 
     //menus para usuário logado
     { name: 'Perfil', href: '/profile', user: true },
