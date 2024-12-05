@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import useCreatePostForm from '@/hooks/useCreatePostForm';
 import schema from '@/pages/CreatePost/schema';
 import useTags from '@/hooks/useTagList';
+
 import Select from 'react-select';
 
 const CreatePost = () => {
@@ -41,7 +42,7 @@ const CreatePost = () => {
             <div className="border-b border-gray-900/7 pb-12">
                 {/* Campo Título */}
                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                    <div className="sm:col-span-3">
+                    <div className="sm:col-span-6">
                         <Input
                             label="Título"
                             type="text"
@@ -59,15 +60,18 @@ const CreatePost = () => {
                 {/* Campo Conteúdo */}
                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                     <div className="sm:col-span-6">
-                        <Input
-                            label="Conteúdo"
-                            type="textarea"
-                            required
+                        <label htmlFor="content" className="block text-sm font-medium text-gray-900">
+                            Conteúdo
+                        </label>
+                        <textarea
+                            id="content"
                             name="content"
+                            rows="4"
+                            required
+                            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
                             value={formik.values.content}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            error={formik.touched.content && formik.errors.content}
                         />
                         <FormError error={formik.touched.content && formik.errors.content} />
                     </div>
@@ -124,6 +128,8 @@ const CreatePost = () => {
                 </Button>
             </div>
         </Form>
+
+
     );
 };
 
