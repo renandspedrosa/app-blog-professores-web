@@ -1,8 +1,8 @@
-import api from '@/config/axios';
-import axios from 'axios';
+import api from '@/config/axios'
+import axios from 'axios'
 
-const host = import.meta.env.API_HOST || 'http://localhost:3000';
-const token = localStorage.getItem('authToken');
+const host = import.meta.env.API_HOST || 'http://localhost:3000'
+const token = localStorage.getItem('authToken')
 
 export const getPosts = async (page = 1, limit = 5, search = '') => {
   try {
@@ -22,8 +22,8 @@ export const getPosts = async (page = 1, limit = 5, search = '') => {
 
 export const getPostById = async (id) => {
   try {
-    const response = await axios.get(`${host}/posts/${id}`);
-    return response.data;
+    const response = await axios.get(`${host}/posts/${id}`)
+    return response.data
   } catch (error) {
     console.error(`Erro ao obter o post com id ${id}:`, error)
     throw error
@@ -41,19 +41,19 @@ export const createPost = async (postData) => {
 
     const headers = {
       Authorization: `Bearer ${token}`,
-    };
+    }
 
-    let payload = postData;
+    let payload = postData
 
     if (!(postData instanceof FormData)) {
-      headers['Content-Type'] = 'application/json';
+      headers['Content-Type'] = 'application/json'
       payload = {
         title: postData.title,
         content: postData.content,
-      };
+      }
     }
 
-    const response = await axios.post(`${host}/posts`, payload, { headers });
+    const response = await axios.post(`${host}/posts`, payload, { headers })
 
     return response.data
   } catch (error) {
@@ -76,7 +76,6 @@ export const postViewed = async (id) => {
   }
 }
 
-
 export const updatePost = async (id, postData) => {
   try {
     const response = await axios.put(`${host}/posts/${id}`, postData, {
@@ -94,7 +93,7 @@ export const updatePost = async (id, postData) => {
 
 export const deletePost = async (id) => {
   try {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('authToken')
     await axios.delete(`${host}/posts/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,

@@ -3,64 +3,13 @@ import { useLocation } from 'react-router-dom'
 import { Eye, MessageCircle } from 'lucide-react'
 import { useState } from 'react'
 import { NoComment, Comment } from '../../components/Comment'
-
-const comments = [
-  {
-    user: 'João',
-    content: 'Ótimo post!',
-  },
-  {
-    user: 'Maria',
-    content: 'Adorei o conteúdo!',
-  },
-  {
-    user: 'Ana',
-    content: 'Muito bom!',
-  },
-  {
-    user: 'João',
-    content: 'Ótimo post!',
-  },
-  {
-    user: 'Maria',
-    content: 'Adorei o conteúdo!',
-  },
-  {
-    user: 'Ana',
-    content: 'Muito bom!',
-  },
-  {
-    user: 'João',
-    content: 'Ótimo post!',
-  },
-  {
-    user: 'Maria',
-    content: 'Adorei o conteúdo!',
-  },
-  {
-    user: 'Ana',
-    content: 'Muito bom!',
-  },
-  {
-    user: 'João',
-    content: 'Ótimo post!',
-  },
-  {
-    user: 'Maria',
-    content: 'Adorei o conteúdo!',
-  },
-  {
-    user: 'Ana',
-    content: 'Muito bom!',
-  },
-]
-
-// const comments = []
+import usePostComments from '../../hooks/usePostComments'
 
 const PostDetails = () => {
   const location = useLocation()
-  const { post } = location.state
+  const { post } = location.state || {}
   const [hoveredTag, setHoveredTag] = useState(null)
+  const { comments, loading, error } = usePostComments(post?.id)
 
   if (!post) {
     return <div>Post não encontrado</div>
@@ -85,6 +34,8 @@ const PostDetails = () => {
   const handleMouseLeave = () => {
     setHoveredTag(null)
   }
+
+  console.log('Comments:', comments)
 
   return (
     <>
@@ -194,7 +145,7 @@ const PostDetails = () => {
               </h2>
             </div>
             <div
-              className='overflow-auto [&::-webkit-scrollbar]:w-2
+              className='flex-1 overflow-auto [&::-webkit-scrollbar]:w-2
   [&::-webkit-scrollbar-track]:rounded-full
   [&::-webkit-scrollbar-track]:bg-gray-100
   [&::-webkit-scrollbar-thumb]:rounded-full
@@ -202,7 +153,11 @@ const PostDetails = () => {
   dark:[&::-webkit-scrollbar-track]:bg-gray-50
   dark:[&::-webkit-scrollbar-thumb]:bg-gray-400'
             >
-              {comments.length === 0 ? (
+              {loading ? (
+                <div>Carregando...</div>
+              ) : error ? (
+                <div>Erro ao carregar comentários</div>
+              ) : comments.length === 0 ? (
                 <NoComment />
               ) : (
                 comments.map((comment, index) => (

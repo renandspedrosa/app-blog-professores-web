@@ -32,6 +32,11 @@ export const NavigationProvider = ({ children }) => {
 
     // menu para student logado
     { name: 'Detalhes da Postagem', href: '/posts/:id', user: true },
+    {
+      name: 'Comentários da postagem',
+      href: '/posts/:id/comments',
+      user: true,
+    },
   ]
 
   return (
