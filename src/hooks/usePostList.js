@@ -45,7 +45,7 @@ const usePosts = (initialPage = 1, postsPerPage = 6) => {
     handleNextPage,
     handlePrevPage,
     handleSearchPosts,
-    isNextDisabled: Math.ceil(posts.length / postsPerPage) < currentPage,
+    isNextDisabled: posts.length < postsPerPage,
     isPrevDisabled: currentPage === 1,
   }
 }
