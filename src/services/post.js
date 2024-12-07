@@ -1,7 +1,7 @@
 import api from '@/config/axios'
 import axios from 'axios'
 
-const host = import.meta.env.API_HOST || 'http://localhost:3000'
+const host = import.meta.env.VITE_API_HOST || 'http://localhost:3000'
 const token = localStorage.getItem('authToken')
 
 export const getPosts = async (page = 1, limit = 5, search = '') => {
@@ -30,37 +30,38 @@ export const getPostById = async (id) => {
   }
 }
 
-export const createPost = async (postData) => {
+export const createPost = async (formData) => {
   try {
-    // Verifica se o token existe
+    const token = localStorage.getItem('authToken')
     if (!token) {
       throw new Error(
         'Token de autenticação não encontrado. Usuário não está logado.',
       )
     }
 
+    if (formData && formData.entries) {
+      for (let [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`)
+      }
+    } else {
+      console.warn('FormData não está no formato esperado.')
+    }
+
     const headers = {
       Authorization: `Bearer ${token}`,
     }
 
-    let payload = postData
+    const response = await axios.post(`${host}/posts`, formData, { headers })
 
-    if (!(postData instanceof FormData)) {
-      headers['Content-Type'] = 'application/json'
-      payload = {
-        title: postData.title,
-        content: postData.content,
-      }
-    }
-
-    const response = await axios.post(`${host}/posts`, payload, { headers })
+    console.log('Resposta do servidor:', response.data)
 
     return response.data
   } catch (error) {
-    console.error(
-      'Erro ao criar post:',
-      error.response ? error.response.data : error.message,
-    )
+    if (error.response) {
+      console.error('Erro do servidor ao criar o post:', error.response.data)
+    } else {
+      console.error('Erro inesperado:', error.message)
+    }
     throw error
   }
 }

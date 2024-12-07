@@ -24,6 +24,7 @@ export const NavigationProvider = ({ children }) => {
       show: true,
       teacher: true,
     },
+    { name: 'Categorias', href: '/categorias', show: true, teacher: true },
 
     //menus para usuário logado
     { name: 'Perfil', href: '/profile', user: true },
