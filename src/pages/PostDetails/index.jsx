@@ -4,6 +4,7 @@ import { Eye, MessageCircle } from 'lucide-react'
 import { useState } from 'react'
 import { NoComment, Comment } from '../../components/Comment'
 import usePostComments from '../../hooks/usePostComments'
+import Button from '../../components/Form/Button'
 
 const PostDetails = () => {
   const location = useLocation()
@@ -34,8 +35,6 @@ const PostDetails = () => {
   const handleMouseLeave = () => {
     setHoveredTag(null)
   }
-
-  console.log('Comments:', comments)
 
   return (
     <>
@@ -86,13 +85,13 @@ const PostDetails = () => {
             {hasImage ? (
               <>
                 <img
-                  className='md:h-36 relative w-full object-cover object-center flex-shrink-0 flex-1'
+                  className='md:h-36 relative w-full object-cover object-center flex-shrink-0 flex-1 rounded-lg rounded-t-lg'
                   src={image}
                   alt={title}
                   style={{ maxHeight: '33%' }}
                 />
                 <p
-                  className='leading-relaxed mb-3 flex-grow overflow-auto [&::-webkit-scrollbar]:w-2
+                  className='leading-relaxed mt-2 pt-6 mb-3 flex-grow overflow-auto [&::-webkit-scrollbar]:w-2
   [&::-webkit-scrollbar-track]:rounded-full
   [&::-webkit-scrollbar-track]:bg-gray-100
   [&::-webkit-scrollbar-thumb]:rounded-full
@@ -138,12 +137,28 @@ const PostDetails = () => {
               </div>
             </div>
           </div>
-          <div className='flex flex-col p-6 h-1/2 lg:h-full lg:w-1/3 justify-between'>
-            <div>
-              <h2 className='ml-2 title-font text-lg font-medium text-gray-900 mb-3'>
-                Comentários
-              </h2>
-            </div>
+          <div className=' flex flex-col p-6 h-1/2 lg:h-full lg:w-1/3 justify-between'>
+            <h2 className='ml-2 title-font text-lg font-medium text-gray-900 mb-3'>
+              Comentários
+            </h2>
+            <section className='bg-blue-50 p-4 m-4 rounded-lg rounded-t-lg border border-gray-200'>
+              {/* <div className='flex justify-between items-center m-2'></div> */}
+              <form className='mb-2'>
+                <div className='py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 '>
+                  <label htmlFor='comment' className='sr-only'>
+                    Seu comentário
+                  </label>
+                  <textarea
+                    id='comment'
+                    rows='6'
+                    className='px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none '
+                    placeholder='Deixe seu comentário...'
+                    required
+                  ></textarea>
+                </div>
+                <Button>Comentar</Button>
+              </form>
+            </section>
             <div
               className='flex-1 overflow-auto [&::-webkit-scrollbar]:w-2
   [&::-webkit-scrollbar-track]:rounded-full
