@@ -100,7 +100,10 @@ const PostDetails = () => {
         h-full 
         w-full
        flex-col
+       divide-y-2
        lg:flex-row
+       lg:divide-x-2
+       lg:divide-y-0
        '
         >
           <div className='h-full lg:w-2/3 p-6 overflow-auto flex flex-col justify-between'>
