@@ -16,3 +16,22 @@ export const getPostComments = async (id) => {
     throw error
   }
 }
+
+export const createComment = async (postId, content) => {
+  try {
+    const response = await axios.post(
+      `${host}/comments/${postId}`,
+      { content },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      },
+    )
+    return { data: response.data }
+  } catch (error) {
+    console.error(`Erro ao criar comentário no post com id ${postId}:`, error)
+    throw error
+  }
+}
