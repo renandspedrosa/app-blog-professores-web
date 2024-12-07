@@ -88,10 +88,11 @@ const PostDetails = () => {
 
   return (
     <>
-      <div className={`bg-black flex`} style={{ height: '80vh' }}>
+      <div className={`flex`} style={{ height: '80vh' }}>
         <div
           className='
-        bg-orange-700 border-2 
+          bg-white
+          border-2 
         border-gray-200 
         border-opacity-60 
         rounded-lg 
@@ -100,10 +101,9 @@ const PostDetails = () => {
         w-full
        flex-col
        lg:flex-row
-
-        '
+       '
         >
-          <div className='bg-pink-700 h-full lg:w-2/3 p-6 overflow-auto flex flex-col justify-between'>
+          <div className='h-full lg:w-2/3 p-6 overflow-auto flex flex-col justify-between'>
             <div className='flex flex-row justify-between'>
               <div className='mb-3'>
                 <h1 className='title-font text-lg font-medium text-gray-900'>
@@ -137,13 +137,29 @@ const PostDetails = () => {
                   alt={title}
                   style={{ maxHeight: '33%' }}
                 />
-                <p className='leading-relaxed mb-3 flex-grow overflow-auto'>
+                <p
+                  className='leading-relaxed mb-3 flex-grow overflow-auto [&::-webkit-scrollbar]:w-2
+  [&::-webkit-scrollbar-track]:rounded-full
+  [&::-webkit-scrollbar-track]:bg-gray-100
+  [&::-webkit-scrollbar-thumb]:rounded-full
+  [&::-webkit-scrollbar-thumb]:bg-gray-300
+  dark:[&::-webkit-scrollbar-track]:bg-gray-50
+  dark:[&::-webkit-scrollbar-thumb]:bg-gray-400'
+                >
                   {content}
                 </p>
               </>
             ) : (
               <>
-                <p className='leading-relaxed mb-3 flex-grow overflow-auto'>
+                <p
+                  className='leading-relaxed mb-3 flex-grow overflow-auto [&::-webkit-scrollbar]:w-2
+  [&::-webkit-scrollbar-track]:rounded-full
+  [&::-webkit-scrollbar-track]:bg-gray-100
+  [&::-webkit-scrollbar-thumb]:rounded-full
+  [&::-webkit-scrollbar-thumb]:bg-gray-300
+  dark:[&::-webkit-scrollbar-track]:bg-gray-50
+  dark:[&::-webkit-scrollbar-thumb]:bg-gray-400'
+                >
                   {content}
                 </p>
               </>
@@ -168,15 +184,29 @@ const PostDetails = () => {
               </div>
             </div>
           </div>
-          <div className='bg-green-700 h-1/2 lg:h-full lg:w-1/3 p-6 overflow-auto'>
-            <h2 className='text-xl font-bold mb-4'>Comentários</h2>
-            {comments.length === 0 ? (
-              <NoComment />
-            ) : (
-              comments.map((comment, index) => (
-                <Comment comment={comment} key={index} />
-              ))
-            )}
+          <div className='flex flex-col p-6 h-1/2 lg:h-full lg:w-1/3 justify-between'>
+            <div>
+              <h2 className='ml-2 title-font text-lg font-medium text-gray-900 mb-3'>
+                Comentários
+              </h2>
+            </div>
+            <div
+              className='overflow-auto [&::-webkit-scrollbar]:w-2
+  [&::-webkit-scrollbar-track]:rounded-full
+  [&::-webkit-scrollbar-track]:bg-gray-100
+  [&::-webkit-scrollbar-thumb]:rounded-full
+  [&::-webkit-scrollbar-thumb]:bg-gray-300
+  dark:[&::-webkit-scrollbar-track]:bg-gray-50
+  dark:[&::-webkit-scrollbar-thumb]:bg-gray-400'
+            >
+              {comments.length === 0 ? (
+                <NoComment />
+              ) : (
+                comments.map((comment, index) => (
+                  <Comment comment={comment} key={index} />
+                ))
+              )}
+            </div>
           </div>
         </div>
       </div>
