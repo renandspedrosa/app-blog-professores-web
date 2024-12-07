@@ -132,10 +132,10 @@ const PostDetails = () => {
             {hasImage ? (
               <>
                 <img
-                  className='lg:h-48 md:h-36 w-full object-cover object-center flex-shrink-0 flex-1'
+                  className='md:h-36 relative w-full object-cover object-center flex-shrink-0 flex-1'
                   src={image}
                   alt={title}
-                  style={{ maxHeight: '300px' }}
+                  style={{ maxHeight: '33%' }}
                 />
                 <p className='leading-relaxed mb-3 flex-grow overflow-auto'>
                   {content}
