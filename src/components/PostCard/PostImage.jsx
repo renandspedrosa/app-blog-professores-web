@@ -7,7 +7,7 @@ const PostImage = ({ image, title }) => {
   }
   return (
     <img
-      className='lg:h-48 md:h-36 w-full object-cover object-center flex-1 flex-shrink-0'
+      className='lg:h-48 md:h-36 w-full object-cover object-center flex-1 flex-shrink-0 rounded-t-lg'
       src={image}
       alt={title}
       style={{ maxHeight: '300px' }}
