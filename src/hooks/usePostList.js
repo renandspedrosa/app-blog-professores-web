@@ -7,13 +7,24 @@ const usePosts = (initialPage = 1, postsPerPage = 6) => {
   const [error, setError] = useState(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [currentPage, setCurrentPage] = useState(initialPage)
+  const [hasMorePosts, setHasMorePosts] = useState(false)
 
   const handleSearchPosts = async () => {
     try {
       setLoading(true)
       const search = searchTerm || ''
       const { data } = await getPosts(currentPage, postsPerPage, search)
+
       setPosts(data)
+
+      const nextPage = currentPage + 1
+      const { data: nextPageData } = await getPosts(
+        nextPage,
+        postsPerPage,
+        search,
+      )
+
+      setHasMorePosts(nextPageData.length > 0)
     } catch (error) {
       console.error('Erro ao buscar posts:', error)
       setError('Ocorreu um erro ao carregar os posts.')
@@ -28,7 +39,9 @@ const usePosts = (initialPage = 1, postsPerPage = 6) => {
   }, [currentPage])
 
   const handleNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1)
+    if (hasMorePosts) {
+      setCurrentPage((prevPage) => prevPage + 1)
+    }
   }
 
   const handlePrevPage = () => {
@@ -45,7 +58,7 @@ const usePosts = (initialPage = 1, postsPerPage = 6) => {
     handleNextPage,
     handlePrevPage,
     handleSearchPosts,
-    isNextDisabled: posts.length < postsPerPage,
+    isNextDisabled: !hasMorePosts,
     isPrevDisabled: currentPage === 1,
   }
 }
