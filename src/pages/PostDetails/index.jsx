@@ -110,7 +110,7 @@ const PostDetails = () => {
                   style={{ maxHeight: '33%' }}
                 />
                 <p
-                  className='leading-relaxed mt-2 pt-6 mb-3 flex-grow overflow-auto [&::-webkit-scrollbar]:w-2
+                  className='leading-relaxed mt-2 pt-6 mb-3 flex-grow break-words overflow-auto [&::-webkit-scrollbar]:w-2
   [&::-webkit-scrollbar-track]:rounded-full
   [&::-webkit-scrollbar-track]:bg-gray-100
   [&::-webkit-scrollbar-thumb]:rounded-full
@@ -124,7 +124,7 @@ const PostDetails = () => {
             ) : (
               <>
                 <p
-                  className='leading-relaxed mb-3 flex-grow overflow-auto [&::-webkit-scrollbar]:w-2
+                  className='leading-relaxed mb-3 flex-grow break-words overflow-auto [&::-webkit-scrollbar]:w-2
   [&::-webkit-scrollbar-track]:rounded-full
   [&::-webkit-scrollbar-track]:bg-gray-100
   [&::-webkit-scrollbar-thumb]:rounded-full
