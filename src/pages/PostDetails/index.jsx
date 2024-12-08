@@ -57,7 +57,7 @@ const PostDetails = () => {
 
   return (
     <>
-      <div className={`flex`} style={{ height: '80vh' }}>
+      <div className={`flex`}>
         <div
           className='
           bg-white
@@ -156,43 +156,41 @@ const PostDetails = () => {
               </div>
             </div>
           </div>
-          <div className='flex flex-col p-6 h-1/2 lg:h-full lg:w-1/3 justify-between'>
-            <h2 className='ml-2 title-font text-lg font-medium text-gray-900 mb-3 flex-1/5'>
+          <div className='flex flex-grow flex-col p-6 lg:w-1/3'>
+            <h2 className='ml-2 title-font text-lg font-medium text-gray-900 mb-3'>
               Comentários
             </h2>
-            <section className='bg-blue-50 p-4 m-4 rounded-lg rounded-t-lg border border-gray-200 flex-2/5'>
-              <form className='mb-2' onSubmit={handleSubmit}>
-                <div className='py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200'>
-                  <label htmlFor='comment' className='sr-only'>
-                    Seu comentário
-                  </label>
-                  <textarea
-                    id='comment'
-                    rows='6'
-                    className='px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none'
-                    placeholder='Deixe seu comentário...'
-                    value={newComment}
-                    onChange={(e) => setNewComment(e.target.value)}
-                    required
-                  ></textarea>
-                </div>
-                <div className='flex justify-end'>
-                  <Button type='submit' disabled={creating}>
-                    {creating ? 'Enviando...' : 'Comentar'}
-                  </Button>
-                </div>
-                {createError && (
-                  <p className='text-red-500 mt-2'>{createError.message}</p>
-                )}
-                {success && (
-                  <p className='text-green-500 mt-2'>
-                    Comentário enviado com sucesso!
-                  </p>
-                )}
-              </form>
-            </section>
+            <form className='mb-2 p-4' onSubmit={handleSubmit}>
+              <div className='py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200'>
+                <label htmlFor='comment' className='sr-only'>
+                  Seu comentário
+                </label>
+                <textarea
+                  id='comment'
+                  rows='6'
+                  className='px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none min-h-1/2'
+                  placeholder='Deixe seu comentário...'
+                  value={newComment}
+                  onChange={(e) => setNewComment(e.target.value)}
+                  required
+                ></textarea>
+              </div>
+              <div className='flex justify-end'>
+                <Button type='submit' disabled={creating}>
+                  {creating ? 'Enviando...' : 'Comentar'}
+                </Button>
+              </div>
+              {createError && (
+                <p className='text-red-500 mt-2'>{createError.message}</p>
+              )}
+              {success && (
+                <p className='text-green-500 mt-2'>
+                  Comentário enviado com sucesso!
+                </p>
+              )}
+            </form>
             <div
-              className='flex-2/5 overflow-auto [&::-webkit-scrollbar]:w-2
+              className='overflow-auto [&::-webkit-scrollbar]:w-2
   [&::-webkit-scrollbar-track]:rounded-full
   [&::-webkit-scrollbar-track]:bg-gray-100
   [&::-webkit-scrollbar-thumb]:rounded-full
