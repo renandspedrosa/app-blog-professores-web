@@ -18,6 +18,7 @@ const PostDetails = () => {
     success,
   } = useCreateComment()
   const [newComment, setNewComment] = useState('')
+  const imageHost = import.meta.env.VITE_API_HOST || 'http://localhost:3000'
 
   if (loading) {
     return <Load />
@@ -36,8 +37,6 @@ const PostDetails = () => {
     tags: postDetails.tags,
   }
 
-  const hasImage = !!post.image
-
   const handleMouseEnter = (tag) => {
     setHoveredTag(tag)
     console.log(`Hovered over: ${tag.name}`)
@@ -52,6 +51,9 @@ const PostDetails = () => {
     await submitComment(post.id, newComment)
     setNewComment('')
   }
+  const hasImage = !!post.image
+
+  const image = hasImage ? imageHost + '/' + post.image : null
 
   return (
     <>
@@ -103,7 +105,7 @@ const PostDetails = () => {
               <>
                 <img
                   className='md:h-36 relative w-full object-cover object-center flex-shrink-0 flex-1 rounded-lg rounded-t-lg'
-                  src={post.image}
+                  src={image}
                   alt={post.title}
                   style={{ maxHeight: '33%' }}
                 />
