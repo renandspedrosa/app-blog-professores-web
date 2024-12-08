@@ -10,14 +10,14 @@ import { SearchBar } from '@/components/SearchBar';
 import formatDate from '@/utils/formatDate';
 
 const columns = [
-	{
-		name: 'Título',
-		selector: row => row.title,
-	},
-	{
-		name: 'Conteúdo',
-		selector: row => row.content,
-	},
+    {
+        name: 'Título',
+        selector: row => row.title.length > 50 ? `${row.title.substring(0, 20)}...` : row.title,
+    },
+    {
+        name: 'Conteúdo',
+        selector: row => row.content.length > 100 ? `${row.content.substring(0, 25)}...` : row.content,
+    },
 	{
 		name: 'Data da Postagem',
 		selector: row => formatDate(row.created_at),
