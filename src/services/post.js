@@ -2,7 +2,6 @@ import api from '@/config/axios';
 import axios from 'axios';
 
 const host = import.meta.env.VITE_API_HOST || 'http://localhost:3000';
-const token = localStorage.getItem('authToken');
 
 export const getPosts = async (page = 1, limit = 5, search = '') => {
   try {
@@ -65,11 +64,17 @@ export const createPost = async (formData) => {
   }
 };
 
-//TODO: Desenvolver método postviewed para quando clicar e navegar marcar como visto
-
 export const postViewed = async (id) => {
   try {
-    await api.put(`/posts/${id}/viewed`)
+    const token = localStorage.getItem('authToken');
+    const response = await axios.post(`${host}/posts/${id}/viewed`, [], {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+
+    return response.data;
   } catch (error) {
     console.error(`Erro ao marcar post com id ${id} como visualizado:`, error)
     throw error
