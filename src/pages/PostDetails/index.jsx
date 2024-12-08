@@ -1,16 +1,16 @@
-import { useLocation } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { Eye, MessageCircle } from 'lucide-react'
 import { useState } from 'react'
 import { NoComment, Comment } from '../../components/Comment'
-import usePostComments from '../../hooks/usePostComments'
 import useCreateComment from '../../hooks/useCreateComment'
 import Button from '../../components/Form/Button'
+import usePostDetails from '../../hooks/usePostDetails'
+import Load from '@/components/Load'
 
 const PostDetails = () => {
-  const location = useLocation()
-  const { post } = location.state || {}
+  const { id: postId } = useParams()
+  const { postDetails, loading, error } = usePostDetails(postId)
   const [hoveredTag, setHoveredTag] = useState(null)
-  const { comments, loading, error } = usePostComments(post?.id)
   const {
     submitComment,
     loading: creating,
@@ -19,20 +19,24 @@ const PostDetails = () => {
   } = useCreateComment()
   const [newComment, setNewComment] = useState('')
 
-  if (!post) {
-    return <div>Post não encontrado</div>
+  if (loading) {
+    return <Load />
   }
 
-  const {
-    path_img: image,
-    title,
-    tags,
-    content,
-    teacher: {
-      user: { name: teacherName },
-    },
-  } = post
-  const hasImage = !!image
+  if (error) {
+    return <p>{error}</p>
+  }
+
+  const post = {
+    id: postDetails.id,
+    title: postDetails.title,
+    teacherName: postDetails.teacher.user.name,
+    content: postDetails.content,
+    image: postDetails.path_img,
+    tags: postDetails.tags,
+  }
+
+  const hasImage = !!post.image
 
   const handleMouseEnter = (tag) => {
     setHoveredTag(tag)
@@ -73,10 +77,10 @@ const PostDetails = () => {
             <div className='flex flex-row justify-between'>
               <div className='mb-3'>
                 <h1 className='title-font text-lg font-medium text-gray-900'>
-                  {title}
+                  {post.title}
                 </h1>
                 <h2 className='tracking-widest text-xs text-transform: capitalize title-font font-small text-gray-400 mb-1'>
-                  {teacherName}
+                  {post.teacherName}
                 </h2>
               </div>
               <div className='flex items-center'>
@@ -99,8 +103,8 @@ const PostDetails = () => {
               <>
                 <img
                   className='md:h-36 relative w-full object-cover object-center flex-shrink-0 flex-1 rounded-lg rounded-t-lg'
-                  src={image}
-                  alt={title}
+                  src={post.image}
+                  alt={post.title}
                   style={{ maxHeight: '33%' }}
                 />
                 <p
@@ -112,7 +116,7 @@ const PostDetails = () => {
   dark:[&::-webkit-scrollbar-track]:bg-gray-50
   dark:[&::-webkit-scrollbar-thumb]:bg-gray-400'
                 >
-                  {content}
+                  {post.content}
                 </p>
               </>
             ) : (
@@ -126,14 +130,14 @@ const PostDetails = () => {
   dark:[&::-webkit-scrollbar-track]:bg-gray-50
   dark:[&::-webkit-scrollbar-thumb]:bg-gray-400'
                 >
-                  {content}
+                  {post.content}
                 </p>
               </>
             )}
 
             <div>
               <div className='w-full flex flex-wrap gap-2 mb-1'>
-                {tags.map((tag) => (
+                {post.tags.map((tag) => (
                   <span
                     key={tag.name}
                     className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset cursor-pointer ${
@@ -198,10 +202,10 @@ const PostDetails = () => {
                 <div>Carregando...</div>
               ) : error ? (
                 <div>Erro ao carregar comentários</div>
-              ) : comments.length === 0 ? (
+              ) : postDetails.comments.length === 0 ? (
                 <NoComment />
               ) : (
-                comments.map((comment, index) => (
+                postDetails.comments.map((comment, index) => (
                   <Comment comment={comment} key={index} />
                 ))
               )}
