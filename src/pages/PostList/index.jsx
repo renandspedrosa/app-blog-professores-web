@@ -41,7 +41,7 @@ const PostList = () => {
         setSearchTerm={setSearchTerm}
         onSearch={handleSearchPosts}
       />
-      <div className='container px-5 py-24 mx-auto'>
+      <div className='container px-5 py-8 mx-auto'>
         <div className='flex flex-wrap -m-4'>
           {posts.map((post) => (
             <PostCard
