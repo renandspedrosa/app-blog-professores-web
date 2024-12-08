@@ -6,6 +6,8 @@ import { ButtonEditar, ButtonExcluir }from '@/components/Buttons';
 import checkPermission from '@/utils/checkPermission';
 import Confirm from '@/components/Confirm';
 import useDeletePost from '@/hooks/useDeletePost';
+import { SearchBar } from '@/components/SearchBar';
+import formatDate from '@/utils/formatDate';
 
 const columns = [
 	{
@@ -15,6 +17,14 @@ const columns = [
 	{
 		name: 'Conteúdo',
 		selector: row => row.content,
+	},
+	{
+		name: 'Data da Postagem',
+		selector: row => formatDate(row.created_at),
+	},
+	{
+		name: 'Autor',
+		selector: row => row.teacher.user.name,
 	},
 	{
 		name: '',
@@ -40,6 +50,8 @@ const Administrator = () => {
     isNextDisabled,
     isPrevDisabled,
     handleSearchPosts,
+    searchTerm,
+    setSearchTerm,
     } = usePosts();
 
     const { loading: deleteLoading, handleDeletePost } = useDeletePost();
@@ -72,6 +84,11 @@ const Administrator = () => {
 
     return (
         <>
+            <SearchBar
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+                onSearch={handleSearchPosts}
+            />
             <DataTable
                 columns={columns}
                 data={posts}
