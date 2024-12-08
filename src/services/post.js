@@ -81,7 +81,6 @@ export const postViewed = async (id) => {
   }
 }
 
-
 export const updatePost = async (id, postData) => {
   try {
     const response = await axios.put(`${host}/posts/${id}`, postData, {
