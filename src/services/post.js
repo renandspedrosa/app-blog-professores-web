@@ -4,7 +4,7 @@ import axios from 'axios'
 const host = import.meta.env.VITE_API_HOST || 'http://localhost:3000'
 const token = localStorage.getItem('authToken')
 
-export const getPosts = async (page = 1, limit = 5, search = '') => {
+export const getPosts = async (page = 1, limit = 6, search = '') => {
   try {
     const response = await api.get(`/posts`, {
       params: {
