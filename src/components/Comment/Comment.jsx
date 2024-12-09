@@ -18,7 +18,7 @@ const Comment = ({ comment, index }) => {
           <footer className='flex justify-between items-center mb-2'>
             <div className='flex items-center justify-between w-full'>
               <p className='inline-flex text-gray-400 items-center text-xs flex-4/5'>
-                SUBSTITUIR O USER ID PELO NOME DO USUÁRIO: {comment.user_id}
+                {comment.user.name}
               </p>
               <p className='text-gray-400 flex-1/5 text-xs'>
                 <time

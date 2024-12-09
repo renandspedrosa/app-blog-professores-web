@@ -12,20 +12,23 @@ const PostDetails = () => {
   const { id: postId } = useParams()
   const { postDetails, loading, error } = usePostDetails(postId)
   const [hoveredTag, setHoveredTag] = useState(null)
-  const { loadingComment, handleSubmitComment } = useCreateComment()
+  const { handleSubmitComment } = useCreateComment()
   const [newComment, setNewComment] = useState('')
-  // const [comments, setComments] = useState([])
+  // const [newComment, setComments] = useState([])
   const imageHost = import.meta.env.VITE_API_HOST || 'http://localhost:3000'
-  const { loadingCommentsList, errorCommentsList, commentsList } =
-    useCommentsList(postId)
+  const {
+    loadingCommentsList,
+    errorCommentsList,
+    commentsList,
+    setCommentsList,
+  } = useCommentsList(postId)
+  useEffect(() => {
+    if (postDetails) {
+      setCommentsList(postDetails.comments || [])
+    }
+  }, [postDetails])
 
-  // useEffect(() => {
-  //   if (postDetails) {
-  //     setComments(postDetails.comments || [])
-  //   }
-  // }, [postDetails])
-
-  if (loading || loadingCommentsList || loadingComment) {
+  if (loading || loadingCommentsList) {
     return <Load />
   }
 
@@ -55,18 +58,17 @@ const PostDetails = () => {
     setHoveredTag(null)
   }
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault()
-  //   try {
-  //     const newCommentData = await handleSubmitComment(post.id, newComment)
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      const newCommentData = await handleSubmitComment(post.id, newComment)
+      setCommentsList([...commentsList, newCommentData])
+      setNewComment('')
+    } catch (error) {
+      console.error('Erro ao enviar comentário:', error)
+    }
+  }
 
-  //     setComments([...commentsList, newCommentData.data])
-
-  //     setNewComment('')
-  //   } catch (error) {
-  //     console.error('Erro ao enviar comentário:', error)
-  //   }
-  // }
   const hasImage = !!post.image
 
   const image = hasImage ? `${imageHost}/${post.image}` : null
@@ -176,23 +178,24 @@ const PostDetails = () => {
             <h2 className='ml-2 title-font text-lg font-medium text-gray-900 mb-3'>
               Comentários
             </h2>
-            <form className='mb-2 p-4' onSubmit={handleSubmitComment}>
+            <form className='mb-2 p-4' onSubmit={handleSubmit}>
               <div className='py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200'>
-                <label htmlFor='comment' className='sr-only'>
+                <label htmlFor='newComment' className='sr-only'>
                   Seu comentário
                 </label>
                 <textarea
-                  id='comment'
+                  id='newComment'
                   rows='6'
                   className='px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none min-h-1/2'
                   placeholder='Deixe seu comentário...'
                   value={newComment}
                   onChange={(e) => setNewComment(e.target.value)}
+                  onSubmit={handleSubmit}
                   required
                 ></textarea>
               </div>
               <div className='flex justify-end'>
-                <Button type='submit'></Button>
+                <Button type='submit'>Comentar</Button>
               </div>
               {/* {createError && (
                 <p className='text-red-500 mt-2'>{createError.message}</p>
