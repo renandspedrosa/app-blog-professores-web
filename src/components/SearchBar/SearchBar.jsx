@@ -10,7 +10,7 @@ const SearchBar = ({ searchTerm, setSearchTerm, onSearch, tagsSearch, setTags })
   return (
     <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 mb-4">
       <div className="sm:w-[32%] w-full">
-        <Select
+      <Select
           id="tags"
           name="tags"
           options={tags.map((tag) => ({ value: tag.id, label: tag.name }))}
@@ -18,16 +18,26 @@ const SearchBar = ({ searchTerm, setSearchTerm, onSearch, tagsSearch, setTags })
           isLoading={tagsLoading}
           placeholder="Selecione a categoria..."
           styles={{
-            control: (styles) => ({
+            control: (styles, { isFocused }) => ({
               ...styles,
-              height: '2.5rem',
+              height: '2.6rem',
+              border:  isFocused ? 'none' : '1px solid #9CA3AF',
+              outline: isFocused ? '2px solid #94a3b8' : 'none',
+              borderRadius: '0.375rem',
+              paddingLeft: '2.5rem',
+              boxShadow: 'none',
+              
             }),
           }}
+          className="mt-0.4"
           onChange={(selectedOptions) => {
             const formattedTags = selectedOptions.map((option) => option.value);
             setTags(formattedTags);
-          }}   
-          value={tagsSearch.map((tagId) => ({ value: tagId, label: tags.find(tag => tag.id === tagId)?.name }))}
+          }}
+          value={tagsSearch.map((tagId) => ({
+            value: tagId,
+            label: tags.find((tag) => tag.id === tagId)?.name,
+          }))}
           onKeyDown={(e) => handleKeyPress(e, onSearch, searchTerm)}
         />
       </div>
