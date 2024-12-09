@@ -10,7 +10,6 @@ const usePostDetails = (postId) => {
     try {
       setLoading(true)
       const data = await getPostById(postId)
-      console.log(data)
       setPostDetails(data)
     } catch (error) {
       console.error('Erro ao buscar comentários:', error)

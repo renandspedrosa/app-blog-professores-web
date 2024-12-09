@@ -6,9 +6,9 @@ const token = localStorage.getItem('authToken')
 export const getPostComments = async (id) => {
   try {
     const response = await axios.get(`${host}/posts/${id}/comments`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      // headers: {
+      //   Authorization: `Bearer ${token}`,
+      // },
     })
     return { data: response.data }
   } catch (error) {

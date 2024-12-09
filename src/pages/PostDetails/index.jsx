@@ -1,31 +1,40 @@
 import { useParams } from 'react-router-dom'
 import { Eye, MessageCircle } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { NoComment, Comment } from '../../components/Comment'
 import useCreateComment from '../../hooks/useCreateComment'
 import Button from '../../components/Form/Button'
 import usePostDetails from '../../hooks/usePostDetails'
 import Load from '@/components/Load'
+import useCommentsList from '../../hooks/useCommentsList'
 
 const PostDetails = () => {
   const { id: postId } = useParams()
   const { postDetails, loading, error } = usePostDetails(postId)
   const [hoveredTag, setHoveredTag] = useState(null)
-  const {
-    submitComment,
-    loading: creating,
-    error: createError,
-    success,
-  } = useCreateComment()
+  const { loadingComment, handleSubmitComment } = useCreateComment()
   const [newComment, setNewComment] = useState('')
+  // const [comments, setComments] = useState([])
   const imageHost = import.meta.env.VITE_API_HOST || 'http://localhost:3000'
+  const { loadingCommentsList, errorCommentsList, commentsList } =
+    useCommentsList(postId)
 
-  if (loading) {
+  // useEffect(() => {
+  //   if (postDetails) {
+  //     setComments(postDetails.comments || [])
+  //   }
+  // }, [postDetails])
+
+  if (loading || loadingCommentsList || loadingComment) {
     return <Load />
   }
 
-  if (error) {
+  if (error || errorCommentsList) {
     return <p>{error}</p>
+  }
+
+  if (!postDetails) {
+    return <div>Post não encontrado</div>
   }
 
   const post = {
@@ -46,14 +55,21 @@ const PostDetails = () => {
     setHoveredTag(null)
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    await submitComment(post.id, newComment)
-    setNewComment('')
-  }
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault()
+  //   try {
+  //     const newCommentData = await handleSubmitComment(post.id, newComment)
+
+  //     setComments([...commentsList, newCommentData.data])
+
+  //     setNewComment('')
+  //   } catch (error) {
+  //     console.error('Erro ao enviar comentário:', error)
+  //   }
+  // }
   const hasImage = !!post.image
 
-  const image = hasImage ? imageHost + '/' + post.image : null
+  const image = hasImage ? `${imageHost}/${post.image}` : null
 
   return (
     <>
@@ -160,7 +176,7 @@ const PostDetails = () => {
             <h2 className='ml-2 title-font text-lg font-medium text-gray-900 mb-3'>
               Comentários
             </h2>
-            <form className='mb-2 p-4' onSubmit={handleSubmit}>
+            <form className='mb-2 p-4' onSubmit={handleSubmitComment}>
               <div className='py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200'>
                 <label htmlFor='comment' className='sr-only'>
                   Seu comentário
@@ -176,18 +192,16 @@ const PostDetails = () => {
                 ></textarea>
               </div>
               <div className='flex justify-end'>
-                <Button type='submit' disabled={creating}>
-                  {creating ? 'Enviando...' : 'Comentar'}
-                </Button>
+                <Button type='submit'></Button>
               </div>
-              {createError && (
+              {/* {createError && (
                 <p className='text-red-500 mt-2'>{createError.message}</p>
               )}
               {success && (
                 <p className='text-green-500 mt-2'>
                   Comentário enviado com sucesso!
                 </p>
-              )}
+              )} */}
             </form>
             <div
               className='overflow-auto [&::-webkit-scrollbar]:w-2
@@ -198,14 +212,10 @@ const PostDetails = () => {
   dark:[&::-webkit-scrollbar-track]:bg-gray-50
   dark:[&::-webkit-scrollbar-thumb]:bg-gray-400'
             >
-              {loading ? (
-                <div>Carregando...</div>
-              ) : error ? (
-                <div>Erro ao carregar comentários</div>
-              ) : postDetails.comments.length === 0 ? (
+              {commentsList.length === 0 ? (
                 <NoComment />
               ) : (
-                postDetails.comments.map((comment, index) => (
+                commentsList.map((comment, index) => (
                   <Comment comment={comment} key={index} />
                 ))
               )}
