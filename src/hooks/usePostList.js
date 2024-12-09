@@ -8,12 +8,13 @@ const usePosts = (initialPage = 1, postsPerPage = 6) => {
   const [searchTerm, setSearchTerm] = useState('')
   const [currentPage, setCurrentPage] = useState(initialPage)
   const [hasMorePosts, setHasMorePosts] = useState(false)
+  const [tags, setTags] = useState([])
 
   const handleSearchPosts = async () => {
     try {
       setLoading(true)
       const search = searchTerm || ''
-      const { data } = await getPosts(currentPage, postsPerPage, search)
+      const { data } = await getPosts(currentPage, postsPerPage, search, tags)
 
       setPosts(data)
 
@@ -54,6 +55,8 @@ const usePosts = (initialPage = 1, postsPerPage = 6) => {
     error,
     searchTerm,
     setSearchTerm,
+    tags,
+    setTags,
     currentPage,
     handleNextPage,
     handlePrevPage,
