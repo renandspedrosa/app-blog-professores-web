@@ -20,6 +20,8 @@ const PostList = () => {
     handlePrevPage,
     isNextDisabled,
     isPrevDisabled,
+    tags,
+    setTags,
   } = usePosts()
 
   const handleReadMore = (post) => {
@@ -40,6 +42,8 @@ const PostList = () => {
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
         onSearch={handleSearchPosts}
+        tagsSearch={tags}
+        setTags={setTags}
       />
       <div className='container px-5 py-8 mx-auto'>
         <div className='flex flex-wrap -m-4'>

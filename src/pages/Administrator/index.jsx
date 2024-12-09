@@ -34,7 +34,6 @@ const columns = [
 ];
 
 const Administrator = () => {
-    // Verifica a permissão
     const permissionComponent = checkPermission();
     if (permissionComponent) {
         return permissionComponent; 
@@ -52,6 +51,8 @@ const Administrator = () => {
     handleSearchPosts,
     searchTerm,
     setSearchTerm,
+    tags,
+    setTags,
     } = usePosts();
 
     const { loading: deleteLoading, handleDeletePost } = useDeletePost();
@@ -87,6 +88,8 @@ const Administrator = () => {
             <SearchBar
                 searchTerm={searchTerm}
                 setSearchTerm={setSearchTerm}
+                tagsSearch={tags}
+                setTags={setTags}
                 onSearch={handleSearchPosts}
             />
             <DataTable
