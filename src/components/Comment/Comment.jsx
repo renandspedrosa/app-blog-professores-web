@@ -1,4 +1,7 @@
 const Comment = ({ comment, index }) => {
+  if (!comment || !comment.user) {
+    return null // Retorne null se os dados do comentário estiverem ausentes
+  }
   const formattedDate = (commentCreatedAt) => {
     const date = new Date(commentCreatedAt).toLocaleDateString('pt-BR', {
       day: '2-digit',
