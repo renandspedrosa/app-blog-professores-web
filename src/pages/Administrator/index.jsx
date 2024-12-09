@@ -18,6 +18,10 @@ const columns = [
         name: 'Conteúdo',
         selector: row => row.content.length > 100 ? `${row.content.substring(0, 25)}...` : row.content,
     },
+    {
+        name: 'Categoria',
+        selector: row => row.tags.map(tag => tag.name).join(', '),
+    },
 	{
 		name: 'Data da Postagem',
 		selector: row => formatDate(row.created_at),
