@@ -6,22 +6,22 @@ const useCommentsList = (postId) => {
   const [loadingCommentsList, setLoadingCommentsList] = useState(true)
   const [errorCommentsList, setErrorCommentsList] = useState(null)
 
-  useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        setLoadingCommentsList(true)
-        const { data } = await getPostComments(postId)
-        setCommentsList(data)
-      } catch (error) {
-        console.log(error)
-        setErrorCommentsList('Erro ao carregar comentários')
-      } finally {
-        setLoadingCommentsList(false)
-      }
+  const handleSearchComments = async () => {
+    try {
+      setLoadingCommentsList(true)
+      const { data } = await getPostComments(postId)
+      setCommentsList(data)
+    } catch (error) {
+      console.log(error)
+      setErrorCommentsList('Erro ao carregar comentários')
+    } finally {
+      setLoadingCommentsList(false)
     }
+  }
 
+  useEffect(() => {
     if (postId) {
-      fetchComments()
+      handleSearchComments()
     }
   }, [postId])
 
@@ -30,6 +30,7 @@ const useCommentsList = (postId) => {
     setCommentsList,
     loadingCommentsList,
     errorCommentsList,
+    handleSearchComments,
   }
 }
 

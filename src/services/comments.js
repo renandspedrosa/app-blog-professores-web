@@ -34,3 +34,16 @@ export const createComment = async (postId, content) => {
     throw error
   }
 }
+
+export const deleteComment = async (id) => {
+  try {
+    await axios.delete(`${host}/comments/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+  } catch (error) {
+    console.error(`Erro ao deletar comentário com id ${id}:`, error)
+    throw error
+  }
+}
