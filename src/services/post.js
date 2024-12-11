@@ -92,6 +92,7 @@ export const updatePost = async (id, postData) => {
   }
 }
 
+
 export const deletePost = async (id) => {
   try {
     const token = localStorage.getItem('authToken');
