@@ -28,18 +28,13 @@ import { createComment } from '../services/comments'
 const useCreateComment = () => {
   const [loadingComment, setLoading] = useState(false)
 
-  const handleSubmitComment = async (
-    PostDetails,
-    comment,
-    onAction,
-    onSuccess,
-  ) => {
+  const handleSubmitComment = async (postId, comment, onAction, onSuccess) => {
     try {
       if (onAction) {
         onAction()
       }
       setLoading(true)
-      await createComment(PostDetails, comment)
+      await createComment(postId, comment)
       setLoading(false)
       if (onSuccess) {
         onSuccess()

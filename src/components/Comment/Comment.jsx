@@ -1,8 +1,8 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-import { ChevronDownIcon } from '@heroicons/react/20/solid'
 
 const Comment = ({ comment, index }) => {
-  if (!comment || !comment.user) {
+  console.log(comment)
+  if (!comment || !comment.user_id) {
     return null // Retorne null se os dados do comentário estiverem ausentes
   }
   const formattedDate = (commentCreatedAt) => {
@@ -24,7 +24,7 @@ const Comment = ({ comment, index }) => {
           <footer className='flex justify-between items-center mb-2'>
             <div className='flex items-center justify-between w-full'>
               <p className='inline-flex text-gray-400 items-center text-xs flex-4/5'>
-                {comment.user.name}
+                {comment.user_id}
               </p>
               <p className='text-gray-400 flex-1/5 text-xs px-2'>
                 <time

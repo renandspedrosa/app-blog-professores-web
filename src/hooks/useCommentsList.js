@@ -9,7 +9,7 @@ const useCommentsList = (postId) => {
   const handleSearchComments = async () => {
     try {
       setLoadingCommentsList(true)
-      const { data } = await getPostComments(postId)
+      const data = await getPostComments(postId)
       setCommentsList(data)
     } catch (error) {
       console.log(error)

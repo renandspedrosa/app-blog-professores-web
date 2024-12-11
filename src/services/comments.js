@@ -10,7 +10,7 @@ export const getPostComments = async (id) => {
         Authorization: `Bearer ${token}`,
       },
     })
-    return { data: response.data }
+    return response.data
   } catch (error) {
     console.error(`Erro ao buscar comentários do post com id ${id}:`, error)
     throw error

@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom'
 import { Eye, MessageCircle } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { NoComment, Comment } from '../../components/Comment'
-import useCreateComment from '../../hooks/useCreateComment'
+import useCreateComment from '@/hooks/useCreateComment'
 import Button from '../../components/Form/Button'
 import usePostDetails from '../../hooks/usePostDetails'
 import Load from '@/components/Load'
@@ -12,7 +12,7 @@ const PostDetails = () => {
   const { id: postId } = useParams()
   const { postDetails, loading, error } = usePostDetails(postId)
   const [hoveredTag, setHoveredTag] = useState(null)
-  const { handleSubmitComment } = useCreateComment()
+  const { handleSubmitComment, loadingComment } = useCreateComment()
   const [newComment, setNewComment] = useState('')
   // const [newComment, setComments] = useState([])
   const imageHost = import.meta.env.VITE_API_HOST || 'http://localhost:3000'
@@ -21,12 +21,12 @@ const PostDetails = () => {
     errorCommentsList,
     commentsList,
     setCommentsList,
+    handleSearchComments,
   } = useCommentsList(postId)
-  useEffect(() => {
-    if (postDetails) {
-      setCommentsList(postDetails.comments || [])
-    }
-  }, [postDetails])
+
+  // useEffect(() => {
+  //   setCommentsList(commentsList || [])
+  // }, [commentsList])
 
   if (loading || loadingCommentsList) {
     return <Load />
@@ -61,7 +61,12 @@ const PostDetails = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const newCommentData = await handleSubmitComment(post.id, newComment)
+      const newCommentData = await handleSubmitComment(
+        post.id,
+        newComment,
+        false,
+        handleSearchComments,
+      )
       setCommentsList([...commentsList, newCommentData])
       setNewComment('')
     } catch (error) {
