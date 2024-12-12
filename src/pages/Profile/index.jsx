@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { decode } from 'jwt-js-decode'
 import { Link } from 'react-router-dom';
 import { Form, Input, Button, FormError } from '@/components/Form';
 import Load from '@/components/Load';
@@ -7,20 +7,17 @@ import useUpdateAccountForm from '@/hooks/useUpdateAccountForm';
 import schema from '@/pages/Profile/schema';
 
 const Profile = () => {
+    const token = localStorage.getItem('authToken')
+    const jwt = decode(token)
+    const typeUser = jwt.payload?.type
     const { loading, formUser, handleUpdateUser } = useUpdateAccountForm();
-
     const formik = useFormik({
         initialValues: formUser,
         validationSchema: schema,
         onSubmit: handleUpdateUser,
         enableReinitialize: true,
     });
-
-    const userType = formik.values.typeUser == 'teacher' ? 'Professor' : 'Estudante';
-
-    useEffect(() => {
-        formik.setValues(formUser);
-    }, [formUser]);
+    const userType = typeUser == 'teacher' ? 'Professor' : 'Estudante';
 
     if (loading) {
         return <Load />;
@@ -55,36 +52,6 @@ const Profile = () => {
                             error={formik.touched.email && formik.errors.email}
                         />
                         <FormError error={formik.touched.email && formik.errors.email} />
-                    </div>
-                </div>
-                <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                    <div className="sm:col-span-3">
-                        <Input
-                            label="Senha"
-                            type="password"
-                            required
-                            name="password"
-                            value={formik.values.password}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            error={formik.touched.password && formik.errors.password}
-                            hidden
-                        />
-                        <FormError error={formik.touched.password && formik.errors.password} />
-                    </div>
-                    <div className="sm:col-span-3">
-                        <Input
-                            label="Confirmar senha"
-                            type="password"
-                            required
-                            name="confirmPassword"
-                            value={formik.values.confirmPassword}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            error={formik.touched.confirmPassword && formik.errors.confirmPassword}
-                            hidden
-                        />
-                        <FormError error={formik.touched.confirmPassword && formik.errors.confirmPassword} />
                     </div>
                 </div>
             </div>

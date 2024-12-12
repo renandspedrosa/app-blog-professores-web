@@ -2,39 +2,30 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { findUserByEmail, updateUser } from '@/services/user'
 import errorsMessage from '@/utils/messageError'
-import { decode } from 'jwt-js-decode'
 import { toast } from 'react-toastify'
 
 const useUpdateAccountForm = () => {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
+  const [userId, setUserId] = useState('')
   const [formUser, setFormUser] = useState({
-    typeUser: '',
     name: '',
     email: '',
-    password: '',
-    confirmPassword: '',
   })
-
-  const token = localStorage.getItem('authToken')
-  const jwt = decode(token)
-  const userType = jwt.payload?.type
 
   const fetchUserByEmail = async (email) => {
     try {
       setLoading(true)
       const user = await findUserByEmail(email)
 
-      console.log(user)
-      //console.log(user.teachers)
+      console.log(user.id)
 
-      setFormUser({
-        typeUser: userType,
+      setUserId(user.id)
+
+      setFormUser(() => ({
         name: user.name || '',
         email: user.email || '',
-        password: '',
-        confirmPassword: '',
-      })
+      }))
     } catch (error) {
       toast.error(errorsMessage(error))
     } finally {
@@ -47,19 +38,23 @@ const useUpdateAccountForm = () => {
 
     if (user && user.email) {
       fetchUserByEmail(user.email)
-
-      //Pegar usuário pelo estudante
-      //Pegar usuário pelo professor
-      //verificar o tipo e passar para o formUser o userType
     }
   }, [])
 
-  const handleUpdateUser = async () => {
+  const handleUpdateUser = async (values) => {
     try {
+      const { name, email } = values
+
       setLoading(true)
-      await updateUser(formUser)
-      toast.success('User updated successfully')
-      navigate('/profile')
+
+      console.log(values)
+
+      await updateUser(userId, { name, email })
+
+      localStorage.setItem('user', JSON.stringify({ name, email }))
+
+      toast.success('Usuário atualizado com sucesso')
+      navigate('/')
     } catch (error) {
       toast.error(errorsMessage(error))
     } finally {

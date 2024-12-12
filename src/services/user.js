@@ -18,11 +18,11 @@ export const findUserByEmail = async (email) => {
   }
 }
 
-export const updateUser = async (id, userData) => {
+export const updateUser = async (id, param) => {
   try {
     const token = localStorage.getItem('authToken')
 
-    const response = await api.put(`/user/${id}`, userData, {
+    const response = await api.put(`/user/${id}`, param, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
