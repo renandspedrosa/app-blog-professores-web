@@ -18,6 +18,10 @@ const columns = [
         name: 'Conteúdo',
         selector: row => row.content.length > 100 ? `${row.content.substring(0, 25)}...` : row.content,
     },
+    {
+        name: 'Categoria',
+        selector: row => row.tags.map(tag => tag.name).join(', '),
+    },
 	{
 		name: 'Data da Postagem',
 		selector: row => formatDate(row.created_at),
@@ -34,7 +38,6 @@ const columns = [
 ];
 
 const Administrator = () => {
-    // Verifica a permissão
     const permissionComponent = checkPermission();
     if (permissionComponent) {
         return permissionComponent; 
@@ -52,6 +55,8 @@ const Administrator = () => {
     handleSearchPosts,
     searchTerm,
     setSearchTerm,
+    tags,
+    setTags,
     } = usePosts();
 
     const { loading: deleteLoading, handleDeletePost } = useDeletePost();
@@ -87,6 +92,8 @@ const Administrator = () => {
             <SearchBar
                 searchTerm={searchTerm}
                 setSearchTerm={setSearchTerm}
+                tagsSearch={tags}
+                setTags={setTags}
                 onSearch={handleSearchPosts}
             />
             <DataTable
