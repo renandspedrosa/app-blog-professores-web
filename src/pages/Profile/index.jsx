@@ -16,9 +16,7 @@ const Profile = () => {
         enableReinitialize: true,
     });
 
-    const userTypeLabel = formUser.typeUser === '1' ? 'Professor' : 'Aluno';
-
-    console.log('Profile: ' + formUser.typeUser);
+    const userType = formik.values.typeUser == 'teacher' ? 'Professor' : 'Estudante';
 
     useEffect(() => {
         formik.setValues(formUser);
@@ -29,7 +27,7 @@ const Profile = () => {
     }    
 
     return (
-        <Form title={`Informações de Cadastro do ${userTypeLabel}`} onSubmit={formik.handleSubmit}>
+        <Form title={`Informações de Cadastro do ${userType}`} onSubmit={formik.handleSubmit}>
             <div className="border-b border-gray-900/7 pb-12">
                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                     <div className="sm:col-span-3">
@@ -70,6 +68,7 @@ const Profile = () => {
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             error={formik.touched.password && formik.errors.password}
+                            hidden
                         />
                         <FormError error={formik.touched.password && formik.errors.password} />
                     </div>
@@ -83,6 +82,7 @@ const Profile = () => {
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             error={formik.touched.confirmPassword && formik.errors.confirmPassword}
+                            hidden
                         />
                         <FormError error={formik.touched.confirmPassword && formik.errors.confirmPassword} />
                     </div>

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { updateTeacher } from '@/services/teacher'
-import { updateStudent } from '@/services/student'
+import { findUserByEmail, updateUser } from '@/services/user'
 import errorsMessage from '@/utils/messageError'
+import { decode } from 'jwt-js-decode'
 import { toast } from 'react-toastify'
 
 const useUpdateAccountForm = () => {
@@ -16,47 +16,61 @@ const useUpdateAccountForm = () => {
     confirmPassword: '',
   })
 
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user'))
-    setFormUser({
-      typeUser: user?.type === 'teacher' ? '1' : '2', // Ajuste para lidar com a ausência do campo 'type'
-      name: user?.name || '',
-      email: user?.email || '',
-      password: '',
-      confirmPassword: '',
-    })
-  }, [])
+  const token = localStorage.getItem('authToken')
+  const jwt = decode(token)
+  const userType = jwt.payload?.type
 
-  console.log('hook: ' + formUser.typeUser)
-
-  const handleChange = (field, value) => {
-    setFormUser((prevState) => ({
-      ...prevState,
-      [field]: value,
-    }))
-  }
-
-  const handleUpdateUser = async (values) => {
+  const fetchUserByEmail = async (email) => {
     try {
       setLoading(true)
-      if (values.typeUser === '1') {
-        await updateTeacher(values)
-      } else if (values.typeUser === '2') {
-        await updateStudent(values)
-      }
-      setLoading(false)
-      navigate('/profile', { replace: true })
-      toast.success('Usuário atualizado com sucesso!')
+      const user = await findUserByEmail(email)
+
+      console.log(user)
+      //console.log(user.teachers)
+
+      setFormUser({
+        typeUser: userType,
+        name: user.name || '',
+        email: user.email || '',
+        password: '',
+        confirmPassword: '',
+      })
     } catch (error) {
+      toast.error(errorsMessage(error))
+    } finally {
       setLoading(false)
-      errorsMessage(error, toast)
+    }
+  }
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user'))
+
+    if (user && user.email) {
+      fetchUserByEmail(user.email)
+
+      //Pegar usuário pelo estudante
+      //Pegar usuário pelo professor
+      //verificar o tipo e passar para o formUser o userType
+    }
+  }, [])
+
+  const handleUpdateUser = async () => {
+    try {
+      setLoading(true)
+      await updateUser(formUser)
+      toast.success('User updated successfully')
+      navigate('/profile')
+    } catch (error) {
+      toast.error(errorsMessage(error))
+    } finally {
+      setLoading(false)
     }
   }
 
   return {
-    loading,
     formUser,
-    handleChange,
+    setFormUser,
+    loading,
     handleUpdateUser,
   }
 }
