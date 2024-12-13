@@ -1,7 +1,12 @@
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
+import { Menu, MenuButton } from '@headlessui/react'
 import { Trash2 } from 'lucide-react'
+import Confirm from '@/components/Confirm'
+import useDeleteComment from '../../hooks/useDeleteComment'
+import useCommentsList from '../../hooks/useCommentsList'
 
 const Comment = ({ comment, index }) => {
+  const { loading, handleDeleteComment } = useDeleteComment()
+  const { handleSearchComments } = useCommentsList()
   console.log(comment)
   if (!comment || !comment.user_id) {
     return null // Retorne null se os dados do comentário estiverem ausentes
@@ -13,6 +18,16 @@ const Comment = ({ comment, index }) => {
       year: 'numeric',
     })
     return date
+  }
+
+  const handleDelete = (commentId) => {
+    Confirm(
+      'Confirmação',
+      'Tem certeza que deseja excluir esse comentário?',
+      () => {
+        handleDeleteComment(commentId, handleSearchComments)
+      },
+    )
   }
 
   return (
@@ -40,7 +55,10 @@ const Comment = ({ comment, index }) => {
           </div>
           <div className='flex w-full justify-end'>
             <Menu as='div'>
-              <MenuButton className='inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50'>
+              <MenuButton
+                className='inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50'
+                onClick={() => handleDelete(comment.id)}
+              >
                 <Trash2 size={16} strokeWidth={0.75} />
               </MenuButton>
             </Menu>
