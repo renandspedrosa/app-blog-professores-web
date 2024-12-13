@@ -11,6 +11,8 @@ const useUpdateAccountForm = () => {
   const [formUser, setFormUser] = useState({
     name: '',
     email: '',
+    password: '',
+    confirmPassword: '',
   })
 
   const fetchUserByEmail = async (email) => {
@@ -18,19 +20,26 @@ const useUpdateAccountForm = () => {
       setLoading(true)
       const user = await findUserByEmail(email)
 
-      console.log(user.id)
-
       setUserId(user.id)
 
       setFormUser(() => ({
         name: user.name || '',
         email: user.email || '',
+        password: '',
+        confirmPassword: '',
       }))
     } catch (error) {
       toast.error(errorsMessage(error))
     } finally {
       setLoading(false)
     }
+  }
+
+  const updateFormUser = (field, value) => {
+    setFormUser((prevFormUser) => ({
+      ...prevFormUser,
+      [field]: value,
+    }))
   }
 
   useEffect(() => {
@@ -43,15 +52,16 @@ const useUpdateAccountForm = () => {
 
   const handleUpdateUser = async (values) => {
     try {
-      const { name, email } = values
-
       setLoading(true)
 
-      console.log(values)
+      if (values.password === '') {
+        delete values.password
+        delete values.confirmPassword
+      }
 
-      await updateUser(userId, { name, email })
+      await updateUser(userId, values)
 
-      localStorage.setItem('user', JSON.stringify({ name, email }))
+      localStorage.setItem('user', JSON.stringify(values))
 
       toast.success('Usuário atualizado com sucesso')
       navigate('/')
@@ -63,10 +73,10 @@ const useUpdateAccountForm = () => {
   }
 
   return {
-    formUser,
-    setFormUser,
     loading,
+    formUser,
     handleUpdateUser,
+    updateFormUser,
   }
 }
 
