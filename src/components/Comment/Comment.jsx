@@ -1,22 +1,11 @@
 import { Menu, MenuButton } from '@headlessui/react'
-import useDeleteComment from '../../hooks/useDeleteComment'
-import Load from '@/components/Load'
 import { Trash2 } from 'lucide-react'
-import useCommentsList from '../../hooks/useCommentsList'
-import Confirm from '@/components/Confirm'
 
 const Comment = ({ comment, index, onDelete }) => {
-  const { loadingDelete, handleDeleteComment } = useDeleteComment()
-  const { handleSearchComments } = useCommentsList()
-
-  console.log(comment)
   if (!comment || !comment.user_id) {
     return null // Retorne null se os dados do comentário estiverem ausentes
   }
 
-  if (loadingDelete) {
-    return <Load />
-  }
   const formattedDate = (commentCreatedAt) => {
     const date = new Date(commentCreatedAt).toLocaleDateString('pt-BR', {
       day: '2-digit',
@@ -24,16 +13,6 @@ const Comment = ({ comment, index, onDelete }) => {
       year: 'numeric',
     })
     return date
-  }
-
-  const handleDelete = (commentId) => {
-    Confirm(
-      'Confirmação',
-      'Tem certeza que deseja excluir esse comentário?',
-      () => {
-        handleDeleteComment(commentId, handleSearchComments)
-      },
-    )
   }
 
   return (
