@@ -1,15 +1,21 @@
 import { Menu, MenuButton } from '@headlessui/react'
-import { Trash2 } from 'lucide-react'
-import Confirm from '@/components/Confirm'
 import useDeleteComment from '../../hooks/useDeleteComment'
+import Load from '@/components/Load'
+import { Trash2 } from 'lucide-react'
 import useCommentsList from '../../hooks/useCommentsList'
+import Confirm from '@/components/Confirm'
 
-const Comment = ({ comment, index }) => {
-  const { loading, handleDeleteComment } = useDeleteComment()
+const Comment = ({ comment, index, onDelete }) => {
+  const { loadingDelete, handleDeleteComment } = useDeleteComment()
   const { handleSearchComments } = useCommentsList()
+
   console.log(comment)
   if (!comment || !comment.user_id) {
     return null // Retorne null se os dados do comentário estiverem ausentes
+  }
+
+  if (loadingDelete) {
+    return <Load />
   }
   const formattedDate = (commentCreatedAt) => {
     const date = new Date(commentCreatedAt).toLocaleDateString('pt-BR', {
@@ -57,7 +63,7 @@ const Comment = ({ comment, index }) => {
             <Menu as='div'>
               <MenuButton
                 className='inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50'
-                onClick={() => handleDelete(comment.id)}
+                onClick={() => onDelete(comment.id)}
               >
                 <Trash2 size={16} strokeWidth={0.75} />
               </MenuButton>

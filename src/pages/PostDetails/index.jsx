@@ -1,12 +1,14 @@
 import { useParams } from 'react-router-dom'
 import { Eye, MessageCircle } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { NoComment, Comment } from '../../components/Comment'
 import useCreateComment from '@/hooks/useCreateComment'
 import Button from '../../components/Form/Button'
 import usePostDetails from '../../hooks/usePostDetails'
 import Load from '@/components/Load'
 import useCommentsList from '../../hooks/useCommentsList'
+import useDeleteComment from '../../hooks/useDeleteComment'
+import Confirm from '@/components/Confirm'
 
 const PostDetails = () => {
   const { id: postId } = useParams()
@@ -14,7 +16,6 @@ const PostDetails = () => {
   const [hoveredTag, setHoveredTag] = useState(null)
   const { handleSubmitComment, loadingComment } = useCreateComment()
   const [newComment, setNewComment] = useState('')
-  // const [newComment, setComments] = useState([])
   const imageHost = import.meta.env.VITE_API_HOST || 'http://localhost:3000'
   const {
     loadingCommentsList,
@@ -23,12 +24,19 @@ const PostDetails = () => {
     setCommentsList,
     handleSearchComments,
   } = useCommentsList(postId)
+  const { loadingDelete, handleDeleteComment } = useDeleteComment()
 
-  // useEffect(() => {
-  //   setCommentsList(commentsList || [])
-  // }, [commentsList])
+  const handleDelete = (commentId) => {
+    Confirm(
+      'Confirmação',
+      'Tem certeza que deseja excluir esse comentário?',
+      () => {
+        handleDeleteComment(commentId, handleSearchComments)
+      },
+    )
+  }
 
-  if (loading || loadingCommentsList) {
+  if (loading || loadingCommentsList || loadingComment || loadingDelete) {
     return <Load />
   }
 
@@ -202,14 +210,6 @@ const PostDetails = () => {
               <div className='flex justify-end'>
                 <Button type='submit'>Comentar</Button>
               </div>
-              {/* {createError && (
-                <p className='text-red-500 mt-2'>{createError.message}</p>
-              )}
-              {success && (
-                <p className='text-green-500 mt-2'>
-                  Comentário enviado com sucesso!
-                </p>
-              )} */}
             </form>
             <div
               className='overflow-auto [&::-webkit-scrollbar]:w-2
@@ -224,7 +224,12 @@ const PostDetails = () => {
                 <NoComment />
               ) : (
                 commentsList.map((comment, index) => (
-                  <Comment comment={comment} key={index} />
+                  <Comment
+                    comment={comment}
+                    index={index}
+                    key={comment.id}
+                    onDelete={handleDelete}
+                  />
                 ))
               )}
             </div>
