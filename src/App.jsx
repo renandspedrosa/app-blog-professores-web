@@ -25,7 +25,7 @@ const routeComponents = {
   '/posts/:id': PostDetails,
   '/categorias': Tag,
   '/redefinir-senha': ForgotPassword,
-  '/profile': Profile,
+  '/perfil': Profile,
 };
 
 const App = () => {
