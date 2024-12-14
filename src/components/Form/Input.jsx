@@ -1,7 +1,16 @@
 const Input = (props) => {
     return (
             <>
-            <label className="block text-sm/6 font-medium text-gray-900">{props.label}</label>
+            <div className="flex items-center justify-between">
+                <label className="block text-sm/6 font-medium text-gray-900">{props.label}</label>
+                {
+                    props.href && (
+                        <div className="text-sm">
+                            <a {...props} className="font-semibold text-indigo-600 hover:text-indigo-500">{props.title}</a>
+                        </div>
+                    )
+                }
+            </div>
             <div className="mt-2">
                 <input 
                 {...props}

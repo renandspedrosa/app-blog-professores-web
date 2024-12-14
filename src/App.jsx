@@ -6,6 +6,7 @@ import Administrator from '@/pages/Administrator';
 import CreatePost from '@/pages/CreatePost';
 import NotFound from '@/pages/NotFound';
 import Tag from '@/pages/Tag';
+import ForgotPassword from '@/pages/ForgotPassword';
 import Navbar from '@/components/Navbar';
 import { AuthProvider, AuthConsumer } from '@/context/AuthContext';
 import { NavigationProvider, NavigationConsumer } from '@/context/NavigationContext';
@@ -17,11 +18,12 @@ import PostDetails from '@/pages/PostDetails';
 const routeComponents = {
   '/': PostList,
   '/login': Login,
-  '/create-account': CreateAccount,
-  '/create-post': CreatePost,
+  '/criar-conta': CreateAccount,
+  '/criar-postagem': CreatePost,
   '/administrador': Administrator,
   '/posts/:id': PostDetails,
   '/categorias': Tag,
+  '/redefinir-senha': ForgotPassword,
   //'/profile': Profile,
   //'/settings': Settings,
 };
