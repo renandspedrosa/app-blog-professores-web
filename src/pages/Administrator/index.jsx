@@ -11,6 +11,8 @@ import { Input, FormError } from '@/components/Form';
 import { useState } from 'react';
 import { useFormik } from 'formik';
 import { getPostById, updatePost } from '@/services/post';
+import Select from 'react-select';
+import useTags from '@/hooks/useTagList';
 
 const columns = [
     {
@@ -34,9 +36,11 @@ const Administrator = () => {
         return permissionComponent;
     }
 
-    const [postToEdit, setPostToEdit] = useState(null); // Post a ser editado
-    const [isModalOpen, setModalOpen] = useState(false); // Controle de visibilidade da modal
+    const [postToEdit, setPostToEdit] = useState(null);
+    const [isModalOpen, setModalOpen] = useState(false);
     const [titleModal, setTitleModal] = useState('');
+
+    const { tags, loading: tagsLoading, error: tagsError } = useTags();
 
     const {
         posts, loading, error, currentPage, handleNextPage, handlePrevPage, isNextDisabled, isPrevDisabled, handleSearchPosts
@@ -44,62 +48,73 @@ const Administrator = () => {
 
     const { loading: deleteLoading, handleDeletePost } = useDeletePost();
 
-    // Função para deletar o post
     const handleDelete = (idPost) => {
         Confirm('Confirmação', 'Tem certeza que deseja excluir essa postagem?', () => {
             handleDeletePost(idPost, handleSearchPosts);
         });
     };
 
-    // Função para abrir o modal de edição
     const openModalEditar = async (postId) => {
         setTitleModal('Editar Post');
         const post = await getPostById(postId);
-        setPostToEdit(post);
+        setPostToEdit({
+            ...post,
+            selectedTags: post.tags?.map(tag => ({ value: tag.id, label: tag.name })) || [],
+        });
         setModalOpen(true);
     };
 
-    // Função para fechar o modal
     const closeModal = () => {
         setModalOpen(false);
-        setPostToEdit(null); // Limpa o post ao fechar a modal
+        setPostToEdit(null);
     };
 
-    // Formik para lidar com o formulário de edição
     const formik = useFormik({
         initialValues: {
             title: postToEdit?.title || '',
             content: postToEdit?.content || '',
+            attachment: null,
+            selectedTags: postToEdit?.selectedTags || [],
         },
-        enableReinitialize: true, // Reinicializa os valores sempre que postToEdit mudar
+        enableReinitialize: true,
         onSubmit: async (values) => {
             try {
-                await updatePost(postToEdit.id, values);
-                handleSearchPosts(); // Atualiza a lista de posts após a edição
-                closeModal(); // Fecha a modal
+                const formData = new FormData();
+                formData.append('title', values.title);
+                formData.append('content', values.content);
+
+                values.selectedTags.forEach((tag, index) => {
+                    formData.append(`tags[${index}][id]`, tag.value);
+                    formData.append(`tags[${index}][name]`, tag.label);
+                });
+
+                if (values.attachment) {
+                    formData.append('attachment', values.attachment);
+                }
+
+                await updatePost(postToEdit.id, formData);
+                handleSearchPosts();
+                closeModal();
             } catch (error) {
                 console.error('Erro ao editar o post:', error);
             }
         },
     });
 
-    // Caso a página esteja carregando ou excluindo um post, exibe o componente de carregamento
     if (loading || deleteLoading) {
         return <Load />;
     }
 
-    // Caso haja erro ao buscar os posts, exibe a mensagem de erro
     if (error) {
         return <p>{error}</p>;
     }
 
-    // Adiciona as ações de editar e excluir aos posts
     const postsWithActions = posts.map((post) => ({
         ...post,
         acao: (
             <div className="flex items-center space-x-2">
-                <ButtonEditar onClick={() => openModalEditar(post.id)} /> {/* Botão de editar */}
-                <ButtonExcluir onClick={() => handleDelete(post.id)} /> {/* Botão de excluir */}
+                <ButtonEditar onClick={() => openModalEditar(post.id)} />
+                <ButtonExcluir onClick={() => handleDelete(post.id)} />
             </div>
         ),
     }));
@@ -116,7 +131,6 @@ const Administrator = () => {
                 goToNextPage={handleNextPage}
             />
 
-            {/* Modal para edição do post */}
             <Modal isOpen={isModalOpen} onClose={closeModal} title={titleModal} onConfirm={formik.handleSubmit}>
                 <Input
                     label="Título"
@@ -137,6 +151,36 @@ const Administrator = () => {
                     onChange={formik.handleChange}
                 />
                 <FormError error={formik.touched.content && formik.errors.content} />
+
+                <label htmlFor="tags" className="block text-sm font-medium text-gray-900">
+                    Tags
+                </label>
+                <Select
+                    id="tags"
+                    name="tags"
+                    options={tags.map((tag) => ({ value: tag.id, label: tag.name }))}
+                    isMulti
+                    isLoading={tagsLoading}
+                    value={formik.values.selectedTags}
+                    onChange={(selectedOptions) =>
+                        formik.setFieldValue('selectedTags', selectedOptions)
+                    }
+                    placeholder="Selecione tags..."
+                />
+                {tagsError && <p className="text-red-600 text-sm mt-2">{tagsError}</p>}
+                <FormError error={formik.touched.selectedTags && formik.errors.selectedTags} />
+
+                <label htmlFor="attachment" className="block text-sm font-medium text-gray-900 mt-4">
+                    Anexo
+                </label>
+                <input
+                    id="attachment"
+                    name="attachment"
+                    type="file"
+                    onChange={(event) =>
+                        formik.setFieldValue('attachment', event.currentTarget.files[0])
+                    }
+                />
             </Modal>
         </>
     );
