@@ -1,35 +1,43 @@
 import { useState } from 'react'
-import { sendResetPassword } from '@/services/password'
+import { useNavigate } from 'react-router-dom';
+import { resetPassword } from '@/services/password'
 import errorsMessage from '@/utils/messageError';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
 
 
 const useResetPassword = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
-    
-    const sendEmail = async (formEmail) => {
+    const [token, setToken] = useState('')
+    const [formPassword, setFormPassword] = useState({
+        password: '',
+        confirmPassword: '',
+      })
+
+    const handleResetPassword = async (values) => {
         try {
             setLoading(true)
-            await sendResetPassword(formEmail)
+            await resetPassword(values, token)
             setLoading(false)
             navigate('/login', {replace: true});
-            toast.success('E-mail de recuperação de senha enviado!');
+            toast.success('Senha redefinida com sucesso!');
         } catch (error) {
             setLoading(false)
-            console.error('Erro ao enviar e-mail:', error)
+            console.error('Erro ao redefinir senha:', error)
             errorsMessage(error, toast);
-            setError('Ocorreu um erro ao enviar o e-mail.')
+            setError('Ocorreu um erro ao redefinir a senha.')
         }
     }
-    
+
     return {
         loading,
         error,
-        sendEmail,
+        formPassword,
+        handleResetPassword,
+        setToken
     }
+
 }
 
 export default useResetPassword

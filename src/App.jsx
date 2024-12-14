@@ -8,6 +8,7 @@ import CreatePost from '@/pages/CreatePost';
 import NotFound from '@/pages/NotFound';
 import Tag from '@/pages/Tag';
 import ForgotPassword from '@/pages/ForgotPassword';
+import ResetPassword from '@/pages/ResetPassword';
 import Navbar from '@/components/Navbar';
 import { AuthProvider, AuthConsumer } from '@/context/AuthContext';
 import { NavigationProvider, NavigationConsumer } from '@/context/NavigationContext';
@@ -24,8 +25,9 @@ const routeComponents = {
   '/administrador': Administrator,
   '/posts/:id': PostDetails,
   '/categorias': Tag,
-  '/redefinir-senha': ForgotPassword,
   '/perfil': Profile,
+  '/recuperar-senha': ForgotPassword,
+  '/redefinir-senha/:token': ResetPassword,
 };
 
 const App = () => {

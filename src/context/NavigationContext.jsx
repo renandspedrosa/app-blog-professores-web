@@ -7,7 +7,8 @@ export const NavigationProvider = ({ children }) => {
     { name: 'Postagens', href: '/', show: true  },
     { name: 'Login', href: '/login'},
     { name: 'Crie seu usuário', href: '/criar-conta'},  
-    { name: 'Redefina sua senha', href: '/redefinir-senha'},  
+    { name: 'Recupere sua senha', href: '/recuperar-senha'},  
+    { name: 'Redefina sua senha', href: '/redefinir-senha/:token'},
   ];
   
   //precisa de login para acessar

@@ -2,10 +2,10 @@ import { Form, Input, Button, FormError } from '@/components/Form';
 import { useFormik } from 'formik';
 import Load from '@/components/Load';
 import schema  from './schema';
-import useResetPassword from '@/hooks/useResetPassword';
+import useForgotPassword from '@/hooks/useForgotPassword';
 
 const ForgotPassword = () => {
-    const { loading, sendEmail, error } = useResetPassword();
+    const { loading, sendEmail, error } = useForgotPassword();
 
     const formik = useFormik({
         initialValues: { email: '' },

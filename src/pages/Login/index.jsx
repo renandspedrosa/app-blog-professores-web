@@ -42,7 +42,7 @@ const Login = () => {
               required={true}
               type="password"
               title={'Esqueceu sua senha?'}
-              href={'/redefinir-senha'}
+              href={'/recuperar-senha'}
             />
           </div>
           <Button title={'Entre na sua conta'} type="submit">Entrar</Button>
