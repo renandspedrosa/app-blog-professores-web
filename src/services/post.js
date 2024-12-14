@@ -1,7 +1,8 @@
 import api from '@/config/axios'
 import axios from 'axios'
 
-const host = import.meta.env.VITE_API_HOST || 'http://localhost:3000';
+const host = import.meta.env.VITE_API_HOST || 'http://localhost:3000'
+const token = localStorage.getItem('authToken')
 
 export const getPosts = async (page = 1, limit = 6, search = '', tag = []) => {
   try {
@@ -66,19 +67,21 @@ export const createPost = async (formData) => {
   }
 }
 
-export const postViewed = async (id) => {
+export const postViewed = async (post_id) => {
   try {
-    const token = localStorage.getItem('authToken');
-    const response = await axios.post(`${host}/posts/${id}/viewed`, [], {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    }
+    const response = await axios.post(`${host}/posts/${post_id}/viewed`, null, {
+      headers,
     })
 
-    return response.data;
+    return response.data
   } catch (error) {
-    console.error(`Erro ao marcar post com id ${id} como visualizado:`, error)
+    console.error(
+      `Erro ao marcar post com id ${post_id} como visualizado:`,
+      error,
+    )
     throw error
   }
 }
