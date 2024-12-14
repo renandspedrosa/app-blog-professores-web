@@ -2,6 +2,7 @@ import axios from 'axios'
 
 const host = import.meta.env.API_HOST || 'http://localhost:3000'
 const token = localStorage.getItem('authToken')
+// console.log(token)
 
 export const getPostComments = async (id) => {
   try {
