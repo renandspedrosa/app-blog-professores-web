@@ -24,7 +24,7 @@ const Comment = ({ comment, index, onDelete }) => {
         <article className='p-4 text-base bg-white rounded-lg mr-1'>
           <div className='flex items-center justify-between w-full'>
             <p className='inline-flex text-gray-400 items-center text-xs flex-4/5'>
-              {comment.user_id}
+              {comment.user.name}
             </p>
             <p className='text-gray-400 flex-1/5 text-xs px-2'>
               <time
