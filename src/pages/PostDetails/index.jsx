@@ -121,10 +121,7 @@ const PostDetails = () => {
                   {post.teacherName}
                 </h2>
               </div>
-              <PostActions
-                commentCount={post.commentCount}
-                viewedCount={post.viewedCount}
-              />
+              <PostActions postId={post.id} viewedCount={post.viewedCount} />
             </div>
 
             {hasImage ? (

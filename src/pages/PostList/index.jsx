@@ -13,6 +13,7 @@ const PostList = () => {
     loading,
     error,
     searchTerm,
+    handlePostViewed,
     setSearchTerm,
     handleSearchPosts,
     currentPage,
@@ -23,6 +24,7 @@ const PostList = () => {
   } = usePosts()
 
   const handleReadMore = (post) => {
+    handlePostViewed(post.id)
     navigate(`/posts/${post.id}`, { state: { post } })
   }
 

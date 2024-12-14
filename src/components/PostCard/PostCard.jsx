@@ -13,7 +13,6 @@ const PostCard = ({ post, index, handleReadMore }) => {
     title,
     tags,
     content,
-    commentCount,
     viewedCount,
     teacher: {
       user: { name: teacherName },
@@ -41,7 +40,7 @@ const PostCard = ({ post, index, handleReadMore }) => {
           <PostHeader title={title} teacherName={teacherName} />
           <PostContent content={content} hasImage={hasImage} />
           <PostTags tags={tags} />
-          <PostActions commentCount={commentCount} viewedCount={viewedCount} />
+          <PostActions postId={post.id} viewedCount={viewedCount} />
         </div>
       </div>
     </div>

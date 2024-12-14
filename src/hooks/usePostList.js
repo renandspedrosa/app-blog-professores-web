@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getPosts } from '@/services/post'
+import { getPosts, postViewed } from '@/services/post'
 
 const usePosts = (initialPage = 1, postsPerPage = 6) => {
   const [posts, setPosts] = useState([])
@@ -34,6 +34,14 @@ const usePosts = (initialPage = 1, postsPerPage = 6) => {
     }
   }
 
+  const handlePostViewed = async (post_id) => {
+    try {
+      await postViewed(post_id)
+    } catch (error) {
+      console.error('Erro ao registrar visualização do post:', error)
+    }
+  }
+
   useEffect(() => {
     handleSearchPosts()
   }, [currentPage])
@@ -53,6 +61,7 @@ const usePosts = (initialPage = 1, postsPerPage = 6) => {
     loading,
     error,
     searchTerm,
+    handlePostViewed,
     setSearchTerm,
     currentPage,
     handleNextPage,
