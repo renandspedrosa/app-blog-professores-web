@@ -3,6 +3,7 @@ import PostList from '@/pages/PostList';
 import Login from '@/pages/Login';
 import CreateAccount from '@/pages/CreateAccount';
 import Administrator from '@/pages/Administrator';
+import Profile from '@/pages/Profile';
 import CreatePost from '@/pages/CreatePost';
 import NotFound from '@/pages/NotFound';
 import Tag from '@/pages/Tag';
@@ -24,8 +25,7 @@ const routeComponents = {
   '/posts/:id': PostDetails,
   '/categorias': Tag,
   '/redefinir-senha': ForgotPassword,
-  //'/profile': Profile,
-  //'/settings': Settings,
+  '/profile': Profile,
 };
 
 const App = () => {
