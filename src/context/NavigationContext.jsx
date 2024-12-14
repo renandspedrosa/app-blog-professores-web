@@ -6,19 +6,20 @@ export const NavigationProvider = ({ children }) => {
   const availableNavigation = [
     { name: 'Postagens', href: '/', show: true  },
     { name: 'Login', href: '/login'},
-    { name: 'Crie seu usuário', href: '/create-account'},  
+    { name: 'Crie seu usuário', href: '/criar-conta'},  
+    { name: 'Recupere sua senha', href: '/recuperar-senha'},  
+    { name: 'Redefina sua senha', href: '/redefinir-senha/:token'},
   ];
   
   //precisa de login para acessar
   const authenticatedNavigation = [
     //menus para o professor autenticado, teacher: true
-    { name: 'Criar Postagens', href: '/create-post', show: true, teacher: true },
+    { name: 'Criar Postagens', href: '/criar-postagem', show: true, teacher: true },
     { name: 'Administrar Postagens', href: '/administrador', show: true, teacher: true },
     { name: 'Categorias', href: '/categorias', show: true, teacher: true },
 
     //menus para usuário logado
-    { name: 'Perfil', href: '/profile', user: true },
-    { name: 'Configurações', href: '/settings', user: true },
+    { name: 'Perfil', href: '/perfil', user: true },
     { name: 'Sair', href: '#', user: true},
     
   ];

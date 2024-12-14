@@ -41,13 +41,15 @@ const Login = () => {
               onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
               required={true}
               type="password"
+              title={'Esqueceu sua senha?'}
+              href={'/recuperar-senha'}
             />
           </div>
-          <Button type="submit">Entrar</Button>
+          <Button title={'Entre na sua conta'} type="submit">Entrar</Button>
 
           <p className="mt-10 text-center text-sm/6 text-gray-500">
             Não tem uma conta?{' '}
-            <Link to="/create-account" className="font-semibold text-indigo-600 hover:text-indigo-500">
+            <Link to="/criar-conta" className="font-semibold text-indigo-600 hover:text-indigo-500">
               Registre-se agora
             </Link>
           </p>
