@@ -7,6 +7,7 @@ export const NavigationProvider = ({ children }) => {
     { name: 'Postagens', href: '/', show: true },
     { name: 'Login', href: '/login' },
     { name: 'Crie seu usuário', href: '/create-account' },
+    { name: 'Detalhes da Postagem', href: '/posts/:id' },
   ]
 
   //precisa de login para acessar
@@ -32,7 +33,6 @@ export const NavigationProvider = ({ children }) => {
     { name: 'Sair', href: '#', user: true },
 
     // menu para student logado
-    { name: 'Detalhes da Postagem', href: '/posts/:id', user: true },
   ]
 
   return (
