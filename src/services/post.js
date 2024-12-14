@@ -4,13 +4,14 @@ import axios from 'axios'
 const host = import.meta.env.VITE_API_HOST || 'http://localhost:3000'
 const token = localStorage.getItem('authToken')
 
-export const getPosts = async (page = 1, limit = 6, search = '') => {
+export const getPosts = async (page = 1, limit = 6, search = '', tag = []) => {
   try {
     const response = await api.get(`/posts`, {
       params: {
         page,
         limit,
         term: search,
+        tag,
       },
     })
     return { data: response.data }
@@ -87,6 +88,7 @@ export const postViewed = async (post_id) => {
 
 export const updatePost = async (id, postData) => {
   try {
+    const token = localStorage.getItem('authToken');
     const response = await axios.put(`${host}/posts/${id}`, postData, {
       headers: {
         'Content-Type': 'application/json',

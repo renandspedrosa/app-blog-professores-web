@@ -6,7 +6,9 @@ export const NavigationProvider = ({ children }) => {
   const availableNavigation = [
     { name: 'Postagens', href: '/', show: true },
     { name: 'Login', href: '/login' },
-    { name: 'Crie seu usuário', href: '/create-account' },
+    { name: 'Crie seu usuário', href: '/criar-conta' },
+    { name: 'Recupere sua senha', href: '/recuperar-senha' },
+    { name: 'Redefina sua senha', href: '/redefinir-senha/:token' },
     { name: 'Detalhes da Postagem', href: '/posts/:id' },
   ]
 
@@ -15,7 +17,7 @@ export const NavigationProvider = ({ children }) => {
     //menus para o professor autenticado, teacher: true
     {
       name: 'Criar Postagens',
-      href: '/create-post',
+      href: '/criar-postagem',
       show: true,
       teacher: true,
     },
@@ -28,11 +30,8 @@ export const NavigationProvider = ({ children }) => {
     { name: 'Categorias', href: '/categorias', show: true, teacher: true },
 
     //menus para usuário logado
-    { name: 'Perfil', href: '/profile', user: true },
-    { name: 'Configurações', href: '/settings', user: true },
+    { name: 'Perfil', href: '/perfil', user: true },
     { name: 'Sair', href: '#', user: true },
-
-    // menu para student logado
   ]
 
   return (
