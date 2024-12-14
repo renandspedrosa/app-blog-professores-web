@@ -3,6 +3,7 @@ import PostList from '@/pages/PostList';
 import Login from '@/pages/Login';
 import CreateAccount from '@/pages/CreateAccount';
 import Administrator from '@/pages/Administrator';
+import Profile from '@/pages/Profile';
 import CreatePost from '@/pages/CreatePost';
 import NotFound from '@/pages/NotFound';
 import Tag from '@/pages/Tag';
@@ -22,7 +23,7 @@ const routeComponents = {
   '/administrador': Administrator,
   '/posts/:id': PostDetails,
   '/categorias': Tag,
-  //'/profile': Profile,
+  '/profile': Profile,
   //'/settings': Settings,
 };
 

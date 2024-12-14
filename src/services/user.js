@@ -1,8 +1,8 @@
 import api from '@/config/axios'
 
-export const createStudent = async (param) => {
+export const findUserByEmail = async (email) => {
   try {
-    const response = await api.post(`/student`, param, {
+    const response = await api.get(`/user/email/${email}`, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -11,25 +11,28 @@ export const createStudent = async (param) => {
     return response.data
   } catch (error) {
     console.error(
-      'Erro ao criar estudante:',
+      'Erro ao encontrar o usuário:',
       error.response ? error.response.data : error.message,
     )
     throw error
   }
 }
 
-export const updateStudent = async (id, param) => {
+export const updateUser = async (id, param) => {
   try {
-    const response = await api.put(`/student/${id}`, param, {
+    const token = localStorage.getItem('authToken')
+
+    const response = await api.put(`/user/${id}`, param, {
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
     })
 
     return response.data
   } catch (error) {
     console.error(
-      'Erro ao atualizar estudante:',
+      'Erro ao atualizar usuário:',
       error.response ? error.response.data : error.message,
     )
     throw error
