@@ -1,7 +1,9 @@
 import { Menu, MenuButton } from '@headlessui/react'
 import { Trash2 } from 'lucide-react'
+import { useAuth } from '@/context/AuthContext'
 
 const Comment = ({ comment, index, onDelete }) => {
+  const { isTeacher, handleSameUser } = useAuth()
   if (!comment || !comment.user_id) {
     return null // Retorne null se os dados do comentário estiverem ausentes
   }
@@ -39,14 +41,16 @@ const Comment = ({ comment, index, onDelete }) => {
             <p>{comment.content}</p>
           </div>
           <div className='flex w-full justify-end'>
-            <Menu as='div'>
-              <MenuButton
-                className='inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50'
-                onClick={() => onDelete(comment.id)}
-              >
-                <Trash2 size={16} strokeWidth={0.75} />
-              </MenuButton>
-            </Menu>
+            {(isTeacher || handleSameUser(comment.user.id)) && (
+              <Menu as='div'>
+                <MenuButton
+                  className='inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50'
+                  onClick={() => onDelete(comment.id)}
+                >
+                  <Trash2 size={16} strokeWidth={0.75} />
+                </MenuButton>
+              </Menu>
+            )}
           </div>
         </article>
       </div>
