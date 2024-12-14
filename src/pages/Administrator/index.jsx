@@ -73,7 +73,7 @@ const Administrator = () => {
         initialValues: {
             title: postToEdit?.title || '',
             content: postToEdit?.content || '',
-            attachment: null,
+            attachment: postToEdit?.path_img || null,
             selectedTags: postToEdit?.selectedTags || [],
         },
         enableReinitialize: true,
@@ -88,7 +88,7 @@ const Administrator = () => {
                     formData.append(`tags[${index}][name]`, tag.label);
                 });
 
-                if (values.attachment) {
+                if (values.attachment && values.attachment !== postToEdit?.path_img) {
                     formData.append('attachment', values.attachment);
                 }
 
@@ -100,6 +100,8 @@ const Administrator = () => {
             }
         },
     });
+
+
 
     if (loading || deleteLoading) {
         return <Load />;
@@ -132,6 +134,19 @@ const Administrator = () => {
             />
 
             <Modal isOpen={isModalOpen} onClose={closeModal} title={titleModal} onConfirm={formik.handleSubmit}>
+                {postToEdit?.path_img && (
+                    <div className="mb-4">
+                        <label className="block text-sm font-medium text-gray-900">
+                            Imagem Atual
+                        </label>
+                        <img
+                            src={postToEdit.path_img}
+                            alt="Imagem do Post"
+                            className="mt-2 max-w-full h-auto rounded"
+                        />
+                    </div>
+                )}
+
                 <Input
                     label="Título"
                     type="text"
