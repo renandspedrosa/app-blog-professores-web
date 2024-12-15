@@ -7,7 +7,7 @@ import checkPermission from '@/utils/checkPermission';
 import Confirm from '@/components/Confirm';
 import useDeletePost from '@/hooks/useDeletePost';
 import Modal from '@/components/Modal';
-import { Input, FormError } from '@/components/Form';
+import { Input, FormError, TextArea } from '@/components/Form';
 import { useState } from 'react';
 import { useFormik } from 'formik';
 import { getPostById, updatePost } from '@/services/post';
@@ -232,19 +232,16 @@ const Administrator = () => {
 
                 {/* Campo Conteúdo */}
                 <div className="mb-4">
-                    <label htmlFor="content" className="block text-sm font-medium text-gray-900">
-                        Conteúdo
-                    </label>
-                    <textarea
-                        id="content"
-                        name="content"
-                        required
-                        rows="6"
-                        className="mt-2 block w-full rounded-md border border-gray-300 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        value={formik.values.content}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                    ></textarea>
+                    <TextArea 
+                            label="Conteúdo"
+                            id="content"
+                            name="content"
+                            required
+                            rows="6"
+                            value={formik.values.content}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                        />
                     <FormError error={formik.touched.content && formik.errors.content} />
                 </div>
 
