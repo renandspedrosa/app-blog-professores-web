@@ -15,8 +15,9 @@ import Select from 'react-select';
 import useTags from '@/hooks/useTagList';
 import { SearchBar } from '@/components/SearchBar';
 import formatDate from '@/utils/formatDate';
+import schema from '@/pages/Administrator/schema';
 
-const host = import.meta.env.VITE_API_HOST || 'http://localhost:3000'
+const host = import.meta.env.VITE_API_HOST || 'http://localhost:3000';
 
 const columns = [
     {
@@ -97,6 +98,34 @@ const Administrator = () => {
         setPostToEdit(null);
     };
 
+    const handleRemoveImageWithConfirmation = (postId) => {
+        Confirm(
+            '',
+            'Você tem certeza que deseja remover?',
+            () => handleRemoveImage(postId)
+        );
+    };
+
+    const handleRemoveImage = async (postId) => {
+        try {
+
+            const formData = new FormData();
+            formData.append('removerImagem', true);
+
+            await updatePost(postId, formData);
+
+            setPostToEdit((prevPost) => ({
+                ...prevPost,
+                path_img: '',
+            }));
+
+            formik.setFieldValue('attachment', '');
+            formik.setFieldValue('attachmentImg', null);
+        } catch (error) {
+            console.error('Erro ao remover a imagem:', error);
+        }
+    };
+
     const formik = useFormik({
         initialValues: {
             title: postToEdit?.title || '',
@@ -105,6 +134,7 @@ const Administrator = () => {
             selectedTags: postToEdit?.selectedTags || [],
         },
         enableReinitialize: true,
+        validationSchema: schema,
         onSubmit: async (values) => {
             try {
                 const formData = new FormData();
@@ -168,19 +198,27 @@ const Administrator = () => {
 
             <Modal isOpen={isModalOpen} onClose={closeModal} title={titleModal} onConfirm={formik.handleSubmit}>
                 {postToEdit?.path_img && (
-                    <div className="mb-4">
+                    <div className="mb-4 flex items-center">
                         <label className="block text-sm font-medium text-gray-900">
-                            Imagem Atual
                         </label>
-                        <img
-                            src={host + '/' + postToEdit.path_img}
-                            alt="Imagem do Post"
-                            className="mt-2 max-w-full h-auto rounded"
-                            style={{maxHeight: '300px'}}
-                        />
+                        <div className="relative">
+                            {/* Exibe a imagem */}
+                            <img
+                                src={host + '/' + postToEdit.path_img}
+                                alt="Imagem do Post"
+                                className="mt-2 max-w-full h-auto rounded"
+                                style={{ maxHeight: '300px' }}
+                            />
+                            <ButtonExcluir
+                                onClick={() => handleRemoveImageWithConfirmation(postToEdit.id)}
+                                className="absolute top-4 right-0 p-2"
+                                title="Remover anexo"
+                            />
+                        </div>
                     </div>
                 )}
 
+                {/* Campo Título */}
                 <Input
                     label="Título"
                     type="text"
@@ -192,7 +230,7 @@ const Administrator = () => {
                 />
                 <FormError error={formik.touched.title && formik.errors.title} />
 
-
+                {/* Campo Conteúdo */}
                 <div className="mb-4">
                     <label htmlFor="content" className="block text-sm font-medium text-gray-900">
                         Conteúdo
@@ -207,17 +245,17 @@ const Administrator = () => {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                     ></textarea>
-                    <FormError error={formik.touched.content && formik.errors.content}/>
+                    <FormError error={formik.touched.content && formik.errors.content} />
                 </div>
 
-
+                {/* Campo Tags */}
                 <label htmlFor="tags" className="block text-sm font-medium text-gray-900">
                     Tags
                 </label>
                 <Select
                     id="tags"
                     name="tags"
-                    options={tagList.map((tag) => ({value: tag.id, label: tag.name}))}
+                    options={tagList.map((tag) => ({ value: tag.id, label: tag.name }))}
                     isMulti
                     isLoading={tagsLoading}
                     value={formik.values.selectedTags}
@@ -227,22 +265,30 @@ const Administrator = () => {
                     placeholder="Selecione tags..."
                 />
                 {tagsError && <p className="text-red-600 text-sm mt-2">{tagsError}</p>}
-                <FormError error={formik.touched.selectedTags && formik.errors.selectedTags}/>
+                <FormError error={formik.touched.selectedTags && formik.errors.selectedTags} />
 
+                {/* Campo de Imagem (apenas se não houver imagem atual) */}
                 <label htmlFor="attachmentImg" className="block text-sm font-medium text-gray-900 mt-4">
-                    Anexo
+                    {postToEdit?.path_img ? '' : 'Anexar Arquivo'}
                 </label>
-                <input
-                    id="attachmentImg"
-                    name="attachmentImg"
-                    type="file"
-                    accept="image/*"
-                    onChange={(event) =>
-                        formik.setFieldValue('attachmentImg', event.currentTarget.files[0])
-                    }
-                    onBlur={formik.handleBlur}
-                />
+
+                {/* Exibe o campo de arquivo se não houver imagem */}
+                {!postToEdit?.path_img && (
+                    <input
+                        id="attachmentImg"
+                        name="attachmentImg"
+                        type="file"
+                        accept="image/*"
+                        onChange={(event) =>
+                            formik.setFieldValue('attachmentImg', event.currentTarget.files[0])
+                        }
+                        onBlur={formik.handleBlur}
+                    />
+                )}
             </Modal>
+
+
+
         </>
     );
 };

@@ -1,5 +1,6 @@
 import api from '@/config/axios'
 import axios from 'axios'
+import {toast} from "react-toastify";
 
 const host = import.meta.env.VITE_API_HOST || 'http://localhost:3000'
 const token = localStorage.getItem('authToken')
@@ -79,13 +80,14 @@ export const updatePost = async (id, postData) => {
         Authorization: `Bearer ${token}`,
       },
     })
+    toast.success('Postagem editada com sucesso!');
     return response.data
+
   } catch (error) {
     console.error(`Erro ao atualizar post com id ${id}:`, error)
     throw error
   }
 }
-
 
 export const deletePost = async (id) => {
   try {
