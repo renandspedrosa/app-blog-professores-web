@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getPosts } from '@/services/post'
+import { getPosts, postViewed } from '@/services/post'
 
 const usePosts = (initialPage = 1, postsPerPage = 6) => {
   const [posts, setPosts] = useState([])
@@ -7,13 +7,25 @@ const usePosts = (initialPage = 1, postsPerPage = 6) => {
   const [error, setError] = useState(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [currentPage, setCurrentPage] = useState(initialPage)
+  const [hasMorePosts, setHasMorePosts] = useState(false)
+  const [tags, setTags] = useState([])
 
   const handleSearchPosts = async () => {
     try {
       setLoading(true)
       const search = searchTerm || ''
-      const { data } = await getPosts(currentPage, postsPerPage, search)
+      const { data } = await getPosts(currentPage, postsPerPage, search, tags)
+
       setPosts(data)
+
+      const nextPage = currentPage + 1
+      const { data: nextPageData } = await getPosts(
+        nextPage,
+        postsPerPage,
+        search,
+      )
+
+      setHasMorePosts(nextPageData.length > 0)
     } catch (error) {
       console.error('Erro ao buscar posts:', error)
       setError('Ocorreu um erro ao carregar os posts.')
@@ -23,12 +35,22 @@ const usePosts = (initialPage = 1, postsPerPage = 6) => {
     }
   }
 
+  const handlePostViewed = async (post_id) => {
+    try {
+      await postViewed(post_id)
+    } catch (error) {
+      console.error('Erro ao registrar visualização do post:', error)
+    }
+  }
+
   useEffect(() => {
     handleSearchPosts()
   }, [currentPage])
 
   const handleNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1)
+    if (hasMorePosts) {
+      setCurrentPage((prevPage) => prevPage + 1)
+    }
   }
 
   const handlePrevPage = () => {
@@ -40,12 +62,15 @@ const usePosts = (initialPage = 1, postsPerPage = 6) => {
     loading,
     error,
     searchTerm,
+    handlePostViewed,
     setSearchTerm,
+    tags,
+    setTags,
     currentPage,
     handleNextPage,
     handlePrevPage,
     handleSearchPosts,
-    isNextDisabled: Math.ceil(posts.length / postsPerPage) < currentPage,
+    isNextDisabled: !hasMorePosts,
     isPrevDisabled: currentPage === 1,
   }
 }

@@ -3,9 +3,12 @@ import PostList from '@/pages/PostList';
 import Login from '@/pages/Login';
 import CreateAccount from '@/pages/CreateAccount';
 import Administrator from '@/pages/Administrator';
+import Profile from '@/pages/Profile';
 import CreatePost from '@/pages/CreatePost';
 import NotFound from '@/pages/NotFound';
 import Tag from '@/pages/Tag';
+import ForgotPassword from '@/pages/ForgotPassword';
+import ResetPassword from '@/pages/ResetPassword';
 import Navbar from '@/components/Navbar';
 import { AuthProvider, AuthConsumer } from '@/context/AuthContext';
 import { NavigationProvider, NavigationConsumer } from '@/context/NavigationContext';
@@ -17,13 +20,14 @@ import PostDetails from '@/pages/PostDetails';
 const routeComponents = {
   '/': PostList,
   '/login': Login,
-  '/create-account': CreateAccount,
-  '/create-post': CreatePost,
+  '/criar-conta': CreateAccount,
+  '/criar-postagem': CreatePost,
   '/administrador': Administrator,
   '/posts/:id': PostDetails,
   '/categorias': Tag,
-  //'/profile': Profile,
-  //'/settings': Settings,
+  '/perfil': Profile,
+  '/recuperar-senha': ForgotPassword,
+  '/redefinir-senha/:token': ResetPassword,
 };
 
 const App = () => {

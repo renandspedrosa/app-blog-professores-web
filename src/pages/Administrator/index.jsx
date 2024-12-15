@@ -13,21 +13,35 @@ import { useFormik } from 'formik';
 import { getPostById, updatePost } from '@/services/post';
 import Select from 'react-select';
 import useTags from '@/hooks/useTagList';
+import { SearchBar } from '@/components/SearchBar';
+import formatDate from '@/utils/formatDate';
 
 const columns = [
     {
         name: 'Título',
-        selector: row => row.title,
+        selector: row => row.title.length > 50 ? `${row.title.substring(0, 20)}...` : row.title,
     },
     {
         name: 'Conteúdo',
-        selector: row => row.content,
+        selector: row => row.content.length > 100 ? `${row.content.substring(0, 25)}...` : row.content,
     },
     {
-        name: '',
-        selector: row => row.acao,
-        right: true,
+        name: 'Categoria',
+        selector: row => row.tags.map(tag => tag.name).join(', '),
     },
+	{
+		name: 'Data da Postagem',
+		selector: row => formatDate(row.created_at),
+	},
+	{
+		name: 'Autor',
+		selector: row => row.teacher.user.name,
+	},
+	{
+		name: '',
+		selector: row => row.acao,
+        right: "true",
+	},
 ];
 
 const Administrator = () => {
@@ -40,10 +54,22 @@ const Administrator = () => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [titleModal, setTitleModal] = useState('');
 
-    const { tags, loading: tagsLoading, error: tagsError } = useTags();
+    const { loading: tagsLoading, error: tagsError } = useTags();
 
     const {
-        posts, loading, error, currentPage, handleNextPage, handlePrevPage, isNextDisabled, isPrevDisabled, handleSearchPosts
+    posts,
+    loading,
+    error,
+    currentPage,
+    handleNextPage,
+    handlePrevPage,
+    isNextDisabled,
+    isPrevDisabled,
+    handleSearchPosts,
+    searchTerm,
+    setSearchTerm,
+    tags,
+    setTags,
     } = usePosts();
 
     const { loading: deleteLoading, handleDeletePost } = useDeletePost();
@@ -123,8 +149,17 @@ const Administrator = () => {
 
     return (
         <>
-            <DataTable columns={columns} data={postsWithActions} />
-
+            <SearchBar
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+                tagsSearch={tags}
+                setTags={setTags}
+                onSearch={handleSearchPosts}
+            />
+            <DataTable
+                columns={columns}
+                data={postsWithActions}
+            />
             <Pagination
                 goToPrevPage={handlePrevPage}
                 isPrevDisabled={isPrevDisabled}

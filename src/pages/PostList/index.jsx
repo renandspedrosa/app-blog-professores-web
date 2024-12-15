@@ -13,16 +13,20 @@ const PostList = () => {
     loading,
     error,
     searchTerm,
+    handlePostViewed,
     setSearchTerm,
+    handleSearchPosts,
     currentPage,
     handleNextPage,
-    handleSearchPosts,
     handlePrevPage,
     isNextDisabled,
     isPrevDisabled,
+    tags,
+    setTags,
   } = usePosts()
 
   const handleReadMore = (post) => {
+    handlePostViewed(post.id)
     navigate(`/posts/${post.id}`, { state: { post } })
   }
 
@@ -40,8 +44,10 @@ const PostList = () => {
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
         onSearch={handleSearchPosts}
+        tagsSearch={tags}
+        setTags={setTags}
       />
-      <div className='container px-5 py-24 mx-auto'>
+      <div className='container px-5 py-8 mx-auto'>
         <div className='flex flex-wrap -m-4'>
           {posts.map((post) => (
             <PostCard

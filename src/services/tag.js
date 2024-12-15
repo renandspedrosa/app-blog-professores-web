@@ -1,14 +1,11 @@
 import axios from 'axios';
+import api from '@/config/axios'
 
 const host = import.meta.env.VITE_API_HOST || 'http://localhost:3000';
 
 export const getTags = async (page = 1, limit = 5, search = '') => {
-  const token = localStorage.getItem('authToken');
     try {
-      const response = await axios.get(`${host}/tag`,{
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+      const response = await api.get(`/tag`,{
           params: {
             page,
             limit,
