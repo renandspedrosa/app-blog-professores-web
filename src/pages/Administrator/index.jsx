@@ -31,19 +31,19 @@ const columns = [
         name: 'Categoria',
         selector: row => row.tags.map(tag => tag.name).join(', '),
     },
-	{
-		name: 'Data da Postagem',
-		selector: row => formatDate(row.created_at),
-	},
-	{
-		name: 'Autor',
-		selector: row => row.teacher.user.name,
-	},
-	{
-		name: '',
-		selector: row => row.acao,
+    {
+        name: 'Data da Postagem',
+        selector: row => formatDate(row.created_at),
+    },
+    {
+        name: 'Autor',
+        selector: row => row.teacher.user.name,
+    },
+    {
+        name: '',
+        selector: row => row.acao,
         right: "true",
-	},
+    },
 ];
 
 const Administrator = () => {
@@ -56,22 +56,22 @@ const Administrator = () => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [titleModal, setTitleModal] = useState('');
 
-    const { tags:tagList,  loading: tagsLoading, error: tagsError } = useTags();
+    const { tags: tagList, loading: tagsLoading, error: tagsError } = useTags();
 
     const {
-    posts,
-    loading,
-    error,
-    currentPage,
-    handleNextPage,
-    handlePrevPage,
-    isNextDisabled,
-    isPrevDisabled,
-    handleSearchPosts,
-    searchTerm,
-    setSearchTerm,
-    tags,
-    setTags,
+        posts,
+        loading,
+        error,
+        currentPage,
+        handleNextPage,
+        handlePrevPage,
+        isNextDisabled,
+        isPrevDisabled,
+        handleSearchPosts,
+        searchTerm,
+        setSearchTerm,
+        tags,
+        setTags,
     } = usePosts();
 
     const { loading: deleteLoading, handleDeletePost } = useDeletePost();
@@ -117,7 +117,6 @@ const Administrator = () => {
                 if (values.attachmentImg && values.attachmentImg !== postToEdit?.path_img) {
                     formData.append('attachment', values.attachmentImg);
                 }
-                console.log('formData', formData);
 
                 await updatePost(postToEdit.id, formData);
                 handleSearchPosts();
@@ -127,8 +126,6 @@ const Administrator = () => {
             }
         },
     });
-
-
 
     if (loading || deleteLoading) {
         return <Load />;
@@ -176,10 +173,10 @@ const Administrator = () => {
                             Imagem Atual
                         </label>
                         <img
-                            src={host+'/'+postToEdit.path_img}
+                            src={host + '/' + postToEdit.path_img}
                             alt="Imagem do Post"
                             className="mt-2 max-w-full h-auto rounded"
-                            style={{ maxHeight: '300px' }}
+                            style={{maxHeight: '300px'}}
                         />
                     </div>
                 )}
@@ -191,18 +188,28 @@ const Administrator = () => {
                     name="title"
                     value={formik.values.title}
                     onChange={formik.handleChange}
+                    className="mb-12"
                 />
                 <FormError error={formik.touched.title && formik.errors.title} />
 
-                <Input
-                    label="Conteúdo"
-                    type="text"
-                    required
-                    name="content"
-                    value={formik.values.content}
-                    onChange={formik.handleChange}
-                />
-                <FormError error={formik.touched.content && formik.errors.content} />
+
+                <div className="mb-4">
+                    <label htmlFor="content" className="block text-sm font-medium text-gray-900">
+                        Conteúdo
+                    </label>
+                    <textarea
+                        id="content"
+                        name="content"
+                        required
+                        rows="6"
+                        className="mt-2 block w-full rounded-md border border-gray-300 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        value={formik.values.content}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                    ></textarea>
+                    <FormError error={formik.touched.content && formik.errors.content}/>
+                </div>
+
 
                 <label htmlFor="tags" className="block text-sm font-medium text-gray-900">
                     Tags
@@ -210,7 +217,7 @@ const Administrator = () => {
                 <Select
                     id="tags"
                     name="tags"
-                    options={tagList.map((tag) => ({ value: tag.id, label: tag.name }))}
+                    options={tagList.map((tag) => ({value: tag.id, label: tag.name}))}
                     isMulti
                     isLoading={tagsLoading}
                     value={formik.values.selectedTags}
@@ -220,7 +227,7 @@ const Administrator = () => {
                     placeholder="Selecione tags..."
                 />
                 {tagsError && <p className="text-red-600 text-sm mt-2">{tagsError}</p>}
-                <FormError error={formik.touched.selectedTags && formik.errors.selectedTags} />
+                <FormError error={formik.touched.selectedTags && formik.errors.selectedTags}/>
 
                 <label htmlFor="attachmentImg" className="block text-sm font-medium text-gray-900 mt-4">
                     Anexo
