@@ -179,6 +179,7 @@ const Administrator = () => {
                             src={host+'/'+postToEdit.path_img}
                             alt="Imagem do Post"
                             className="mt-2 max-w-full h-auto rounded"
+                            style={{ maxHeight: '300px' }}
                         />
                     </div>
                 )}
