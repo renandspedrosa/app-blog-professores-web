@@ -2,6 +2,7 @@ import DataTable from 'react-data-table-component';
 import Load from '@/components/Load';
 import usePosts from '@/hooks/usePostList';
 import { Pagination } from '@/components/Pagination';
+import CustomNoDataComponent from '@/components/CustomNoDataComponent';
 import { ButtonEditar, ButtonExcluir } from '@/components/Buttons';
 import checkPermission from '@/utils/checkPermission';
 import Confirm from '@/components/Confirm';
@@ -187,6 +188,7 @@ const Administrator = () => {
             <DataTable
                 columns={columns}
                 data={postsWithActions}
+                noDataComponent={<CustomNoDataComponent />}
             />
             <Pagination
                 goToPrevPage={handlePrevPage}

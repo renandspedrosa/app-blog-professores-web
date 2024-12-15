@@ -17,6 +17,7 @@ import schema from '@/pages/Tag/schema'
 import { Input, FormError } from '@/components/Form'
 import useCreateTag from '@/hooks/useCreateTag'
 import useUpdateTag from '@/hooks/useUpdateTag'
+import CustomNoDataComponent from '@/components/CustomNoDataComponent'
 
 const columns = [
   {
@@ -127,7 +128,7 @@ const Tag = () => {
           Adicionar Categoria
         </ButtonSecondary>
       </div>
-      <DataTable columns={columns} data={tags} />
+      <DataTable columns={columns} data={tags} noDataComponent={<CustomNoDataComponent />} />
       <Pagination
         goToPrevPage={handlePrevPage}
         isPrevDisabled={isPrevDisabled}
