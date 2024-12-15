@@ -110,15 +110,14 @@ const Administrator = () => {
                 const formData = new FormData();
                 formData.append('title', values.title);
                 formData.append('content', values.content);
-
                 values.selectedTags.forEach((tag, index) => {
                     formData.append(`tags[${index}][id]`, tag.value);
                     formData.append(`tags[${index}][name]`, tag.label);
                 });
-
-                if (values.attachment && values.attachment !== postToEdit?.path_img) {
-                    formData.append('attachment', values.attachment);
+                if (values.attachmentImg && values.attachmentImg !== postToEdit?.path_img) {
+                    formData.append('attachment', values.attachmentImg);
                 }
+                console.log('formData', formData);
 
                 await updatePost(postToEdit.id, formData);
                 handleSearchPosts();
@@ -222,16 +221,18 @@ const Administrator = () => {
                 {tagsError && <p className="text-red-600 text-sm mt-2">{tagsError}</p>}
                 <FormError error={formik.touched.selectedTags && formik.errors.selectedTags} />
 
-                <label htmlFor="attachment" className="block text-sm font-medium text-gray-900 mt-4">
+                <label htmlFor="attachmentImg" className="block text-sm font-medium text-gray-900 mt-4">
                     Anexo
                 </label>
                 <input
-                    id="attachment"
-                    name="attachment"
+                    id="attachmentImg"
+                    name="attachmentImg"
                     type="file"
+                    accept="image/*"
                     onChange={(event) =>
-                        formik.setFieldValue('attachment', event.currentTarget.files[0])
+                        formik.setFieldValue('attachmentImg', event.currentTarget.files[0])
                     }
+                    onBlur={formik.handleBlur}
                 />
             </Modal>
         </>

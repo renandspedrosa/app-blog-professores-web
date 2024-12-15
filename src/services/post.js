@@ -76,7 +76,6 @@ export const updatePost = async (id, postData) => {
     const token = localStorage.getItem('authToken');
     const response = await axios.put(`${host}/posts/${id}`, postData, {
       headers: {
-        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     })
