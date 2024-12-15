@@ -1,5 +1,6 @@
 import api from '@/config/axios'
 import axios from 'axios'
+import {toast} from "react-toastify";
 
 const host = import.meta.env.VITE_API_HOST || 'http://localhost:3000'
 const token = localStorage.getItem('authToken')
@@ -34,27 +35,12 @@ export const getPostById = async (id) => {
 export const createPost = async (formData) => {
   try {
     const token = localStorage.getItem('authToken')
-    if (!token) {
-      throw new Error(
-        'Token de autenticação não encontrado. Usuário não está logado.',
-      )
-    }
 
-    if (formData && formData.entries) {
-      for (let [key, value] of formData.entries()) {
-        console.log(`${key}: ${value}`)
+    const response = await axios.post(`${host}/posts`, formData, { 
+      headers : {
+        Authorization: `Bearer ${token}`,
       }
-    } else {
-      console.warn('FormData não está no formato esperado.')
-    }
-
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    }
-
-    const response = await axios.post(`${host}/posts`, formData, { headers })
-
-    console.log('Resposta do servidor:', response.data)
+    })
 
     return response.data
   } catch (error) {
@@ -91,11 +77,12 @@ export const updatePost = async (id, postData) => {
     const token = localStorage.getItem('authToken');
     const response = await axios.put(`${host}/posts/${id}`, postData, {
       headers: {
-        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     })
+    toast.success('Postagem editada com sucesso!');
     return response.data
+
   } catch (error) {
     console.error(`Erro ao atualizar post com id ${id}:`, error)
     throw error
