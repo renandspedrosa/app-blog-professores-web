@@ -54,7 +54,7 @@ const Administrator = () => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [titleModal, setTitleModal] = useState('');
 
-    const { loading: tagsLoading, error: tagsError } = useTags();
+    const { tags:tagList,  loading: tagsLoading, error: tagsError } = useTags();
 
     const {
     posts,
@@ -208,7 +208,7 @@ const Administrator = () => {
                 <Select
                     id="tags"
                     name="tags"
-                    options={tags.map((tag) => ({ value: tag.id, label: tag.name }))}
+                    options={tagList.map((tag) => ({ value: tag.id, label: tag.name }))}
                     isMulti
                     isLoading={tagsLoading}
                     value={formik.values.selectedTags}
