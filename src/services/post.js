@@ -34,27 +34,12 @@ export const getPostById = async (id) => {
 export const createPost = async (formData) => {
   try {
     const token = localStorage.getItem('authToken')
-    if (!token) {
-      throw new Error(
-        'Token de autenticação não encontrado. Usuário não está logado.',
-      )
-    }
 
-    if (formData && formData.entries) {
-      for (let [key, value] of formData.entries()) {
-        console.log(`${key}: ${value}`)
+    const response = await axios.post(`${host}/posts`, formData, { 
+      headers : {
+        Authorization: `Bearer ${token}`,
       }
-    } else {
-      console.warn('FormData não está no formato esperado.')
-    }
-
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    }
-
-    const response = await axios.post(`${host}/posts`, formData, { headers })
-
-    console.log('Resposta do servidor:', response.data)
+    })
 
     return response.data
   } catch (error) {
