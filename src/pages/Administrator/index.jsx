@@ -16,6 +16,8 @@ import useTags from '@/hooks/useTagList';
 import { SearchBar } from '@/components/SearchBar';
 import formatDate from '@/utils/formatDate';
 
+const host = import.meta.env.VITE_API_HOST || 'http://localhost:3000'
+
 const columns = [
     {
         name: 'Título',
@@ -175,7 +177,7 @@ const Administrator = () => {
                             Imagem Atual
                         </label>
                         <img
-                            src={postToEdit.path_img}
+                            src={host+'/'+postToEdit.path_img}
                             alt="Imagem do Post"
                             className="mt-2 max-w-full h-auto rounded"
                         />
