@@ -4,16 +4,15 @@ import { SearchBar } from '@/components/SearchBar'
 import { Pagination } from '@/components/Pagination'
 import Load from '@/components/Load'
 import usePosts from '@/hooks/usePostList'
+import NoPosts from '@/components/NoPosts'
 
 const PostList = () => {
   const navigate = useNavigate()
-
   const {
     posts,
     loading,
     error,
     searchTerm,
-    // handlePostViewed,
     setSearchTerm,
     handleSearchPosts,
     currentPage,
@@ -39,31 +38,39 @@ const PostList = () => {
 
   return (
     <section className='text-gray-600 body-font'>
-      <SearchBar
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        onSearch={handleSearchPosts}
-        tagsSearch={tags}
-        setTags={setTags}
-      />
-      <div className='container px-5 py-8 mx-auto'>
-        <div className='flex flex-wrap -m-4'>
-          {posts.map((post) => (
-            <PostCard
-              key={post.id}
-              post={post}
-              handleReadMore={handleReadMore}
+      {posts.length > 0 ? (
+        <>
+          <SearchBar
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            onSearch={handleSearchPosts}
+            tagsSearch={tags}
+            setTags={setTags}
+          />
+          <div className='container px-5 py-8 mx-auto'>
+            <div className='flex flex-wrap -m-4'>
+              {posts.map((post) => (
+                <PostCard
+                  key={post.id}
+                  post={post}
+                  handleReadMore={handleReadMore}
+                />
+              ))}
+            </div>
+            <Pagination
+              goToPrevPage={handlePrevPage}
+              isPrevDisabled={isPrevDisabled}
+              currentPage={currentPage}
+              isNextDisabled={isNextDisabled}
+              goToNextPage={handleNextPage}
             />
-          ))}
+          </div>
+        </>
+      ) : (
+        <div className='text-center'>
+          <NoPosts />
         </div>
-        <Pagination
-          goToPrevPage={handlePrevPage}
-          isPrevDisabled={isPrevDisabled}
-          currentPage={currentPage}
-          isNextDisabled={isNextDisabled}
-          goToNextPage={handleNextPage}
-        />
-      </div>
+      )}
     </section>
   )
 }
