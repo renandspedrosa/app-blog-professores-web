@@ -93,7 +93,7 @@ const CreatePost = () => {
                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                     <div className="sm:col-span-6">
                         <label htmlFor="tags" className="block text-sm font-medium text-gray-900">
-                            Tags
+                            Categoria
                         </label>
                         <Select
                             id="tags"
@@ -106,7 +106,7 @@ const CreatePost = () => {
                                 formik.setFieldValue('selectedTags', selectedOptions)
                             }
                             onBlur={formik.handleBlur}
-                            placeholder="Selecione tags..."
+                            placeholder="Selecione Categoria..."
                         />
                         {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
                         <FormError
