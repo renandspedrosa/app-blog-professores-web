@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { getPostComments } from '../services/comments'
 
 const useCommentsList = (postId) => {
@@ -6,7 +6,7 @@ const useCommentsList = (postId) => {
   const [loadingCommentsList, setLoadingCommentsList] = useState(true)
   const [errorCommentsList, setErrorCommentsList] = useState(null)
 
-  const handleSearchComments = async () => {
+  const handleSearchComments = useCallback(async () => {
     if (!postId) return
     try {
       setLoadingCommentsList(true)
@@ -18,11 +18,11 @@ const useCommentsList = (postId) => {
     } finally {
       setLoadingCommentsList(false)
     }
-  }
+  }, [postId])
 
   useEffect(() => {
     handleSearchComments()
-  }, [postId])
+  }, [postId, handleSearchComments])
 
   return {
     commentsList,

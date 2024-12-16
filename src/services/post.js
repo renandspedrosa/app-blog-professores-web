@@ -1,9 +1,9 @@
 import api from '@/config/axios'
 import axios from 'axios'
-import {toast} from "react-toastify";
+import { toast } from 'react-toastify'
+import axiosInstance from '../config/axiosInstance'
 
 const host = import.meta.env.VITE_API_HOST || 'http://localhost:3000'
-const token = localStorage.getItem('authToken')
 
 export const getPosts = async (page = 1, limit = 6, search = '', tag = []) => {
   try {
@@ -34,13 +34,9 @@ export const getPostById = async (id) => {
 
 export const createPost = async (formData) => {
   try {
-    const token = localStorage.getItem('authToken')
+    // const token = localStorage.getItem('authToken')
 
-    const response = await axios.post(`${host}/posts`, formData, { 
-      headers : {
-        Authorization: `Bearer ${token}`,
-      }
-    })
+    const response = await axiosInstance.post(`${host}/posts`, formData)
 
     return response.data
   } catch (error) {
@@ -55,12 +51,7 @@ export const createPost = async (formData) => {
 
 export const postViewed = async (post_id) => {
   try {
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    }
-    const response = await axios.post(`${host}/posts/${post_id}/viewed`, null, {
-      headers,
-    })
+    const response = await axiosInstance.post(`${host}/posts/${post_id}/viewed`)
 
     return response.data
   } catch (error) {
@@ -74,15 +65,10 @@ export const postViewed = async (post_id) => {
 
 export const updatePost = async (id, postData) => {
   try {
-    const token = localStorage.getItem('authToken');
-    const response = await axios.put(`${host}/posts/${id}`, postData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    toast.success('Postagem editada com sucesso!');
+    // const token = localStorage.getItem('authToken')
+    const response = await axiosInstance.put(`${host}/posts/${id}`, postData)
+    toast.success('Postagem editada com sucesso!')
     return response.data
-
   } catch (error) {
     console.error(`Erro ao atualizar post com id ${id}:`, error)
     throw error
@@ -91,12 +77,8 @@ export const updatePost = async (id, postData) => {
 
 export const deletePost = async (id) => {
   try {
-    const token = localStorage.getItem('authToken')
-    await axios.delete(`${host}/posts/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    // const token = localStorage.getItem('authToken')
+    await axiosInstance.delete(`${host}/posts/${id}`)
   } catch (error) {
     console.error(`Erro ao excluir post com id ${id}:`, error)
     throw error
