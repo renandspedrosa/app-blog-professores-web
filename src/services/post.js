@@ -3,7 +3,6 @@ import axios from 'axios'
 import {toast} from "react-toastify";
 
 const host = import.meta.env.VITE_API_HOST || 'http://localhost:3000'
-const token = localStorage.getItem('authToken')
 
 export const getPosts = async (page = 1, limit = 6, search = '', tag = []) => {
   try {
@@ -55,6 +54,8 @@ export const createPost = async (formData) => {
 
 export const postViewed = async (post_id) => {
   try {
+    const token = localStorage.getItem('authToken')
+    
     const headers = {
       Authorization: `Bearer ${token}`,
     }
