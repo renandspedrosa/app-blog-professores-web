@@ -4,9 +4,12 @@ import PostContent from './PostContent'
 import PostHeader from './PostHeader'
 import PostImage from './PostImage'
 import PostTags from './PostTags'
+import usePosts from '@/hooks/usePostList'
+import { useAuth } from '@/context/AuthContext'
 
 const PostCard = ({ post, index, handleReadMore }) => {
   const [isHovered, setIsHovered] = useState(false)
+  const { handlePostViewed } = usePosts()
 
   const {
     path_img: image,
@@ -20,6 +23,26 @@ const PostCard = ({ post, index, handleReadMore }) => {
     // id,
   } = post
 
+  const formattedDate = (date) => {
+    return new Date(date).toLocaleDateString('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    })
+  }
+
+  const { isStudent, isAuthenticated } = useAuth()
+
+  const handleViewed = (post) => {
+    console.log('CHAMADA DO POST VIEWED')
+    handlePostViewed(post.id)
+  }
+
+  const handleClick = (post) => {
+    handleReadMore(post)
+    if (isStudent && isAuthenticated) handleViewed(post)
+  }
+
   const hasImage = !!image
   return (
     <div
@@ -29,7 +52,7 @@ const PostCard = ({ post, index, handleReadMore }) => {
       key={index}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={() => handleReadMore(post)}
+      onClick={() => handleClick(post)}
     >
       <div
         className='bg-white h-full border-2 border-gray-200 border-opacity-60 rounded-lg flex flex-col'
@@ -40,7 +63,12 @@ const PostCard = ({ post, index, handleReadMore }) => {
           <PostHeader title={title} teacherName={teacherName} />
           <PostContent content={content} hasImage={hasImage} />
           <PostTags tags={tags} />
-          <PostActions postId={post.id} viewedCount={viewedCount} />
+          <div className='flex flex-row justify-evenly'>
+            <span className='text-gray-400 inline-flex items-center lg:ml-auto md:ml-0  leading-none text-xs'>
+              {formattedDate(post.created_at)}
+            </span>
+            <PostActions postId={post.id} viewedCount={viewedCount} />
+          </div>
         </div>
       </div>
     </div>

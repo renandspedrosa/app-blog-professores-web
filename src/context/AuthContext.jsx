@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [isTeacher, setIsTeacher] = useState(false)
   const [isStudent, setIsStudent] = useState(false)
-  const [isSameUser, setSameUser] = useState(false)
+  const [loggedInUserId, setLoggedInUserId] = useState(null)
   const [user, setUser] = useState(null)
   const navigate = useNavigate()
 
@@ -27,7 +27,6 @@ export const AuthProvider = ({ children }) => {
     try {
       const jwt = decode(token)
       const userType = jwt.payload?.type
-
       setIsTeacher(userType === 'teacher')
       setIsStudent(userType === 'student')
     } catch (error) {
@@ -38,20 +37,13 @@ export const AuthProvider = ({ children }) => {
   const loggedUserId = (token) => {
     try {
       const jwt = decode(token)
+      setLoggedInUserId(jwt.payload?.id)
       return jwt.payload?.id || null
     } catch (error) {
       console.error('Erro ao extrair userId do token:', error)
       return null
     }
   }
-
-  const handleSameUser = useCallback((userId) => {
-    const token = localStorage.getItem('authToken')
-    const currentUserId = loggedUserId(token)
-    const isSameUser = userId === currentUserId
-    setSameUser(isSameUser)
-    return isSameUser
-  })
 
   const login = (token, userData) => {
     localStorage.setItem('authToken', token)
@@ -62,8 +54,11 @@ export const AuthProvider = ({ children }) => {
   }
 
   const logout = useCallback(() => {
+    localStorage.setItem('authToken', null)
+    localStorage.setItem('user', null)
     localStorage.removeItem('authToken')
     localStorage.removeItem('user')
+    localStorage.clear()
     setIsAuthenticated(false)
     setUser(null)
     setIsTeacher(false)
@@ -95,11 +90,11 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem('authToken')
     const storedUser = localStorage.getItem('user')
-
     if (token && storedUser) {
       setIsAuthenticated(true)
       setUser(JSON.parse(storedUser))
       handleUserType(token)
+      loggedUserId(token)
 
       if (isTokenExpired(token)) {
         logout()
@@ -117,8 +112,7 @@ export const AuthProvider = ({ children }) => {
     isAuthenticated,
     isTeacher,
     isStudent,
-    isSameUser,
-    handleSameUser,
+    loggedInUserId,
     user,
     login,
     logout,

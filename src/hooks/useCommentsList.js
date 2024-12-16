@@ -7,12 +7,13 @@ const useCommentsList = (postId) => {
   const [errorCommentsList, setErrorCommentsList] = useState(null)
 
   const handleSearchComments = async () => {
+    if (!postId) return
     try {
       setLoadingCommentsList(true)
       const data = await getPostComments(postId)
       setCommentsList(data)
     } catch (error) {
-      console.log(error)
+      console.error(error)
       setErrorCommentsList('Erro ao carregar comentários')
     } finally {
       setLoadingCommentsList(false)
@@ -20,9 +21,7 @@ const useCommentsList = (postId) => {
   }
 
   useEffect(() => {
-    if (postId) {
-      handleSearchComments()
-    }
+    handleSearchComments()
   }, [postId])
 
   return {

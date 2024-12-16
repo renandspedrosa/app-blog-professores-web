@@ -14,7 +14,6 @@ const PostActions = ({ postId, viewedCount }) => {
         console.error('Erro ao buscar comentários:', error)
       }
     }
-
     fetchComments()
   }, [postId])
 

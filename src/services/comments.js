@@ -2,11 +2,14 @@ import axios from 'axios'
 
 const host = import.meta.env.API_HOST || 'http://localhost:3000'
 const token = localStorage.getItem('authToken')
-// console.log(token)
 
-export const getPostComments = async (id) => {
+export const getPostComments = async (id, page = 1, limit = 15) => {
   try {
     const response = await axios.get(`${host}/posts/${id}/comments`, {
+      params: {
+        page,
+        limit,
+      },
       headers: {
         Authorization: `Bearer ${token}`,
       },
