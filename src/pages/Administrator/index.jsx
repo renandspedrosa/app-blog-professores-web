@@ -201,23 +201,24 @@ const Administrator = () => {
             <Modal isOpen={isModalOpen} onClose={closeModal} title={titleModal} onConfirm={formik.handleSubmit}>
                 {postToEdit?.path_img && (
                     <div className="mb-4 flex items-center">
-                        <label className="block text-sm font-medium text-gray-900">
-                        </label>
-                        <div className="relative">
-                            {/* Exibe a imagem */}
-                            <img
-                                src={host + '/' + postToEdit.path_img}
-                                alt="Imagem do Post"
-                                className="mt-2 max-w-full h-auto rounded"
-                                style={{ maxHeight: '300px' }}
-                            />
-                            <ButtonExcluir
-                                onClick={() => handleRemoveImageWithConfirmation(postToEdit.id)}
-                                className="absolute top-4 right-0 p-2"
-                                title="Remover anexo"
-                            />
-                        </div>
-                    </div>
+    <label className="block text-sm font-medium text-gray-900"></label>
+    <div className="relative group">
+        {/* Exibe a imagem com transição ao passar o mouse */}
+        <img
+            src={host + '/' + postToEdit.path_img}
+            alt="Imagem do Post"
+            className="mt-2 max-w-full h-auto rounded transition-all duration-300 ease-in-out group-hover:opacity-60 group-hover:blur-sm"
+            style={{ maxHeight: '300px' }}
+        />
+        {/* Botão sempre visível com borda */}
+        <ButtonExcluir
+            onClick={() => handleRemoveImageWithConfirmation(postToEdit.id)}
+            css="absolute top-4 right-4"
+            title="Remover anexo"
+        />
+    </div>
+</div>
+
                 )}
 
                 {/* Campo Título */}
