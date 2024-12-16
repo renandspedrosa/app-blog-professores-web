@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Form, Input, Button, FormError } from '@/components/Form';
+import { Form, Input, Button, FormError, TextArea } from '@/components/Form';
 import Load from '@/components/Load';
 import { useFormik } from 'formik';
 import useCreatePostForm from '@/hooks/useCreatePostForm';
@@ -60,15 +60,12 @@ const CreatePost = () => {
                 {/* Campo Conteúdo */}
                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                     <div className="sm:col-span-6">
-                        <label htmlFor="content" className="block text-sm font-medium text-gray-900">
-                            Conteúdo
-                        </label>
-                        <textarea
+                        <TextArea 
+                            label="Conteúdo"
                             id="content"
                             name="content"
                             rows="4"
                             required
-                            className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
                             value={formik.values.content}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
@@ -96,7 +93,7 @@ const CreatePost = () => {
                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                     <div className="sm:col-span-6">
                         <label htmlFor="tags" className="block text-sm font-medium text-gray-900">
-                            Tags
+                            Categoria
                         </label>
                         <Select
                             id="tags"
@@ -109,7 +106,7 @@ const CreatePost = () => {
                                 formik.setFieldValue('selectedTags', selectedOptions)
                             }
                             onBlur={formik.handleBlur}
-                            placeholder="Selecione tags..."
+                            placeholder="Selecione Categoria..."
                         />
                         {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
                         <FormError

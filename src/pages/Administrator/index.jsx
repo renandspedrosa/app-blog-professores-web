@@ -2,12 +2,13 @@ import DataTable from 'react-data-table-component'
 import Load from '@/components/Load'
 import usePosts from '@/hooks/usePostList'
 import { Pagination } from '@/components/Pagination'
+import CustomNoDataComponent from '@/components/CustomNoDataComponent'
 import { ButtonEditar, ButtonExcluir } from '@/components/Buttons'
 import checkPermission from '@/utils/checkPermission'
 import Confirm from '@/components/Confirm'
 import useDeletePost from '@/hooks/useDeletePost'
 import Modal from '@/components/Modal'
-import { Input, FormError } from '@/components/Form'
+import { Input, FormError, TextArea } from '@/components/Form'
 import { useState } from 'react'
 import { useFormik } from 'formik'
 import { getPostById, updatePost } from '@/services/post'
@@ -162,10 +163,10 @@ const Administrator = () => {
       }
     },
   })
+
   if (permissionComponent) {
     return permissionComponent
   }
-
   if (loading || deleteLoading) {
     return <Load />
   }
@@ -193,7 +194,11 @@ const Administrator = () => {
         setTags={setTags}
         onSearch={handleSearchPosts}
       />
-      <DataTable columns={columns} data={postsWithActions} />
+      <DataTable
+        columns={columns}
+        data={postsWithActions}
+        noDataComponent={<CustomNoDataComponent />}
+      />
       <Pagination
         goToPrevPage={handlePrevPage}
         isPrevDisabled={isPrevDisabled}
@@ -211,17 +216,18 @@ const Administrator = () => {
         {postToEdit?.path_img && (
           <div className='mb-4 flex items-center'>
             <label className='block text-sm font-medium text-gray-900'></label>
-            <div className='relative'>
-              {/* Exibe a imagem */}
+            <div className='relative group'>
+              {/* Exibe a imagem com transição ao passar o mouse */}
               <img
                 src={host + '/' + postToEdit.path_img}
                 alt='Imagem do Post'
-                className='mt-2 max-w-full h-auto rounded'
+                className='mt-2 max-w-full h-auto rounded transition-all duration-300 ease-in-out group-hover:opacity-60 group-hover:blur-sm'
                 style={{ maxHeight: '300px' }}
               />
+              {/* Botão sempre visível com borda */}
               <ButtonExcluir
                 onClick={() => handleRemoveImageWithConfirmation(postToEdit.id)}
-                className='absolute top-4 right-0 p-2'
+                css='absolute top-4 right-4'
                 title='Remover anexo'
               />
             </div>
@@ -242,22 +248,16 @@ const Administrator = () => {
 
         {/* Campo Conteúdo */}
         <div className='mb-4'>
-          <label
-            htmlFor='content'
-            className='block text-sm font-medium text-gray-900'
-          >
-            Conteúdo
-          </label>
-          <textarea
+          <TextArea
+            label='Conteúdo'
             id='content'
             name='content'
             required
             rows='6'
-            className='mt-2 block w-full rounded-md border border-gray-300 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
             value={formik.values.content}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-          ></textarea>
+          />
           <FormError error={formik.touched.content && formik.errors.content} />
         </div>
 
