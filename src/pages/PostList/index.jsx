@@ -67,9 +67,7 @@ const PostList = () => {
           </div>
         </>
       ) : (
-        <div className='text-center'>
-          <NoPosts />
-        </div>
+        <NoPosts />
       )}
     </section>
   )
