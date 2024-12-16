@@ -1,5 +1,4 @@
 import api from '@/config/axios'
-import axiosInstance from '../config/axiosInstance'
 
 export const findUserByEmail = async (email) => {
   try {
@@ -21,7 +20,14 @@ export const findUserByEmail = async (email) => {
 
 export const updateUser = async (id, param) => {
   try {
-    const response = await axiosInstance.put(`/user/${id}`, param)
+    const token = localStorage.getItem('authToken')
+
+    const response = await api.put(`/user/${id}`, param, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
 
     return response.data
   } catch (error) {
