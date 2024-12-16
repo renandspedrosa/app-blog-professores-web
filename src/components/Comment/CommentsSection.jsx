@@ -76,6 +76,7 @@ const CommentsSection = ({
     }
   }
 
+  const sortedCommentsList = [...commentsList].reverse()
   return (
     <>
       {isAuthenticated && (
@@ -112,10 +113,10 @@ const CommentsSection = ({
 dark:[&::-webkit-scrollbar-track]:bg-gray-50
 dark:[&::-webkit-scrollbar-thumb]:bg-gray-400'
           >
-            {commentsList.length === 0 ? (
+            {sortedCommentsList.length === 0 ? (
               <NoComment />
             ) : (
-              commentsList.map((comment) => (
+              sortedCommentsList.map((comment) => (
                 <Comment
                   comment={comment}
                   key={comment.id}
