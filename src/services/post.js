@@ -34,10 +34,7 @@ export const getPostById = async (id) => {
 
 export const createPost = async (formData) => {
   try {
-    // const token = localStorage.getItem('authToken')
-
     const response = await axiosInstance.post(`${host}/posts`, formData)
-
     return response.data
   } catch (error) {
     if (error.response) {
@@ -52,7 +49,6 @@ export const createPost = async (formData) => {
 export const postViewed = async (post_id) => {
   try {
     const response = await axiosInstance.post(`${host}/posts/${post_id}/viewed`)
-
     return response.data
   } catch (error) {
     console.error(
