@@ -54,7 +54,7 @@ Você pode acessar a aplicação em:
 
 **URL:** [http://localhost:5432](http://localhost:5432)
 
-#### 10. 🎥 Link para vídeo explicativo
+#### 7. 🎥 Link para vídeo explicativo
 
 [Assista ao vídeo aqui](https://youtu.be/O1_ZfHFSehk)
 
