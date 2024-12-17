@@ -36,7 +36,7 @@ Para começar a usar o projeto, siga os passos abaixo:
 Clone o projeto para o seu ambiente de desenvolvimento usando o comando git clone:
 
 ```bash
-  git clone https://github.com/FIAP-G4/api-blog-professores.git
+  git clone https://github.com/FIAP-G4/app-blog-professores-web.git
 ```
 
 #### 2. 📂 Entre no diretório do projeto:
