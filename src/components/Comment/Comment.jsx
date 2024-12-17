@@ -4,8 +4,8 @@ import { useAuth } from '@/context/AuthContext'
 import { useEffect, useState } from 'react'
 
 const Comment = ({ comment, index, onDelete }) => {
-  // const {  isTeacher, loggedInUserId } = useAuth()
-  const { loggedInUserId } = useAuth()
+  
+  const { isTeacher, loggedInUserId } = useAuth()
   const [isSameUser, setIsSameUser] = useState(false)
 
   useEffect(() => {
@@ -52,8 +52,7 @@ const Comment = ({ comment, index, onDelete }) => {
             <p>{comment.content}</p>
           </div>
           <div className='flex w-full justify-end'>
-            {/* {(isTeacher || isSameUser) && ( */}
-            {isSameUser && (
+             {(isTeacher || isSameUser) && ( 
               <Menu as='div'>
                 <MenuButton
                   className='inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50'
