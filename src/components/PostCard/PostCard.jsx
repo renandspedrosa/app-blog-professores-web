@@ -4,14 +4,13 @@ import PostContent from './PostContent'
 import PostHeader from './PostHeader'
 import PostImage from './PostImage'
 import PostTags from './PostTags'
-import { handlePostViewed } from '@/hooks/usePostList'
+import handlePostViewed from '@/hooks/usePostList'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '@/context/AuthContext'
 
 const PostCard = ({ post, index }) => {
   const navigate = useNavigate()
   const [isHovered, setIsHovered] = useState(false)
-  // const { handlePostViewed } = usePosts()
 
   const {
     path_img: image,

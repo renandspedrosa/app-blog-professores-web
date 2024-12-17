@@ -78,7 +78,7 @@ const PostCardDetails = ({
             {post.teacherName}
           </h2>
         </div>
-        <PostActions postId={post.id} viewedCount={post.viewedCount} />
+        <PostActions commentCount={post.commentCount} viewedCount={post.viewedCount} />
       </div>
 
       {hasImage ? (
