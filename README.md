@@ -44,7 +44,7 @@ Clone o projeto para o seu ambiente de desenvolvimento usando o comando git clon
 [![Directory](https://img.shields.io/badge/Directory-Browse-blue?logo=folder&logoColor=white)](#)
 
 ```bash
-  cd api-blog-professores
+  cd app-blog-professores-web
 ```
 
 #### 3. 🗂️ Configure o arquivo ENV
