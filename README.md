@@ -56,6 +56,6 @@ Você pode acessar a aplicação em:
 
 #### 10. 🎥 Link para vídeo explicativo
 
-[Assista ao vídeo aqui]()
+[Assista ao vídeo aqui](https://youtu.be/O1_ZfHFSehk)
 
 ![YouTube](https://img.shields.io/badge/YouTube-Watch-red?logo=youtube&logoColor=white)
