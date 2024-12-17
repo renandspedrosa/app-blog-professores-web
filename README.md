@@ -1,5 +1,25 @@
 # App Blog dos Professores - Tech Challenge
 
+Repositório do projeto techChallenge. Blog para os professores postarem conteúdos educacionais.
+
+## Tecnologias Utilizadas 
+- **React**: Desenvolvimento da interface WEB.
+- **Vite**: Utilizado como build tool para acelerar o desenvolvimento e a compilação do projeto React. O Vite permite um ambiente mais rápido, eficiente e otimizado em comparação ao Create React App, graças ao carregamento on-demand dos módulos durante o desenvolvimento e ao bundle otimizado para produção.
+- **Tailwind CSS**: Framework de CSS que facilita o desenvolvimento de interfaces responsivas e customizadas. Utilizamos classes utilitárias do Tailwind para estilizar componentes de forma ágil, mantendo o código limpo e produtivo.
+- **ESLint**: Ferramenta de linting configurada para garantir padrões de código e boas práticas no desenvolvimento JavaScript/React. O ESLint é integrado ao ambiente de desenvolvimento, ajudando a identificar e corrigir erros e inconsistências automaticamente.
+- **Docker**: Containerizamos o projeto com Docker para garantir que o ambiente de desenvolvimento, testes e produção seja consistente. Isso facilita o deploy e a escalabilidade, além de reduzir problemas de configuração entre diferentes máquinas.
+
+## Funcionalidades do projeto
+- Cadastro e login de alunos e professores.
+- Recuperação de senha para usuários.
+- Professores realizarem criação de postagens.
+- Gerenciamento de postagens, incluindo edição e remoção, disponível apenas para professores.
+- Visualização e detalhamento das postagens, acessível tanto para usuários cadastrados quanto não cadastrados.
+- Filtros avançados de postagens por categoria, título ou conteúdo.
+- Criação, edição e exclusão de categorias para vinculação às postagens.
+- Criação e remoção de comentários nas postagens feitas pelos professores e alunos.
+- Atualização das informações de cadastro dos usuários.
+
 ## Instalação do projeto
 
 Para começar a usar o projeto, siga os passos abaixo:
