@@ -1,6 +1,6 @@
-# app blog professores
+# App Blog dos Professores - Tech Challenge
 
-## Instalação
+## Instalação do projeto
 
 Para começar a usar o projeto, siga os passos abaixo:
 
