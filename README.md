@@ -60,7 +60,7 @@ Localize o arquivo `.env.example` na raiz do projeto e faça uma cópia dele sem
 Certifique-se de ter o Docker instalado em sua máquina e execute o seguinte comando para iniciar o aplicativo:
 
 ```bash
-  docker compose up -d
+  docker compose up -d --build
 ```
 Pronto, foi iniciado 3 containers:
 
