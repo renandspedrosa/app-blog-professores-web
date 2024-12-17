@@ -2,9 +2,9 @@ const NoPosts = () => (
   <>
     <div className='flex flex-col items-center'>
       <img
-        src='/assets/no_posts_background.png'
+        src='/assets/no-posts-background.png'
         alt='logo'
-        className='max-h-full object-contain'
+        className='object-contain w-full md:w-1/2'
       />
       <p className='text-gray-500'>Ainda não há postagens.</p>
     </div>
