@@ -15,16 +15,13 @@ const usePosts = (initialPage = 1, postsPerPage = 6) => {
       setLoading(true)
       const search = searchTerm || ''
       const { data } = await getPosts(currentPage, postsPerPage, search, tags)
-
       setPosts(data)
-
       const nextPage = currentPage + 1
       const { data: nextPageData } = await getPosts(
         nextPage,
         postsPerPage,
         search,
       )
-
       setHasMorePosts(nextPageData.length > 0)
     } catch (error) {
       console.error('Erro ao buscar posts:', error)

@@ -1,5 +1,4 @@
 import PostCard from '@/components/PostCard/PostCard'
-import { useNavigate } from 'react-router-dom'
 import { SearchBar } from '@/components/SearchBar'
 import { Pagination } from '@/components/Pagination'
 import Load from '@/components/Load'
@@ -7,7 +6,6 @@ import usePosts from '@/hooks/usePostList'
 import NoPosts from '@/components/NoPosts'
 
 const PostList = () => {
-  const navigate = useNavigate()
   const {
     posts,
     loading,
@@ -23,10 +21,6 @@ const PostList = () => {
     tags,
     setTags,
   } = usePosts()
-
-  const handleReadMore = (post) => {
-    navigate(`/posts/${post.id}`, { state: { post } })
-  }
 
   if (loading) {
     return <Load />
@@ -50,11 +44,7 @@ const PostList = () => {
           <div className='container px-5 py-8 mx-auto'>
             <div className='flex flex-wrap -m-4'>
               {posts.map((post) => (
-                <PostCard
-                  key={post.id}
-                  post={post}
-                  handleReadMore={handleReadMore}
-                />
+                <PostCard key={post.id} post={post} />
               ))}
             </div>
             <Pagination

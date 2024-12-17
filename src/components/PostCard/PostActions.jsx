@@ -1,21 +1,7 @@
 import { Eye, MessageCircle } from 'lucide-react'
-import { useEffect, useState } from 'react'
-import { getPostComments } from '../../services/comments'
 
-const PostActions = ({ postId, viewedCount }) => {
-  const [commentsCount, setCommentsCount] = useState(0)
-
-  useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const comments = await getPostComments(postId)
-        setCommentsCount(comments.length)
-      } catch (error) {
-        console.error('Erro ao buscar comentários:', error)
-      }
-    }
-    fetchComments()
-  }, [postId])
+const PostActions = ({ commentCount, viewedCount }) => {
+  // const [commentsCount, setCommentsCount] = useState(0)
 
   return (
     <div className='flex flex-auto items-center flex-wrap max-h-fit justify-end'>
@@ -25,7 +11,7 @@ const PostActions = ({ postId, viewedCount }) => {
       </span>
       <span className='text-gray-400 inline-flex items-center leading-none text-sm'>
         <MessageCircle size={15.5} strokeWidth={2.1} className='mr-1' />
-        {commentsCount}{' '}
+        {commentCount}{' '}
       </span>
     </div>
   )
