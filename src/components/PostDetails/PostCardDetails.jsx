@@ -8,7 +8,7 @@ import PostActions from '../../components/PostCard/PostActions'
 const PostCardDetails = ({
   commentsList,
   setCommentsList,
-  handleSearchComments,
+  handleSearchComments
 }) => {
   const { id: postId } = useParams()
   const { postDetails, loading, error } = usePostDetails(postId)
@@ -24,7 +24,7 @@ const PostCardDetails = ({
   const { loadingCommentsList } = useCommentsList(postId)
 
   useEffect(() => {
-    ;async () => {
+    async () => {
       handleSearchComments()
       setCommentsList([...commentsList])
     },
@@ -40,7 +40,7 @@ const PostCardDetails = ({
   }
 
   if (loading || loadingCommentsList) {
-    return <Load />
+    return
   }
 
   if (error) {

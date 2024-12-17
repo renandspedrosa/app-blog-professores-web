@@ -38,7 +38,7 @@ const CommentsSection = ({
   }
 
   if (loading || loadingCommentsList || loadingComment || loadingDelete) {
-    return <Load />
+    return
   }
 
   if (error || errorCommentsList) {
