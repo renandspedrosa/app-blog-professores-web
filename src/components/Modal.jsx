@@ -6,7 +6,7 @@ const Modal = ({ isOpen, onClose, onConfirm, title, children }) => {
   return (
     <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50'>
       <div
-        className='bg-white rounded-lg shadow-lg w-[90%] max-w-md md:max-w-lg lg:max-w-2xl p-6 relative max-h-screen overflow-y-auto [&::-webkit-scrollbar]:w-2
+        className='bg-white rounded-lg shadow-lg w-[90%] max-w-md md:max-w-lg lg:max-w-2xl lg:max-h-[75%] p-6 relative max-h-screen overflow-y-auto [&::-webkit-scrollbar]:w-2
 [&::-webkit-scrollbar-track]:rounded-full
 [&::-webkit-scrollbar-track]:bg-gray-100
 [&::-webkit-scrollbar-thumb]:rounded-full

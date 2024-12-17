@@ -257,11 +257,10 @@ const Administrator = () => {
             value={formik.values.content}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            style={{
-              overflowY: 'auto',
-              scrollbarWidth: 'thin',
-              scrollbarColor: 'gray-300 gray-100',
-            }}
+            onInput={ (e) => {
+              e.target.style.height = 'auto'
+              e.target.style.height = (e.target.scrollHeight) + 'px'
+            }} 
           />
           <FormError error={formik.touched.content && formik.errors.content} />
         </div>
