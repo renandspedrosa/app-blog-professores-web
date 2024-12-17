@@ -1,6 +1,6 @@
 import api from '@/config/axios'
 import axios from 'axios'
-import {toast} from "react-toastify";
+import { toast } from 'react-toastify'
 
 const host = import.meta.env.VITE_API_HOST || 'http://localhost:3000'
 
@@ -34,11 +34,10 @@ export const getPostById = async (id) => {
 export const createPost = async (formData) => {
   try {
     const token = localStorage.getItem('authToken')
-
-    const response = await axios.post(`${host}/posts`, formData, { 
-      headers : {
+    const response = await axios.post(`${host}/posts`, formData, {
+      headers: {
         Authorization: `Bearer ${token}`,
-      }
+      },
     })
 
     return response.data
@@ -55,14 +54,12 @@ export const createPost = async (formData) => {
 export const postViewed = async (post_id) => {
   try {
     const token = localStorage.getItem('authToken')
-    
     const headers = {
       Authorization: `Bearer ${token}`,
     }
     const response = await axios.post(`${host}/posts/${post_id}/viewed`, null, {
       headers,
     })
-
     return response.data
   } catch (error) {
     console.error(
@@ -75,15 +72,14 @@ export const postViewed = async (post_id) => {
 
 export const updatePost = async (id, postData) => {
   try {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('authToken')
     const response = await axios.put(`${host}/posts/${id}`, postData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
-    toast.success('Postagem editada com sucesso!');
+    toast.success('Postagem editada com sucesso!')
     return response.data
-
   } catch (error) {
     console.error(`Erro ao atualizar post com id ${id}:`, error)
     throw error

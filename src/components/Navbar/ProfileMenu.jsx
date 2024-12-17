@@ -10,6 +10,16 @@ const ProfileMenu = ({ isMobile }) => {
   const { availableNavigation, authenticatedNavigation } = useNavigation()
   const { user, isAuthenticated, isTeacher, logout } = useAuth()
 
+  const titleCase = (str) => {
+    return str
+      .toLowerCase()
+      .split(' ')
+      .map(function (word) {
+        return word.replace(word[0], word[0].toUpperCase())
+      })
+      .join(' ')
+  }
+
   const navigation = getNavigation({
     isAuthenticated,
     isTeacher,
@@ -31,7 +41,7 @@ const ProfileMenu = ({ isMobile }) => {
               </div>
               <div className='ml-3'>
                 <div className='text-base/5 font-medium text-white'>
-                  {user.name}
+                  {titleCase(user.name)}
                 </div>
                 <div className='text-sm font-medium text-gray-400'>
                   {user.email}
@@ -76,7 +86,9 @@ const ProfileMenu = ({ isMobile }) => {
         <div className='ml-4 flex items-center md:ml-6'>
           {isAuthenticated ? (
             <>
-              <span className='text-gray-300 font-medium'>{user.name}</span>
+              <span className='text-gray-300 font-medium'>
+                {titleCase(user.name)}
+              </span>
               <Menu as='div' className='relative ml-3'>
                 <div>
                   <MenuButton className='hover:bg-gray-700 relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800'>

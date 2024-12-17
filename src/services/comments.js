@@ -1,11 +1,11 @@
 import axios from 'axios'
 
 const host = import.meta.env.API_HOST || 'http://localhost:3000'
-const token = localStorage.getItem('authToken')
 // console.log(token)
 
 export const getPostComments = async (id) => {
   try {
+    const token = localStorage.getItem('authToken')
     const response = await axios.get(`${host}/posts/${id}/comments`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -20,6 +20,7 @@ export const getPostComments = async (id) => {
 
 export const createComment = async (postId, content) => {
   try {
+    const token = localStorage.getItem('authToken')
     const response = await axios.post(
       `${host}/comments/${postId}`,
       { content },
@@ -38,6 +39,7 @@ export const createComment = async (postId, content) => {
 
 export const deleteComment = async (id) => {
   try {
+    const token = localStorage.getItem('authToken')
     await axios.delete(`${host}/comments/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,

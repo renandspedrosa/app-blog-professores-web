@@ -1,38 +1,45 @@
-import Input from './Input';
-import Button from './Button';
-import { handleKeyPress, handleSearchClick } from './functions';
-import useTags from '@/hooks/useTagList';
-import Select from 'react-select';
+import Input from './Input'
+import Button from './Button'
+import { handleKeyPress, handleSearchClick } from './functions'
+import useTags from '@/hooks/useTagList'
+import Select from 'react-select'
 
-const SearchBar = ({ searchTerm, setSearchTerm, onSearch, tagsSearch, setTags }) => {
-  const { tags, loading: tagsLoading } = useTags();
+const SearchBar = ({
+  searchTerm,
+  setSearchTerm,
+  onSearch,
+  tagsSearch,
+  setTags,
+}) => {
+  const { tags, loading: tagsLoading } = useTags()
 
   return (
-    <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 mb-4">
-      <div className="sm:w-[32%] w-full">
-      <Select
-          id="tags"
-          name="tags"
+    <div className='flex flex-col sm:flex-row items-center sm:items-start gap-4 mb-4'>
+      <div className='sm:w-[32%] w-full'>
+        <Select
+          id='tags'
+          name='tags'
           options={tags.map((tag) => ({ value: tag.id, label: tag.name }))}
           isMulti
           isLoading={tagsLoading}
-          placeholder="Selecione a categoria..."
+          placeholder='Selecione a categoria...'
           styles={{
             control: (styles, { isFocused }) => ({
               ...styles,
               height: '2.6rem',
-              border:  isFocused ? 'none' : '1px solid #9CA3AF',
+              border: isFocused ? 'none' : '1px solid #9CA3AF',
               outline: isFocused ? '2px solid #94a3b8' : 'none',
               borderRadius: '0.375rem',
               paddingLeft: '2.5rem',
               boxShadow: 'none',
-              
+              overflow: 'hidden',
+              fontSize: '0.9rem',
             }),
           }}
-          className="mt-0.4"
+          className='mt-0.4'
           onChange={(selectedOptions) => {
-            const formattedTags = selectedOptions.map((option) => option.value);
-            setTags(formattedTags);
+            const formattedTags = selectedOptions.map((option) => option.value)
+            setTags(formattedTags)
           }}
           value={tagsSearch.map((tagId) => ({
             value: tagId,
@@ -42,7 +49,7 @@ const SearchBar = ({ searchTerm, setSearchTerm, onSearch, tagsSearch, setTags })
         />
       </div>
 
-      <div className="flex w-full sm:w-[68%] border border-slate-300 rounded-md">
+      <div className='flex w-full sm:w-[68%] border border-slate-300 rounded-md'>
         <Input
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -51,7 +58,7 @@ const SearchBar = ({ searchTerm, setSearchTerm, onSearch, tagsSearch, setTags })
         <Button onClick={() => handleSearchClick(onSearch, searchTerm)} />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SearchBar;
+export default SearchBar
