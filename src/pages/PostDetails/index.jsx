@@ -37,9 +37,9 @@ const PostDetails = () => {
   }
 
   return (
-    <div className="flex">
+    <div className='flex'>
       <div
-        className="
+        className='
           bg-white
           border-2 
           border-gray-200 
@@ -53,7 +53,7 @@ const PostDetails = () => {
           lg:flex-row
           lg:divide-x-2
           lg:divide-y-0
-        "
+        '
       >
         {/* Detalhes do post */}
         <PostCardDetails

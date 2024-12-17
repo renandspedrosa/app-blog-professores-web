@@ -2,13 +2,12 @@ import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import useCommentsList from '../../hooks/useCommentsList'
 import usePostDetails from '../../hooks/usePostDetails'
-import Load from '@/components/Load'
 import PostActions from '../../components/PostCard/PostActions'
 
 const PostCardDetails = ({
   commentsList,
   setCommentsList,
-  handleSearchComments
+  handleSearchComments,
 }) => {
   const { id: postId } = useParams()
   const { postDetails, loading, error } = usePostDetails(postId)
@@ -24,7 +23,7 @@ const PostCardDetails = ({
   const { loadingCommentsList } = useCommentsList(postId)
 
   useEffect(() => {
-    async () => {
+    ;async () => {
       handleSearchComments()
       setCommentsList([...commentsList])
     },
@@ -78,7 +77,10 @@ const PostCardDetails = ({
             {post.teacherName}
           </h2>
         </div>
-        <PostActions commentCount={post.commentCount} viewedCount={post.viewedCount} />
+        <PostActions
+          commentCount={post.commentCount}
+          viewedCount={post.viewedCount}
+        />
       </div>
 
       {hasImage ? (

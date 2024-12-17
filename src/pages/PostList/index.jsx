@@ -18,6 +18,7 @@ const PostList = () => {
     handlePrevPage,
     isNextDisabled,
     isPrevDisabled,
+    handlePostViewed,
     tags,
     setTags,
   } = usePosts()
@@ -44,7 +45,11 @@ const PostList = () => {
           <div className='container px-5 py-8 mx-auto'>
             <div className='flex flex-wrap -m-4'>
               {posts.map((post) => (
-                <PostCard key={post.id} post={post} />
+                <PostCard
+                  key={post.id}
+                  post={post}
+                  handlePostViewed={handlePostViewed}
+                />
               ))}
             </div>
             <Pagination

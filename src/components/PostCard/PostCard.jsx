@@ -4,11 +4,11 @@ import PostContent from './PostContent'
 import PostHeader from './PostHeader'
 import PostImage from './PostImage'
 import PostTags from './PostTags'
-import handlePostViewed from '@/hooks/usePostList'
+// import handlePostViewed from '@/hooks/usePostList'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '@/context/AuthContext'
 
-const PostCard = ({ post, index }) => {
+const PostCard = ({ post, index, handlePostViewed }) => {
   const navigate = useNavigate()
   const [isHovered, setIsHovered] = useState(false)
 
@@ -39,9 +39,9 @@ const PostCard = ({ post, index }) => {
 
   const { isStudent, isAuthenticated } = useAuth()
 
-  const handleClick = (post) => {
+  const handleClick = async (post) => {
     handleReadMore(post)
-    if (isStudent && isAuthenticated) handlePostViewed(post.id)
+    if (isStudent && isAuthenticated) await handlePostViewed(post.id)
   }
 
   const hasImage = !!image

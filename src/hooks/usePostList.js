@@ -32,11 +32,18 @@ const usePosts = (initialPage = 1, postsPerPage = 6) => {
     }
   }
 
-  const handlePostViewed = async (post_id) => {
+  const handlePostViewed = async (postId) => {
     try {
-      await postViewed(post_id)
+      await postViewed(postId)
+      setPosts((prevPosts) =>
+        prevPosts.map((post) =>
+          post.id === postId
+            ? { ...post, viewedCount: post.viewedCount + 1 }
+            : post,
+        ),
+      )
     } catch (error) {
-      console.error('Erro ao registrar visualização do post:', error)
+      console.error('Erro ao marcar post como visualizado:', error)
     }
   }
 
