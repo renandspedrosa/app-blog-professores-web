@@ -4,9 +4,9 @@ import PostContent from './PostContent'
 import PostHeader from './PostHeader'
 import PostImage from './PostImage'
 import PostTags from './PostTags'
-// import usePosts from '@/hooks/usePostList'
+import { handlePostViewed } from '@/hooks/usePostList'
 import { useNavigate } from 'react-router-dom'
-// import { useAuth } from '@/context/AuthContext'
+import { useAuth } from '@/context/AuthContext'
 
 const PostCard = ({ post, index }) => {
   const navigate = useNavigate()
@@ -38,11 +38,12 @@ const PostCard = ({ post, index }) => {
     })
   }
 
-  // const { isStudent, isAuthenticated } = useAuth()
+  const { isStudent, isAuthenticated } = useAuth()
 
-  // const handleClick = (post) => {
-  //   if (isStudent && isAuthenticated) handlePostViewed(post.id)
-  // }
+  const handleClick = (post) => {
+    handleReadMore(post)
+    if (isStudent && isAuthenticated) handlePostViewed(post.id)
+  }
 
   const hasImage = !!image
   return (
@@ -53,7 +54,7 @@ const PostCard = ({ post, index }) => {
       key={index}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={() => handleReadMore(post)}
+      onClick={() => handleClick(post)}
     >
       <div
         className='bg-white h-full border-2 border-gray-200 border-opacity-60 rounded-lg flex flex-col'
