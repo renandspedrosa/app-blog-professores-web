@@ -35,7 +35,7 @@ const routeComponents = {
 
 const App = () => {
   return (
-    <div className='min-h-screen flex flex-col pb-16'>
+    <div className='min-h-screen flex flex-col'>
       <ToastContainer
         position='bottom-right'
         autoClose={5000}
