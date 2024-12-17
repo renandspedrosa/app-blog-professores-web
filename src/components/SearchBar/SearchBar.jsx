@@ -17,8 +17,6 @@ const SearchBar = ({
     <div className='flex flex-col sm:flex-row items-center sm:items-start gap-4 mb-4'>
       <div className='sm:w-[32%] w-full'>
         <Select
-          numberOfLines={1}
-          ellipsizeMode='head'
           id='tags'
           name='tags'
           options={tags.map((tag) => ({ value: tag.id, label: tag.name }))}
@@ -30,14 +28,15 @@ const SearchBar = ({
               ...styles,
               height: '2.6rem',
               border: isFocused ? 'none' : '1px solid #9CA3AF',
-              fontSize: '0.875rem',
               outline: isFocused ? '2px solid #94a3b8' : 'none',
               borderRadius: '0.375rem',
               paddingLeft: '2.5rem',
               boxShadow: 'none',
+              overflow: 'hidden',
+              fontSize: '0.9rem',
             }),
           }}
-          className='mt-0.4 overflow-hidden'
+          className='mt-0.4'
           onChange={(selectedOptions) => {
             const formattedTags = selectedOptions.map((option) => option.value)
             setTags(formattedTags)
