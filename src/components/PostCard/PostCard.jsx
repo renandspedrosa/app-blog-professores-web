@@ -45,6 +45,7 @@ const PostCard = ({ post, index, handlePostViewed }) => {
   }
 
   const hasImage = !!image
+
   return (
     <div
       className={`p-4 sm:w-1/2 md:w-1/3 w-full min-w-[300px] sm:min-w-[350px] transition-transform duration-300 ${
@@ -60,7 +61,15 @@ const PostCard = ({ post, index, handlePostViewed }) => {
         style={{ minHeight: '400px', maxHeight: '500px' }}
       >
         <PostImage image={image} title={title} />
-        <div className='p-6 flex-1 flex flex-col'>
+        <div
+          className='p-6 flex-1 flex flex-col overflow-auto [&::-webkit-scrollbar]:w-2
+                                [&::-webkit-scrollbar-track]:rounded-full
+                              [&::-webkit-scrollbar-track]:bg-gray-100
+                                [&::-webkit-scrollbar-thumb]:rounded-full
+                              [&::-webkit-scrollbar-thumb]:bg-gray-300
+                              dark:[&::-webkit-scrollbar-track]:bg-gray-50
+                              dark:[&::-webkit-scrollbar-thumb]:bg-gray-400'
+        >
           <PostHeader title={title} teacherName={teacherName} />
           <PostContent content={content} hasImage={hasImage} />
           <PostTags tags={tags} />
