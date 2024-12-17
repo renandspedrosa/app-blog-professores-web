@@ -68,7 +68,7 @@ const PostCardDetails = ({
 
   return (
     <div className='h-full lg:w-2/3 p-6 overflow-auto flex flex-col justify-between'>
-      <div className='flex flex-row w-full'>
+      <div className='flex flex-row w-full justify-between'>
         <div className='flex flex-col break-all'>
           <h1 className='title-font text-lg font-medium text-gray-900'>
             {post.title}
