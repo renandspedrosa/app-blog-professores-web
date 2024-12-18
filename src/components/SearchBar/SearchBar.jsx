@@ -15,7 +15,7 @@ const SearchBar = ({
 
   return (
     <div className='flex flex-col sm:flex-row items-center sm:items-start gap-4 mb-4'>
-      <div className='sm:w-[32%] w-full'>
+      <div className='w-full md:w-[50%] lg:w-[32%]'>
         <Select
           id='tags'
           name='tags'
@@ -49,7 +49,7 @@ const SearchBar = ({
         />
       </div>
 
-      <div className='flex w-full sm:w-[68%] border border-slate-300 rounded-md'>
+      <div className='flex w-full md:w-[50%] lg:w-[68%] border border-slate-300 rounded-md'>
         <Input
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}

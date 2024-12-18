@@ -43,7 +43,7 @@ const PostList = () => {
             setTags={setTags}
           />
           <div className='container px-5 py-8 mx-auto'>
-            <div className='flex flex-wrap -m-4'>
+            <div className='flex flex-wrap -m-4 justify-center'>
               {posts.map((post) => (
                 <PostCard
                   key={post.id}
