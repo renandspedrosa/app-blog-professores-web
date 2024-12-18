@@ -214,14 +214,14 @@ const Administrator = () => {
         onConfirm={formik.handleSubmit}
       >
         {postToEdit?.path_img && (
-          <div className='mb-4 flex items-center'>
+          <div className='mb-4 flex items-center justify-center'>
             <label className='block text-sm font-medium text-gray-900'></label>
             <div className='relative group'>
               {/* Exibe a imagem com transição ao passar o mouse */}
               <img
                 src={host + '/' + postToEdit.path_img}
                 alt='Imagem do Post'
-                className='mt-2 max-w-full h-auto rounded transition-all duration-300 ease-in-out group-hover:opacity-60 group-hover:blur-sm'
+                className='mt-2 w-[100%] max-w-full h-auto rounded transition-all duration-300 ease-in-out group-hover:opacity-60 group-hover:blur-sm'
                 style={{ maxHeight: '300px' }}
               />
               {/* Botão sempre visível com borda */}
@@ -247,7 +247,7 @@ const Administrator = () => {
         <FormError error={formik.touched.title && formik.errors.title} />
 
         {/* Campo Conteúdo */}
-        <div className='mb-4'>
+        <div className='my-2'>
           <TextArea
             label='Conteúdo'
             id='content'
@@ -257,6 +257,10 @@ const Administrator = () => {
             value={formik.values.content}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
+            onInput={ (e) => {
+              e.target.style.height = 'auto'
+              e.target.style.height = (e.target.scrollHeight) + 'px'
+            }} 
           />
           <FormError error={formik.touched.content && formik.errors.content} />
         </div>
@@ -264,7 +268,7 @@ const Administrator = () => {
         {/* Campo Tags */}
         <label
           htmlFor='tags'
-          className='block text-sm font-medium text-gray-900'
+          className='block text-sm font-medium text-gray-900 my-2'
         >
           Tags
         </label>
